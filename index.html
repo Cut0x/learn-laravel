@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel Academy - Apprendre Laravel de A à Z</title>
+    <title>Laravel Academy - Maîtrisez Laravel de A à Z</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,233 +12,551 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-light: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--gradient);
             min-height: 100vh;
-            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: var(--gradient-light);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-error {
+            background: var(--error);
+            color: var(--white);
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 200px);
+            padding: 2rem 0;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 2rem;
         }
 
-        .header {
+        /* Hero Section */
+        .hero {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 3rem;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .header h1 {
-            color: white;
+        .hero h1 {
             font-size: 3rem;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .header p {
+        .hero p {
+            font-size: 1.25rem;
             color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .progress-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .progress-bar {
-            background: rgba(255, 255, 255, 0.2);
+        .stat-item {
+            text-align: center;
+            color: var(--white);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .progress-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-bar-container {
+            background: var(--light-gray);
             border-radius: 50px;
             height: 12px;
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
 
-        .progress-fill {
-            background: linear-gradient(90deg, #4CAF50, #45a049);
+        .progress-bar {
+            background: var(--gradient);
             height: 100%;
             border-radius: 50px;
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.8s ease;
+            position: relative;
         }
 
-        .progress-text {
-            color: white;
-            text-align: center;
-            font-weight: 600;
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
         }
 
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Auth Section */
         .auth-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .auth-card {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 1rem;
+            padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .auth-card h3 {
-            color: #333;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1.5rem;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: var(--dark);
+        }
+
+        .form-input {
             width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+        .form-input.error {
+            border-color: var(--error);
         }
 
-        .module-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
         }
 
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .module-card.completed {
-            border-left: 5px solid #4CAF50;
-        }
-
-        .module-card.current {
-            border-left: 5px solid #ff9800;
-            background: rgba(255, 152, 0, 0.05);
-        }
-
-        .module-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-
-        .module-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .module-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .module-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: #888;
-        }
-
+        /* User Dashboard */
         .user-dashboard {
             display: none;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 1rem;
         }
 
-        .avatar {
+        .user-avatar {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: var(--gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 700;
         }
 
+        .user-details h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-details p {
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: var(--gradient-light);
+            color: var(--primary);
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        /* Modules Grid */
+        .modules-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modules-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-card.completed {
+            border-left: 4px solid var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .module-card.current {
+            border-left: 4px solid var(--warning);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .module-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(107, 114, 128, 0.1);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .module-content {
+            flex: 1;
+        }
+
+        .module-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .module-description {
+            color: var(--gray);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .module-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .module-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .module-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            color: var(--success);
+        }
+
+        .status-current {
+            color: var(--warning);
+        }
+
+        .status-locked {
+            color: var(--gray);
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -246,365 +565,723 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
             backdrop-filter: blur(5px);
+            z-index: 2000;
+            padding: 2rem;
+            overflow-y: auto;
         }
 
         .modal-content {
-            background: white;
-            margin: 50px auto;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
+            background: var(--white);
+            border-radius: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
             position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
 
-        .close {
+        .modal-header {
+            padding: 2rem 2rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 2rem;
+        }
+
+        .modal-close {
             position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 28px;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             cursor: pointer;
-            color: #aaa;
+            color: var(--gray);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        .close:hover {
-            color: #333;
+        .modal-close:hover {
+            background: var(--light-gray);
+            color: var(--dark);
         }
 
-        .code-block {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 15px 0;
-            overflow-x: auto;
-            font-family: 'Monaco', 'Menlo', monospace;
+        .modal-body {
+            padding: 0 2rem 2rem;
         }
 
-        .step {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+        /* Footer */
+        .footer {
+            background: rgba(31, 41, 55, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+            margin-top: auto;
         }
 
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Alerts */
         .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: var(--white);
+            font-weight: 600;
+            z-index: 3000;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .alert.show {
+            transform: translateX(0);
+            opacity: 1;
         }
 
         .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: var(--success);
         }
 
         .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: var(--error);
         }
 
-        @media (max-width: 768px) {
-            .auth-section {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
+        .alert-warning {
+            background: var(--warning);
         }
 
-        .hidden {
-            display: none;
-        }
-
+        /* Loading */
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: var(--white);
             animation: spin 1s ease-in-out infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .auth-section {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .modules-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 Laravel Academy</h1>
-            <p>Maîtrisez Laravel de A à Z avec notre plateforme interactive</p>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-rocket"></i>
+                Laravel Academy
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link">Accueil</a></li>
+                <li><a href="#modules" class="nav-link">Modules</a></li>
+                <li><a href="#progress" class="nav-link">Progression</a></li>
+                <li><a href="#community" class="nav-link">Communauté</a></li>
+            </ul>
+            
+            <div class="nav-actions" id="navActions">
+                <button class="btn btn-outline" onclick="showLoginModal()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Connexion
+                </button>
+                <button class="btn btn-primary" onclick="showRegisterModal()">
+                    <i class="fas fa-user-plus"></i>
+                    S'inscrire
+                </button>
             </div>
-            <div class="progress-text" id="progressText">Progression: 0/20 modules complétés</div>
         </div>
+    </nav>
 
-        <div class="user-dashboard" id="userDashboard">
-            <div class="user-info">
-                <div class="avatar" id="userAvatar">U</div>
-                <div>
-                    <h3 id="userName">Utilisateur</h3>
-                    <p id="userEmail">email@exemple.com</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1><i class="fas fa-code"></i> Maîtrisez Laravel</h1>
+                <p>La plateforme d'apprentissage la plus complète pour devenir expert en Laravel. Du débutant au niveau avancé avec des projets pratiques.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">20</span>
+                        <span class="stat-label">Modules</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Heures</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Exercices</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="userCount">0</span>
+                        <span class="stat-label">Étudiants</span>
+                    </div>
                 </div>
-                <button class="btn" onclick="logout()" style="width: auto; margin-left: auto;">Déconnexion</button>
+            </section>
+
+            <!-- User Dashboard -->
+            <section class="user-dashboard" id="userDashboard">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div class="user-details">
+                        <h3 id="userName">Utilisateur</h3>
+                        <p id="userEmail">email@exemple.com</p>
+                        <div class="user-badges">
+                            <span class="badge badge-primary" id="userLevel">Débutant</span>
+                            <span class="badge badge-success" id="userStreak">🔥 0 jours</span>
+                        </div>
+                    </div>
+                    <div style="margin-left: auto;">
+                        <button class="btn btn-error" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Déconnexion
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section" id="progressSection">
+                <div class="progress-header">
+                    <h2 class="progress-title">
+                        <i class="fas fa-chart-line"></i>
+                        Votre Progression
+                    </h2>
+                    <span class="progress-percentage" id="progressPercentage">0%</span>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                
+                <div class="progress-details">
+                    <span id="progressText">0 sur 20 modules complétés</span>
+                    <span id="progressTime">Temps estimé restant: ~50h</span>
+                </div>
+            </section>
+
+            <!-- Auth Section -->
+            <section class="auth-section" id="authSection">
+                <div class="auth-card">
+                    <h3><i class="fas fa-sign-in-alt"></i> Connexion</h3>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label" for="loginEmail">Adresse email</label>
+                            <input type="email" id="loginEmail" class="form-input" required placeholder="votre@email.com">
+                            <div class="error-message" id="loginEmailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="loginPassword">Mot de passe</label>
+                            <input type="password" id="loginPassword" class="form-input" required placeholder="••••••••">
+                            <div class="error-message" id="loginPasswordError"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </button>
+                    </form>
+                </div>
+
+                <div class="auth-card">
+                    <h3><i class="fas fa-user-plus"></i> Inscription</h3>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label class="form-label" for="registerName">Nom complet</label>
+                            <input type="text" id="registerName" class="form-input" required placeholder="John Doe">
+                            <div class="error-message" id="registerNameError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="registerEmail">Adresse email</label>
+                            <input type="email" id="registerEmail" class="form-input" required placeholder="votre@email.com">
+                            <div class="error-message" id="registerEmailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="registerPassword">Mot de passe</label>
+                            <input type="password" id="registerPassword" class="form-input" required placeholder="••••••••">
+                            <div class="error-message" id="registerPasswordError"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-user-plus"></i>
+                            S'inscrire
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Modules Section -->
+            <section id="modules">
+                <div class="modules-header">
+                    <h2 class="modules-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        Parcours d'apprentissage
+                    </h2>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Tous</button>
+                        <button class="filter-btn" data-filter="beginner">Débutant</button>
+                        <button class="filter-btn" data-filter="intermediate">Intermédiaire</button>
+                        <button class="filter-btn" data-filter="advanced">Avancé</button>
+                    </div>
+                </div>
+                
+                <div class="modules-grid" id="modulesGrid">
+                    <!-- Les modules seront générés ici -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3><i class="fas fa-rocket"></i> Laravel Academy</h3>
+                    <p>La plateforme de référence pour apprendre Laravel et devenir un développeur web professionnel. Rejoignez notre communauté de développeurs passionnés.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Apprentissage</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Parcours Laravel</a></li>
+                        <li><a href="#">Projets pratiques</a></li>
+                        <li><a href="#">Exercices</a></li>
+                        <li><a href="#">Certificats</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Communauté</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">Forum</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Événements</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Signaler un bug</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Laravel Academy. Tous droits réservés. Fait avec ❤️ pour la communauté des développeurs.</p>
             </div>
         </div>
-
-        <div class="auth-section" id="authSection">
-            <div class="auth-card">
-                <h3>🔐 Connexion</h3>
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Mot de passe</label>
-                        <input type="password" id="loginPassword" required>
-                    </div>
-                    <button type="submit" class="btn">Se connecter</button>
-                </form>
-            </div>
-
-            <div class="auth-card">
-                <h3>📝 Inscription</h3>
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label for="registerName">Nom</label>
-                        <input type="text" id="registerName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPassword">Mot de passe</label>
-                        <input type="password" id="registerPassword" required>
-                    </div>
-                    <button type="submit" class="btn">S'inscrire</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="modules-grid" id="modulesGrid">
-            <!-- Les modules seront générés par JavaScript -->
-        </div>
-    </div>
+    </footer>
 
     <!-- Modal pour les cours -->
     <div class="modal" id="courseModal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="courseContent">
-                <!-- Le contenu du cours sera chargé ici -->
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="courseContent">
+                <!-- Le contenu sera chargé ici -->
             </div>
         </div>
     </div>
 
     <script>
+        // Configuration
         const API_BASE = 'https://valloic.dev/api/learn-projects/api.php';
         let currentUser = null;
         let userProgress = {};
-
-        const modules = [
-            {
-                id: 1,
-                title: "Installation de Laravel",
-                description: "Apprenez à installer Laravel, Composer, et configurer votre environnement de développement",
-                icon: "⚙️",
-                duration: "45 min",
-                difficulty: "Débutant"
-            },
-            {
-                id: 2,
-                title: "Structure des dossiers",
-                description: "Comprenez l'architecture MVC et la structure des dossiers Laravel",
-                icon: "📁",
-                duration: "30 min",
-                difficulty: "Débutant"
-            },
-            {
-                id: 3,
-                title: "Routes et Contrôleurs",
-                description: "Créez vos premières routes et contrôleurs pour gérer les requêtes HTTP",
-                icon: "🛣️",
-                duration: "60 min",
-                difficulty: "Débutant"
-            },
-            {
-                id: 4,
-                title: "Vues et Blade Templates",
-                description: "Maîtrisez le système de templates Blade pour créer des interfaces dynamiques",
-                icon: "🎨",
-                duration: "75 min",
-                difficulty: "Débutant"
-            },
-            {
-                id: 5,
-                title: "Base de données et Migrations",
-                description: "Configurez votre base de données et créez vos premières migrations",
-                icon: "🗄️",
-                duration: "90 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 6,
-                title: "Modèles Eloquent",
-                description: "Découvrez l'ORM Eloquent pour interagir avec votre base de données",
-                icon: "🔗",
-                duration: "120 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 7,
-                title: "Formulaires et Validation",
-                description: "Créez des formulaires sécurisés avec validation des données",
-                icon: "📋",
-                duration: "90 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 8,
-                title: "Authentification",
-                description: "Implémentez un système de connexion/inscription complet",
-                icon: "🔐",
-                duration: "150 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 9,
-                title: "Middleware",
-                description: "Sécurisez vos routes avec des middlewares personnalisés",
-                icon: "🛡️",
-                duration: "60 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 10,
-                title: "API REST",
-                description: "Créez une API REST complète avec Laravel",
-                icon: "🌐",
-                duration: "180 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 11,
-                title: "OAuth et API externes",
-                description: "Intégrez OAuth avec Google, GitHub, et d'autres services",
-                icon: "🔑",
-                duration: "120 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 12,
-                title: "Gestion des fichiers",
-                description: "Upload, stockage et manipulation de fichiers avec Laravel",
-                icon: "📄",
-                duration: "90 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 13,
-                title: "Envoi d'emails",
-                description: "Configurez et envoyez des emails avec Mailables et Notifications",
-                icon: "📧",
-                duration: "75 min",
-                difficulty: "Intermédiaire"
-            },
-            {
-                id: 14,
-                title: "Cache et Performance",
-                description: "Optimisez vos applications avec Redis, cache et optimisations",
-                icon: "⚡",
-                duration: "90 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 15,
-                title: "Tests automatisés",
-                description: "Écrivez des tests unitaires et d'intégration avec PHPUnit",
-                icon: "🧪",
-                duration: "120 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 16,
-                title: "Queues et Jobs",
-                description: "Gérez les tâches asynchrones avec le système de queues",
-                icon: "⏰",
-                duration: "105 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 17,
-                title: "Packages et Composer",
-                description: "Créez et publiez vos propres packages Laravel",
-                icon: "📦",
-                duration: "90 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 18,
-                title: "WebSockets et Broadcasting",
-                description: "Implémentez des fonctionnalités temps réel avec Pusher/Socket.io",
-                icon: "📡",
-                duration: "135 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 19,
-                title: "Déploiement",
-                description: "Déployez votre application sur différents serveurs et plateformes",
-                icon: "🚀",
-                duration: "120 min",
-                difficulty: "Avancé"
-            },
-            {
-                id: 20,
-                title: "Projet final",
-                description: "Créez une application complète en utilisant toutes les compétences acquises",
-                icon: "🏆",
-                duration: "300 min",
-                difficulty: "Expert"
-            }
-        ];
+        let modules = [];
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Laravel Academy - Initialisation...');
+            initializeModules();
             checkAuth();
             renderModules();
             setupEventListeners();
+            loadStats();
         });
 
+        function initializeModules() {
+            modules = [
+                {
+                    id: 1,
+                    title: "Installation de Laravel",
+                    description: "Apprenez à installer Laravel, Composer, et configurer votre environnement de développement complet.",
+                    icon: "⚙️",
+                    duration: "45 min",
+                    difficulty: "beginner",
+                    difficultyLabel: "Débutant",
+                    topics: ["PHP", "Composer", "Artisan", "Configuration"]
+                },
+                {
+                    id: 2,
+                    title: "Structure des dossiers",
+                    description: "Comprenez l'architecture MVC et la structure des dossiers Laravel pour une organisation optimale.",
+                    icon: "📁",
+                    duration: "30 min",
+                    difficulty: "beginner",
+                    difficultyLabel: "Débutant",
+                    topics: ["MVC", "Architecture", "Organisation"]
+                },
+                {
+                    id: 3,
+                    title: "Routes et Contrôleurs",
+                    description: "Créez vos premières routes et contrôleurs pour gérer les requêtes HTTP efficacement.",
+                    icon: "🛣️",
+                    duration: "60 min",
+                    difficulty: "beginner",
+                    difficultyLabel: "Débutant",
+                    topics: ["Routes", "Contrôleurs", "HTTP"]
+                },
+                {
+                    id: 4,
+                    title: "Vues et Blade Templates",
+                    description: "Maîtrisez le système de templates Blade pour créer des interfaces dynamiques et réutilisables.",
+                    icon: "🎨",
+                    duration: "75 min",
+                    difficulty: "beginner",
+                    difficultyLabel: "Débutant",
+                    topics: ["Blade", "Templates", "Frontend"]
+                },
+                {
+                    id: 5,
+                    title: "Base de données et Migrations",
+                    description: "Configurez votre base de données et créez vos premières migrations pour gérer la structure.",
+                    icon: "🗄️",
+                    duration: "90 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["BDD", "Migrations", "Schema"]
+                },
+                {
+                    id: 6,
+                    title: "Modèles Eloquent",
+                    description: "Découvrez l'ORM Eloquent pour interagir avec votre base de données de manière élégante.",
+                    icon: "🔗",
+                    duration: "120 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["Eloquent", "ORM", "Relations"]
+                },
+                {
+                    id: 7,
+                    title: "Formulaires et Validation",
+                    description: "Créez des formulaires sécurisés avec validation des données côté serveur.",
+                    icon: "📋",
+                    duration: "90 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["Formulaires", "Validation", "Sécurité"]
+                },
+                {
+                    id: 8,
+                    title: "Authentification",
+                    description: "Implémentez un système de connexion/inscription complet avec Laravel Breeze.",
+                    icon: "🔐",
+                    duration: "150 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["Auth", "Sessions", "Middleware"]
+                },
+                {
+                    id: 9,
+                    title: "Middleware et Sécurité",
+                    description: "Sécurisez vos routes avec des middlewares personnalisés et les bonnes pratiques.",
+                    icon: "🛡️",
+                    duration: "75 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["Middleware", "Sécurité", "CSRF"]
+                },
+                {
+                    id: 10,
+                    title: "API REST",
+                    description: "Créez une API REST complète avec Laravel et gestion des tokens.",
+                    icon: "🌐",
+                    duration: "180 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["API", "REST", "JSON", "Sanctum"]
+                },
+                {
+                    id: 11,
+                    title: "OAuth et Socialite",
+                    description: "Intégrez OAuth avec Google, GitHub, et d'autres services via Laravel Socialite.",
+                    icon: "🔑",
+                    duration: "120 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["OAuth", "Socialite", "API externes"]
+                },
+                {
+                    id: 12,
+                    title: "Gestion des fichiers",
+                    description: "Upload, stockage et manipulation de fichiers avec le système de storage Laravel.",
+                    icon: "📄",
+                    duration: "90 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["Storage", "Upload", "Images"]
+                },
+                {
+                    id: 13,
+                    title: "Mails et Notifications",
+                    description: "Configurez et envoyez des emails avec Mailables et le système de notifications.",
+                    icon: "📧",
+                    duration: "105 min",
+                    difficulty: "intermediate",
+                    difficultyLabel: "Intermédiaire",
+                    topics: ["Mail", "Notifications", "SMTP"]
+                },
+                {
+                    id: 14,
+                    title: "Cache et Performance",
+                    description: "Optimisez vos applications avec Redis, cache et techniques d'optimisation.",
+                    icon: "⚡",
+                    duration: "135 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["Cache", "Redis", "Performance"]
+                },
+                {
+                    id: 15,
+                    title: "Tests automatisés",
+                    description: "Écrivez des tests unitaires et d'intégration avec PHPUnit et Pest.",
+                    icon: "🧪",
+                    duration: "165 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["PHPUnit", "Tests", "TDD"]
+                },
+                {
+                    id: 16,
+                    title: "Queues et Jobs",
+                    description: "Gérez les tâches asynchrones avec le système de queues et Redis.",
+                    icon: "⏰",
+                    duration: "120 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["Queues", "Jobs", "Background"]
+                },
+                {
+                    id: 17,
+                    title: "Packages Composer",
+                    description: "Créez et publiez vos propres packages Laravel sur Packagist.",
+                    icon: "📦",
+                    duration: "150 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["Packages", "Composer", "Distribution"]
+                },
+                {
+                    id: 18,
+                    title: "WebSockets et Broadcasting",
+                    description: "Implémentez des fonctionnalités temps réel avec Pusher et Laravel Echo.",
+                    icon: "📡",
+                    duration: "180 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["WebSockets", "Broadcasting", "Temps réel"]
+                },
+                {
+                    id: 19,
+                    title: "Déploiement Production",
+                    description: "Déployez votre application sur différents serveurs et plateformes cloud.",
+                    icon: "🚀",
+                    duration: "135 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Avancé",
+                    topics: ["Déploiement", "Serveur", "Cloud"]
+                },
+                {
+                    id: 20,
+                    title: "Projet Final",
+                    description: "Créez une application e-commerce complète en utilisant toutes les compétences acquises.",
+                    icon: "🏆",
+                    duration: "480 min",
+                    difficulty: "advanced",
+                    difficultyLabel: "Expert",
+                    topics: ["Projet", "E-commerce", "Full-stack"]
+                }
+            ];
+        }
+
         function setupEventListeners() {
+            // Formulaires d'authentification
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            
+            // Fermer modal en cliquant à l'extérieur
+            window.onclick = function(event) {
+                const modal = document.getElementById('courseModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            }
+            
+            // Filtres de modules
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterModules(this.dataset.filter);
+                });
+            });
         }
 
         async function handleLogin(e) {
             e.preventDefault();
+            clearErrors();
+            
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
+            
+            if (!validateEmail(email)) {
+                showFieldError('loginEmail', 'Adresse email invalide');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showFieldError('loginPassword', 'Le mot de passe doit contenir au moins 6 caractères');
+                return;
+            }
 
             try {
+                showLoading(true);
                 const response = await fetch(API_BASE, {
                     method: 'POST',
                     headers: {
@@ -621,26 +1298,48 @@
                 
                 if (data.success) {
                     currentUser = data.user;
-                    localStorage.setItem('user', JSON.stringify(currentUser));
-                    showSuccessMessage('Connexion réussie !');
+                    localStorage.setItem('laravel_academy_user', JSON.stringify(currentUser));
+                    showAlert('Connexion réussie ! Bienvenue ' + currentUser.name, 'success');
                     updateUI();
-                    loadUserProgress();
+                    await loadUserProgress();
+                    document.getElementById('loginForm').reset();
                 } else {
-                    showErrorMessage(data.message || 'Erreur de connexion');
+                    showAlert(data.message || 'Erreur de connexion', 'error');
                 }
             } catch (error) {
-                showErrorMessage('Erreur de connexion au serveur');
-                console.error('Erreur:', error);
+                console.error('Erreur de connexion:', error);
+                showAlert('Erreur de connexion au serveur', 'error');
+            } finally {
+                showLoading(false);
             }
         }
 
         async function handleRegister(e) {
             e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
+            clearErrors();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
             const password = document.getElementById('registerPassword').value;
+            
+            // Validation
+            if (name.length < 2) {
+                showFieldError('registerName', 'Le nom doit contenir au moins 2 caractères');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showFieldError('registerEmail', 'Adresse email invalide');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showFieldError('registerPassword', 'Le mot de passe doit contenir au moins 6 caractères');
+                return;
+            }
 
             try {
+                showLoading(true);
                 const response = await fetch(API_BASE, {
                     method: 'POST',
                     headers: {
@@ -657,47 +1356,78 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    showSuccessMessage('Inscription réussie ! Vous pouvez maintenant vous connecter.');
+                    showAlert('Inscription réussie ! Vous pouvez maintenant vous connecter.', 'success');
                     document.getElementById('registerForm').reset();
+                    // Optionnel: connexion automatique
+                    setTimeout(() => {
+                        document.getElementById('loginEmail').value = email;
+                        document.getElementById('loginPassword').value = password;
+                    }, 1000);
                 } else {
-                    showErrorMessage(data.message || 'Erreur d\'inscription');
+                    showAlert(data.message || 'Erreur d\'inscription', 'error');
                 }
             } catch (error) {
-                showErrorMessage('Erreur de connexion au serveur');
-                console.error('Erreur:', error);
+                console.error('Erreur d\'inscription:', error);
+                showAlert('Erreur de connexion au serveur', 'error');
+            } finally {
+                showLoading(false);
             }
         }
 
         function checkAuth() {
-            const savedUser = localStorage.getItem('user');
+            const savedUser = localStorage.getItem('laravel_academy_user');
             if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                updateUI();
-                loadUserProgress();
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    updateUI();
+                    loadUserProgress();
+                } catch (error) {
+                    console.error('Erreur lors de la récupération des données utilisateur:', error);
+                    localStorage.removeItem('laravel_academy_user');
+                }
             }
         }
 
         function updateUI() {
+            const authSection = document.getElementById('authSection');
+            const userDashboard = document.getElementById('userDashboard');
+            const navActions = document.getElementById('navActions');
+            
             if (currentUser) {
-                document.getElementById('authSection').style.display = 'none';
-                document.getElementById('userDashboard').style.display = 'block';
+                authSection.classList.add('hidden');
+                userDashboard.classList.remove('hidden');
+                
+                // Mise à jour des informations utilisateur
                 document.getElementById('userName').textContent = currentUser.name;
                 document.getElementById('userEmail').textContent = currentUser.email;
                 document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+                
+                // Mise à jour de la navbar
+                navActions.innerHTML = `
+                    <span style="color: var(--gray);">Bonjour, ${currentUser.name}</span>
+                    <button class="btn btn-error" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Déconnexion
+                    </button>
+                `;
             } else {
-                document.getElementById('authSection').style.display = 'grid';
-                document.getElementById('userDashboard').style.display = 'none';
+                authSection.classList.remove('hidden');
+                userDashboard.classList.add('hidden');
+                
+                navActions.innerHTML = `
+                    <button class="btn btn-outline" onclick="showLoginModal()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Connexion
+                    </button>
+                    <button class="btn btn-primary" onclick="showRegisterModal()">
+                        <i class="fas fa-user-plus"></i>
+                        S'inscrire
+                    </button>
+                `;
             }
-        }
-
-        function logout() {
-            currentUser = null;
-            userProgress = {};
-            localStorage.removeItem('user');
-            updateUI();
-            updateProgress();
+            
             renderModules();
-            showSuccessMessage('Déconnexion réussie !');
+            updateProgress();
         }
 
         async function loadUserProgress() {
@@ -721,14 +1451,746 @@
                     userProgress = data.progress || {};
                     updateProgress();
                     renderModules();
+                } else {
+                    console.error('Erreur lors du chargement du progrès:', data.message);
                 }
             } catch (error) {
                 console.error('Erreur lors du chargement du progrès:', error);
             }
         }
 
-        async function saveProgress(moduleId) {
-            if (!currentUser) return;
+        function updateProgress() {
+            const completedModules = Object.keys(userProgress).filter(id => userProgress[id]).length;
+            const totalModules = modules.length;
+            const percentage = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+            
+            // Mise à jour de la barre de progression
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = document.getElementById('progressPercentage');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressBar) progressBar.style.width = percentage + '%';
+            if (progressPercentage) progressPercentage.textContent = percentage + '%';
+            if (progressText) progressText.textContent = `${completedModules} sur ${totalModules} modules complétés`;
+            
+            // Estimation du temps restant
+            const avgTimePerModule = 75; // minutes
+            const remainingModules = totalModules - completedModules;
+            const remainingTime = remainingModules * avgTimePerModule;
+            const hours = Math.round(remainingTime / 60);
+            
+            const progressTime = document.getElementById('progressTime');
+            if (progressTime) {
+                if (remainingModules > 0) {
+                    progressTime.textContent = `Temps estimé restant: ~${hours}h`;
+                } else {
+                    progressTime.textContent = '🎉 Parcours terminé !';
+                }
+            }
+            
+            // Mise à jour du niveau utilisateur
+            const userLevel = document.getElementById('userLevel');
+            if (userLevel) {
+                if (percentage >= 80) {
+                    userLevel.textContent = 'Expert';
+                    userLevel.className = 'badge badge-success';
+                } else if (percentage >= 50) {
+                    userLevel.textContent = 'Avancé';
+                    userLevel.className = 'badge badge-warning';
+                } else if (percentage >= 20) {
+                    userLevel.textContent = 'Intermédiaire';
+                    userLevel.className = 'badge badge-primary';
+                } else {
+                    userLevel.textContent = 'Débutant';
+                    userLevel.className = 'badge badge-primary';
+                }
+            }
+        }
+
+        function renderModules() {
+            const modulesGrid = document.getElementById('modulesGrid');
+            if (!modulesGrid) return;
+            
+            modulesGrid.innerHTML = '';
+
+            modules.forEach((module, index) => {
+                const isCompleted = userProgress[module.id];
+                const isAvailable = !currentUser || index === 0 || userProgress[modules[index - 1]?.id];
+                const isCurrent = !isCompleted && isAvailable;
+                const isLocked = !isAvailable;
+                
+                const moduleCard = document.createElement('div');
+                moduleCard.className = `module-card ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''} ${isLocked ? 'locked' : ''}`;
+                
+                let statusIcon = '';
+                let statusText = '';
+                let statusClass = '';
+                
+                if (isCompleted) {
+                    statusIcon = '<i class="fas fa-check-circle"></i>';
+                    statusText = 'Terminé';
+                    statusClass = 'status-completed';
+                } else if (isCurrent) {
+                    statusIcon = '<i class="fas fa-play-circle"></i>';
+                    statusText = 'Commencer';
+                    statusClass = 'status-current';
+                } else if (isLocked) {
+                    statusIcon = '<i class="fas fa-lock"></i>';
+                    statusText = 'Verrouillé';
+                    statusClass = 'status-locked';
+                } else {
+                    statusIcon = '<i class="fas fa-circle"></i>';
+                    statusText = 'Disponible';
+                    statusClass = 'status-available';
+                }
+
+                moduleCard.innerHTML = `
+                    <div class="module-header">
+                        <div class="module-icon">${module.icon}</div>
+                        <div class="module-content">
+                            <h3 class="module-title">${module.title}</h3>
+                            <p class="module-description">${module.description}</p>
+                        </div>
+                    </div>
+                    <div class="module-meta">
+                        <div>
+                            <div class="module-meta-item">
+                                <i class="fas fa-clock"></i>
+                                ${module.duration}
+                            </div>
+                            <div class="module-meta-item">
+                                <i class="fas fa-signal"></i>
+                                ${module.difficultyLabel}
+                            </div>
+                        </div>
+                        <div class="module-status ${statusClass}">
+                            ${statusIcon}
+                            ${statusText}
+                        </div>
+                    </div>
+                `;
+
+                if (isAvailable && currentUser) {
+                    moduleCard.style.cursor = 'pointer';
+                    moduleCard.addEventListener('click', () => openModule(module));
+                } else if (!currentUser) {
+                    moduleCard.style.cursor = 'pointer';
+                    moduleCard.addEventListener('click', () => {
+                        showAlert('Veuillez vous connecter pour accéder aux cours', 'warning');
+                    });
+                }
+
+                modulesGrid.appendChild(moduleCard);
+            });
+        }
+
+        function filterModules(filter) {
+            const moduleCards = document.querySelectorAll('.module-card');
+            
+            moduleCards.forEach(card => {
+                const moduleIndex = Array.from(card.parentNode.children).indexOf(card);
+                const module = modules[moduleIndex];
+                
+                if (filter === 'all' || module.difficulty === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openModule(module) {
+            if (!currentUser) {
+                showAlert('Veuillez vous connecter pour accéder aux cours', 'warning');
+                return;
+            }
+
+            const modal = document.getElementById('courseModal');
+            const content = document.getElementById('courseContent');
+            
+            content.innerHTML = getModuleContent(module);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('courseModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function getModuleContent(module) {
+            const moduleContents = {
+                1: `
+                    <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span style="font-size: 2rem;">⚙️</span>
+                        Installation de Laravel
+                    </h2>
+                    
+                    <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                        <p style="margin: 0;"><strong>Durée:</strong> 45 minutes</p>
+                        <p style="margin: 0;"><strong>Niveau:</strong> Débutant</p>
+                        <p style="margin: 0;"><strong>Prérequis:</strong> Aucun</p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Objectifs</h3>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>Installer PHP 8.1+ et ses extensions</li>
+                            <li>Configurer Composer</li>
+                            <li>Créer votre premier projet Laravel</li>
+                            <li>Comprendre la structure initiale</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔧 Étape 1: Installation de PHP</h3>
+                        <p>Laravel nécessite PHP 8.1 ou supérieur avec certaines extensions.</p>
+                        
+                        <h4 style="margin: 1rem 0 0.5rem 0;">Sur Windows (XAMPP/Laragon):</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Téléchargez XAMPP ou Laragon
+# Vérifiez la version PHP
+php --version
+                        </div>
+
+                        <h4 style="margin: 1rem 0 0.5rem 0;">Sur macOS (Homebrew):</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Installation via Homebrew
+brew install php@8.2
+brew link php@8.2
+                        </div>
+
+                        <h4 style="margin: 1rem 0 0.5rem 0;">Sur Ubuntu/Debian:</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+sudo apt update
+sudo apt install php8.2 php8.2-cli php8.2-common php8.2-mysql \\
+php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-xml
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📦 Étape 2: Installation de Composer</h3>
+                        <p>Composer est le gestionnaire de dépendances PHP indispensable pour Laravel.</p>
+                        
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Installation globale de Composer
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+# Vérification
+composer --version
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🚀 Étape 3: Création du projet Laravel</h3>
+                        <p>Créons votre premier projet Laravel !</p>
+                        
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Méthode 1: Via Composer
+composer create-project laravel/laravel mon-blog
+
+# Méthode 2: Via Laravel Installer (recommandé)
+composer global require laravel/installer
+laravel new mon-blog
+
+# Navigation dans le projet
+cd mon-blog
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">⚙️ Étape 4: Configuration initiale</h3>
+                        
+                        <h4 style="margin: 1rem 0 0.5rem 0;">1. Fichier d'environnement</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Copier le fichier d'exemple
+cp .env.example .env
+
+# Générer la clé d'application
+php artisan key:generate
+                        </div>
+
+                        <h4 style="margin: 1rem 0 0.5rem 0;">2. Configuration de base dans .env</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+APP_NAME="Mon Blog Laravel"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mon_blog
+DB_USERNAME=root
+DB_PASSWORD=
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🌐 Étape 5: Lancement du serveur</h3>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Démarrer le serveur de développement
+php artisan serve
+
+# Votre application sera accessible sur:
+# http://localhost:8000
+                        </div>
+                        
+                        <div style="background: #d1fae5; border: 1px solid #a7f3d0; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                            <strong style="color: #065f46;">✅ Succès !</strong><br>
+                            Si vous voyez la page d'accueil Laravel, félicitations ! Votre installation est réussie.
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📚 Structure du projet</h3>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
+mon-blog/
+├── app/                 # Code de l'application
+├── bootstrap/           # Fichiers de démarrage
+├── config/              # Configuration
+├── database/            # Migrations, seeders
+├── public/              # Point d'entrée web
+├── resources/           # Vues, assets
+├── routes/              # Définition des routes
+├── storage/             # Fichiers générés
+├── tests/               # Tests
+├── vendor/              # Dépendances Composer
+├── .env                 # Variables d'environnement
+└── artisan              # Interface en ligne de commande
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🛠️ Commandes Artisan essentielles</h3>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Voir toutes les commandes disponibles
+php artisan
+
+# Vider le cache
+php artisan cache:clear
+
+# Lister les routes
+php artisan route:list
+
+# Aide sur une commande
+php artisan help serve
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-success" onclick="completeModule(1)" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-check"></i>
+                            J'ai installé Laravel !
+                        </button>
+                    </div>
+                `,
+                
+                2: `
+                    <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span style="font-size: 2rem;">📁</span>
+                        Structure des dossiers Laravel
+                    </h2>
+                    
+                    <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                        <p style="margin: 0;"><strong>Durée:</strong> 30 minutes</p>
+                        <p style="margin: 0;"><strong>Niveau:</strong> Débutant</p>
+                        <p style="margin: 0;"><strong>Prérequis:</strong> Installation Laravel</p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Objectifs</h3>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>Comprendre l'architecture MVC</li>
+                            <li>Naviguer dans la structure Laravel</li>
+                            <li>Identifier le rôle de chaque dossier</li>
+                            <li>Localiser les fichiers importants</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🏗️ Architecture MVC</h3>
+                        <p>Laravel suit le pattern Model-View-Controller (MVC) qui sépare la logique en trois couches :</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                            <div style="background: #e0f2fe; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #0288d1;">
+                                <strong>Model (Modèle)</strong><br>
+                                Gère les données et la logique métier
+                            </div>
+                            <div style="background: #f3e5f5; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #7b1fa2;">
+                                <strong>View (Vue)</strong><br>
+                                Gère l'affichage et l'interface utilisateur
+                            </div>
+                            <div style="background: #e8f5e8; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #388e3c;">
+                                <strong>Controller (Contrôleur)</strong><br>
+                                Fait le lien entre Model et View
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📂 Dossiers principaux</h3>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: #0288d1; margin-bottom: 0.5rem;">📱 app/ - Cœur de l'application</h4>
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+app/
+├── Http/
+│   ├── Controllers/      # 🎮 Contrôleurs
+│   ├── Middleware/       # 🛡️ Middlewares
+│   ├── Requests/         # ✅ Validation des requêtes
+│   └── Kernel.php        # Configuration HTTP
+├── Models/               # 📊 Modèles Eloquent
+├── Providers/            # 🔧 Fournisseurs de services
+└── Console/              # 💻 Commandes Artisan
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: #7b1fa2; margin-bottom: 0.5rem;">🎨 resources/ - Assets et vues</h4>
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+resources/
+├── views/                # 👁️ Templates Blade
+│   ├── layouts/          # Layouts de base
+│   ├── components/       # Composants réutilisables
+│   └── partials/         # Parties communes
+├── css/                  # 🎨 Fichiers CSS
+├── js/                   # ⚡ Fichiers JavaScript
+└── lang/                 # 🌍 Traductions
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: #388e3c; margin-bottom: 0.5rem;">🛣️ routes/ - Définition des routes</h4>
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+routes/
+├── web.php               # 🌐 Routes web (sessions, CSRF)
+├── api.php               # 📡 Routes API (stateless)
+├── console.php           # 💻 Commandes Artisan
+└── channels.php          # 📢 Broadcasting
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: #ff6f00; margin-bottom: 0.5rem;">🗄️ database/ - Base de données</h4>
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+database/
+├── migrations/           # 📋 Migrations (structure BDD)
+├── seeders/              # 🌱 Seeders (données test)
+├── factories/            # 🏭 Factories (génération données)
+└── database.sqlite       # 💾 Fichier SQLite (si utilisé)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">⚙️ Fichiers de configuration</h3>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
+config/
+├── app.php               # Configuration générale
+├── database.php          # Configuration BDD
+├── cache.php             # Configuration cache
+├── mail.php              # Configuration email
+├── services.php          # Services tiers
+└── filesystems.php       # Stockage fichiers
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔑 Fichiers importants</h3>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="margin-bottom: 0.5rem;">.env - Variables d'environnement</h4>
+                            <p style="margin-bottom: 0.5rem;">Contient la configuration sensible (clés API, mots de passe, etc.)</p>
+                            <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:xxx
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_DATABASE=laravel
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="margin-bottom: 0.5rem;">composer.json - Dépendances PHP</h4>
+                            <p style="margin-bottom: 0.5rem;">Définit les packages PHP requis</p>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="margin-bottom: 0.5rem;">artisan - Interface en ligne de commande</h4>
+                            <p style="margin-bottom: 0.5rem;">Outil puissant pour générer du code et gérer l'application</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🚀 Exercice pratique</h3>
+                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 1rem; border-radius: 0.5rem;">
+                            <strong>Défi :</strong> Explorez votre projet Laravel et trouvez :
+                            <ul style="margin: 0.5rem 0 0 1.5rem;">
+                                <li>Le fichier de bienvenue par défaut</li>
+                                <li>Le contrôleur principal</li>
+                                <li>Le fichier de routes web</li>
+                                <li>Le modèle User</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-success" onclick="completeModule(2)" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-check"></i>
+                            Je maîtrise la structure !
+                        </button>
+                    </div>
+                `,
+
+                3: `
+                    <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span style="font-size: 2rem;">🛣️</span>
+                        Routes et Contrôleurs
+                    </h2>
+                    
+                    <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                        <p style="margin: 0;"><strong>Durée:</strong> 60 minutes</p>
+                        <p style="margin: 0;"><strong>Niveau:</strong> Débutant</p>
+                        <p style="margin: 0;"><strong>Prérequis:</strong> Structure Laravel</p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Objectifs</h3>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>Comprendre le système de routage</li>
+                            <li>Créer des routes simples et paramétrées</li>
+                            <li>Générer et utiliser des contrôleurs</li>
+                            <li>Organiser la logique métier</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🛣️ Les Routes dans Laravel</h3>
+                        <p>Les routes définissent comment votre application répond aux requêtes HTTP. Dans Laravel, elles sont définies dans le dossier <code>routes/</code>.</p>
+                        
+                        <h4 style="margin: 1rem 0 0.5rem 0;">Routes de base</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+// routes/web.php
+
+// Route GET simple
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Route avec réponse texte
+Route::get('/about', function () {
+    return 'À propos de notre site';
+});
+
+// Route avec paramètre
+Route::get('/user/{id}', function ($id) {
+    return "Utilisateur #" . $id;
+});
+
+// Route avec paramètre optionnel
+Route::get('/posts/{id?}', function ($id = null) {
+    if ($id) {
+        return "Article #" . $id;
+    }
+    return "Liste des articles";
+});
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎮 Les Contrôleurs</h3>
+                        <p>Les contrôleurs organisent la logique de gestion des requêtes en classes. C'est plus propre que de mettre tout dans les routes.</p>
+                        
+                        <h4 style="margin: 1rem 0 0.5rem 0;">Créer un contrôleur</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+# Générer un contrôleur simple
+php artisan make:controller HomeController
+
+# Générer un contrôleur avec méthodes CRUD
+php artisan make:controller PostController --resource
+                        </div>
+
+                        <h4 style="margin: 1rem 0 0.5rem 0;">Exemple de contrôleur</h4>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+&lt;?php
+// app/Http/Controllers/HomeController.php
+
+namespace App\\Http\\Controllers;
+
+use Illuminate\\Http\\Request;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        return view('home');
+    }
+    
+    public function about()
+    {
+        $data = [
+            'title' => 'À propos',
+            'description' => 'Notre belle application Laravel'
+        ];
+        
+        return view('about', $data);
+    }
+    
+    public function contact()
+    {
+        return view('contact');
+    }
+}
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔗 Lier Routes et Contrôleurs</h3>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+// routes/web.php
+
+use App\\Http\\Controllers\\HomeController;
+
+// Syntaxe moderne (recommandée)
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/about', [HomeController::class, 'about']);
+Route::get('/contact', [HomeController::class, 'contact']);
+
+// Grouper les routes d'un contrôleur
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/about', 'about');
+    Route::get('/contact', 'contact');
+});
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🌐 Routes avec méthodes HTTP</h3>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+// Différentes méthodes HTTP
+Route::get('/posts', [PostController::class, 'index']);      // Afficher
+Route::post('/posts', [PostController::class, 'store']);     // Créer
+Route::put('/posts/{id}', [PostController::class, 'update']); // Modifier
+Route::delete('/posts/{id}', [PostController::class, 'destroy']); // Supprimer
+
+// Route resource (génère toutes les routes CRUD)
+Route::resource('posts', PostController::class);
+
+// Route resource partielle
+Route::resource('posts', PostController::class)->only(['index', 'show']);
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🏷️ Nommage et Groupage</h3>
+                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+// Nommer les routes
+Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+
+// Générer une URL nommée
+$url = route('user.profile');
+
+// Grouper avec préfixe
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/users', [AdminController::class, 'users']);
+});
+
+// Grouper avec middleware
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserController::class, 'profile']);
+    Route::get('/settings', [UserController::class, 'settings']);
+});
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🛠️ Exercice pratique</h3>
+                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 1rem; border-radius: 0.5rem;">
+                            <strong>À vous de jouer !</strong><br>
+                            Créez un contrôleur <code>BlogController</code> avec les méthodes :
+                            <ul style="margin: 0.5rem 0 0 1.5rem;">
+                                <li><code>index()</code> - Liste des articles</li>
+                                <li><code>show($id)</code> - Afficher un article</li>
+                                <li><code>create()</code> - Formulaire création</li>
+                            </ul>
+                            Puis liez-les à des routes dans <code>web.php</code>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">💡 Bonnes pratiques</h3>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Un contrôleur par entité métier (User, Post, Order...)</li>
+                            <li>Nommez vos routes pour la génération d'URLs</li>
+                            <li>Groupez les routes par fonctionnalité</li>
+                            <li>Utilisez les contrôleurs resource pour les CRUD</li>
+                        </ul>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-success" onclick="completeModule(3)" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-check"></i>
+                            Routes et contrôleurs maîtrisés !
+                        </button>
+                    </div>
+                `
+            };
+
+            // Retourner le contenu spécifique ou un contenu par défaut
+            if (moduleContents[module.id]) {
+                return moduleContents[module.id];
+            }
+
+            // Contenu par défaut pour les modules non encore détaillés
+            return `
+                <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <span style="font-size: 2rem;">${module.icon}</span>
+                    ${module.title}
+                </h2>
+                
+                <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                    <p style="margin: 0;"><strong>Durée:</strong> ${module.duration}</p>
+                    <p style="margin: 0;"><strong>Niveau:</strong> ${module.difficultyLabel}</p>
+                    <p style="margin: 0;"><strong>Description:</strong> ${module.description}</p>
+                    <p style="margin: 0;"><strong>Sujets abordés:</strong> ${module.topics.join(', ')}</p>
+                </div>
+                
+                <div style="background: #f0f8ff; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center; border-left: 4px solid var(--primary);">
+                    <i class="fas fa-book-open" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <h3>Module en cours de développement</h3>
+                    <p>Le contenu détaillé de ce module sera bientôt disponible avec :</p>
+                    <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                        <li>Explications théoriques complètes</li>
+                        <li>Exemples de code pratiques</li>
+                        <li>Exercices interactifs</li>
+                        <li>Projets pratiques à réaliser</li>
+                    </ul>
+                    <p><em>En attendant, vous pouvez marquer ce module comme terminé pour débloquer le suivant.</em></p>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="btn btn-success" onclick="completeModule(${module.id})" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                        <i class="fas fa-check"></i>
+                        Marquer comme terminé
+                    </button>
+                </div>
+            `;
+        }
+
+        async function completeModule(moduleId) {
+            if (!currentUser) {
+                showAlert('Veuillez vous connecter', 'error');
+                return;
+            }
 
             try {
                 const response = await fetch(API_BASE, {
@@ -750,259 +2212,112 @@
                     userProgress[moduleId] = true;
                     updateProgress();
                     renderModules();
-                    showSuccessMessage('Progrès sauvegardé !');
+                    closeModal();
+                    showAlert('Module terminé ! Félicitations ! 🎉', 'success');
+                } else {
+                    showAlert(data.message || 'Erreur lors de la sauvegarde', 'error');
                 }
             } catch (error) {
                 console.error('Erreur lors de la sauvegarde:', error);
+                showAlert('Erreur de connexion au serveur', 'error');
             }
         }
 
-        function updateProgress() {
-            const completedModules = Object.keys(userProgress).filter(id => userProgress[id]).length;
-            const totalModules = modules.length;
-            const percentage = Math.round((completedModules / totalModules) * 100);
-            
-            document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = `Progression: ${completedModules}/${totalModules} modules complétés (${percentage}%)`;
+        function logout() {
+            currentUser = null;
+            userProgress = {};
+            localStorage.removeItem('laravel_academy_user');
+            updateUI();
+            showAlert('Déconnexion réussie !', 'success');
         }
 
-        function renderModules() {
-            const modulesGrid = document.getElementById('modulesGrid');
-            modulesGrid.innerHTML = '';
+        async function loadStats() {
+            try {
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'get_leaderboard'
+                    })
+                });
 
-            modules.forEach((module, index) => {
-                const isCompleted = userProgress[module.id];
-                const isAvailable = index === 0 || userProgress[modules[index - 1].id];
-                const isCurrent = !isCompleted && isAvailable;
+                const data = await response.json();
                 
-                const moduleCard = document.createElement('div');
-                moduleCard.className = `module-card ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}`;
-                
-                if (!isAvailable && !currentUser) {
-                    moduleCard.style.opacity = '0.6';
-                    moduleCard.style.cursor = 'not-allowed';
+                if (data.success && data.leaderboard) {
+                    const userCount = data.leaderboard.length;
+                    document.getElementById('userCount').textContent = userCount;
                 }
-
-                moduleCard.innerHTML = `
-                    <div class="module-icon">${module.icon}</div>
-                    <div class="module-title">${module.title}</div>
-                    <div class="module-description">${module.description}</div>
-                    <div class="module-meta">
-                        <span>⏱️ ${module.duration}</span>
-                        <span>📊 ${module.difficulty}</span>
-                        ${isCompleted ? '<span style="color: #4CAF50;">✅ Terminé</span>' : ''}
-                    </div>
-                `;
-
-                if (isAvailable || currentUser) {
-                    moduleCard.addEventListener('click', () => openModule(module));
-                }
-
-                modulesGrid.appendChild(moduleCard);
-            });
-        }
-
-        function openModule(module) {
-            if (!currentUser) {
-                showErrorMessage('Veuillez vous connecter pour accéder aux cours');
-                return;
+            } catch (error) {
+                console.error('Erreur lors du chargement des statistiques:', error);
             }
-
-            const modal = document.getElementById('courseModal');
-            const content = document.getElementById('courseContent');
-            
-            content.innerHTML = getModuleContent(module);
-            modal.style.display = 'block';
         }
 
-        function closeModal() {
-            document.getElementById('courseModal').style.display = 'none';
+        // Fonctions utilitaires
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
         }
 
-        function getModuleContent(module) {
-            const moduleContents = {
-                1: `
-                    <h2>🚀 Installation de Laravel</h2>
-                    <p>Bienvenue dans le premier module ! Nous allons apprendre à installer Laravel étape par étape.</p>
-                    
-                    <div class="step">
-                        <h3>Étape 1: Installation de PHP</h3>
-                        <p>Laravel nécessite PHP 8.1 ou supérieur. Vérifiez votre version :</p>
-                        <div class="code-block">php --version</div>
-                    </div>
-
-                    <div class="step">
-                        <h3>Étape 2: Installation de Composer</h3>
-                        <p>Composer est le gestionnaire de dépendances de PHP. Téléchargez-le depuis <a href="https://getcomposer.org" target="_blank">getcomposer.org</a></p>
-                        <div class="code-block">composer --version</div>
-                    </div>
-
-                    <div class="step">
-                        <h3>Étape 3: Création d'un projet Laravel</h3>
-                        <p>Utilisez Composer pour créer un nouveau projet Laravel :</p>
-                        <div class="code-block">composer create-project laravel/laravel mon-projet</div>
-                    </div>
-
-                    <div class="step">
-                        <h3>Étape 4: Configuration de l'environnement</h3>
-                        <p>Naviguez dans le dossier du projet et configurez votre fichier .env :</p>
-                        <div class="code-block">cd mon-projet
-cp .env.example .env
-php artisan key:generate</div>
-                    </div>
-
-                    <div class="step">
-                        <h3>Étape 5: Lancement du serveur de développement</h3>
-                        <p>Démarrez le serveur de développement Laravel :</p>
-                        <div class="code-block">php artisan serve</div>
-                        <p>Votre application sera accessible sur <code>http://localhost:8000</code></p>
-                    </div>
-
-                    <button class="btn" onclick="completeModule(${module.id})">Marquer comme terminé</button>
-                `,
-                2: `
-                    <h2>📁 Structure des dossiers Laravel</h2>
-                    <p>Comprenons l'architecture MVC et l'organisation des fichiers dans Laravel.</p>
-                    
-                    <div class="step">
-                        <h3>Architecture MVC</h3>
-                        <p>Laravel suit le pattern Model-View-Controller (MVC) :</p>
-                        <ul>
-                            <li><strong>Model</strong> : Gère les données et la logique métier</li>
-                            <li><strong>View</strong> : Gère l'affichage (interface utilisateur)</li>
-                            <li><strong>Controller</strong> : Fait le lien entre Model et View</li>
-                        </ul>
-                    </div>
-
-                    <div class="step">
-                        <h3>Dossiers principaux</h3>
-                        <div class="code-block">app/
-├── Http/
-│   ├── Controllers/     # Contrôleurs
-│   ├── Middleware/      # Middlewares
-│   └── Requests/        # Validation des requêtes
-├── Models/              # Modèles Eloquent
-└── Providers/           # Fournisseurs de services
-
-resources/
-├── views/               # Vues Blade
-├── css/                 # Fichiers CSS
-└── js/                  # Fichiers JavaScript
-
-routes/
-├── web.php              # Routes web
-├── api.php              # Routes API
-└── console.php          # Commandes Artisan
-
-database/
-├── migrations/          # Migrations
-├── seeders/             # Seeders
-└── factories/           # Factories</div>
-                    </div>
-
-                    <button class="btn" onclick="completeModule(${module.id})">Marquer comme terminé</button>
-                `,
-                3: `
-                    <h2>🛣️ Routes et Contrôleurs</h2>
-                    <p>Apprenez à créer des routes et des contrôleurs pour gérer les requêtes HTTP.</p>
-                    
-                    <div class="step">
-                        <h3>Création de routes simples</h3>
-                        <p>Dans le fichier <code>routes/web.php</code> :</p>
-                        <div class="code-block">Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/about', function () {
-    return 'À propos de nous';
-});
-
-Route::get('/contact', function () {
-    return view('contact');
-});</div>
-                    </div>
-
-                    <div class="step">
-                        <h3>Création d'un contrôleur</h3>
-                        <p>Générez un contrôleur avec Artisan :</p>
-                        <div class="code-block">php artisan make:controller HomeController</div>
-                        <p>Contenu du contrôleur :</p>
-                        <div class="code-block"><?php
-
-namespace App\\Http\\Controllers;
-
-use Illuminate\\Http\\Request;
-
-class HomeController extends Controller
-{
-    public function index()
-    {
-        return view('home');
-    }
-    
-    public function about()
-    {
-        return view('about');
-    }
-}</div>
-                    </div>
-
-                    <div class="step">
-                        <h3>Utilisation du contrôleur dans les routes</h3>
-                        <div class="code-block">use App\\Http\\Controllers\\HomeController;
-
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/about', [HomeController::class, 'about']);</div>
-                    </div>
-
-                    <button class="btn" onclick="completeModule(${module.id})">Marquer comme terminé</button>
-                `
-            };
-
-            return moduleContents[module.id] || `
-                <h2>${module.icon} ${module.title}</h2>
-                <p>${module.description}</p>
-                <p>📚 Durée estimée: ${module.duration}</p>
-                <p>📊 Niveau: ${module.difficulty}</p>
-                <p><em>Le contenu de ce module sera bientôt disponible...</em></p>
-                <button class="btn" onclick="completeModule(${module.id})">Marquer comme terminé</button>
+        function showAlert(message, type = 'success') {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
             `;
-        }
-
-        function completeModule(moduleId) {
-            saveProgress(moduleId);
-            closeModal();
-        }
-
-        function showSuccessMessage(message) {
-            const alert = document.createElement('div');
-            alert.className = 'alert alert-success';
-            alert.textContent = message;
+            
             document.body.appendChild(alert);
             
-            setTimeout(() => {
-                alert.remove();
-            }, 3000);
-        }
-
-        function showErrorMessage(message) {
-            const alert = document.createElement('div');
-            alert.className = 'alert alert-error';
-            alert.textContent = message;
-            document.body.appendChild(alert);
+            setTimeout(() => alert.classList.add('show'), 100);
             
             setTimeout(() => {
-                alert.remove();
-            }, 3000);
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 4000);
         }
 
-        // Fermer le modal en cliquant à l'extérieur
-        window.onclick = function(event) {
-            const modal = document.getElementById('courseModal');
-            if (event.target === modal) {
-                closeModal();
-            }
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
         }
+
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorEl = document.getElementById(fieldId + 'Error');
+            
+            if (field) field.classList.add('error');
+            if (errorEl) errorEl.textContent = message;
+        }
+
+        function showLoading(show) {
+            // Implémentation du loading si nécessaire
+        }
+
+        function showLoginModal() {
+            document.getElementById('loginEmail').focus();
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerName').focus();
+        }
+
+        // Navigation fluide
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        console.log('✅ Laravel Academy - Prêt !');
     </script>
 </body>
 </html>

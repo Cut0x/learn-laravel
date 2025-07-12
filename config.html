@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API - Laravel Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Monaco', 'Menlo', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #569cd6;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .test-section {
+            background: #252526;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007acc;
+        }
+        
+        .test-section h2 {
+            color: #4ec9b0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #005a9e;
+        }
+        
+        .btn.success {
+            background: #4caf50;
+        }
+        
+        .btn.error {
+            background: #f44336;
+        }
+        
+        .btn.warning {
+            background: #ff9800;
+        }
+        
+        .config-section {
+            background: #2d2d30;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .config-section label {
+            display: block;
+            color: #cccccc;
+            margin-bottom: 5px;
+        }
+        
+        .config-section input {
+            width: 100%;
+            background: #3c3c3c;
+            border: 1px solid #464647;
+            color: #d4d4d4;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        .result {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: inherit;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .success {
+            border-left: 4px solid #4caf50;
+        }
+        
+        .error {
+            border-left: 4px solid #f44336;
+        }
+        
+        .warning {
+            border-left: 4px solid #ff9800;
+        }
+        
+        .info {
+            border-left: 4px solid #2196f3;
+        }
+        
+        .status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .status.show {
+            transform: translateX(0);
+        }
+        
+        .json {
+            color: #ce9178;
+        }
+        
+        .key {
+            color: #9cdcfe;
+        }
+        
+        .string {
+            color: #ce9178;
+        }
+        
+        .number {
+            color: #b5cea8;
+        }
+        
+        .boolean {
+            color: #569cd6;
+        }
+        
+        .null {
+            color: #569cd6;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test API Laravel Academy</h1>
+        
+        <div class="config-section">
+            <label for="apiUrl">URL de l'API :</label>
+            <input type="text" id="apiUrl" value="https://valloic.dev/api/learn-projects/api.php" placeholder="https://votre-api.com/api.php">
+        </div>
+        
+        <div class="grid">
+            <div>
+                <div class="test-section">
+                    <h2>🔍 Test de Connexion</h2>
+                    <div class="test-controls">
+                        <button class="btn" onclick="testConnection()">Tester Connexion</button>
+                        <button class="btn" onclick="testAPI()">Test API Status</button>
+                    </div>
+                    <div id="connectionResult" class="result"></div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>👤 Test Authentification</h2>
+                    <div class="test-controls">
+                        <button class="btn" onclick="testRegister()">Test Inscription</button>
+                        <button class="btn" onclick="testLogin()">Test Connexion</button>
+                        <button class="btn warning" onclick="testInvalidLogin()">Test Échec Connexion</button>
+                    </div>
+                    <div id="authResult" class="result"></div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>📊 Test Progression</h2>
+                    <div class="test-controls">
+                        <button class="btn" onclick="testGetProgress()">Récupérer Progrès</button>
+                        <button class="btn" onclick="testSaveProgress()">Sauver Progrès</button>
+                        <button class="btn" onclick="testGetStats()">Statistiques</button>
+                    </div>
+                    <div id="progressResult" class="result"></div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="test-section">
+                    <h2>🏆 Test Classement</h2>
+                    <div class="test-controls">
+                        <button class="btn" onclick="testLeaderboard()">Classement</button>
+                        <button class="btn" onclick="testUserCount()">Nombre Utilisateurs</button>
+                    </div>
+                    <div id="leaderboardResult" class="result"></div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>🔧 Tests Avancés</h2>
+                    <div class="test-controls">
+                        <button class="btn" onclick="testResetProgress()">Reset Progrès</button>
+                        <button class="btn error" onclick="testInvalidData()">Test Données Invalides</button>
+                        <button class="btn success" onclick="runAllTests()">🚀 Tous les Tests</button>
+                    </div>
+                    <div id="advancedResult" class="result"></div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>📝 Variables de Test</h2>
+                    <div id="testVars" class="result info">
+                        <div>📧 Email test: test@laravel-academy.com</div>
+                        <div>👤 Nom test: Utilisateur Test</div>
+                        <div>🔑 Mot de passe: testpass123</div>
+                        <div>📊 Module test: ID 1 (Installation Laravel)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales pour les tests
+        let currentUser = null;
+        let testEmail = 'test@laravel-academy.com';
+        let testPassword = 'testpass123';
+        let testName = 'Utilisateur Test';
+        
+        // Configuration
+        function getApiUrl() {
+            return document.getElementById('apiUrl').value.trim();
+        }
+        
+        // Utilitaires
+        function showStatus(message, type = 'success') {
+            const status = document.createElement('div');
+            status.className = `status ${type}`;
+            status.textContent = message;
+            document.body.appendChild(status);
+            
+            setTimeout(() => status.classList.add('show'), 100);
+            setTimeout(() => {
+                status.classList.remove('show');
+                setTimeout(() => status.remove(), 300);
+            }, 3000);
+        }
+        
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2)
+                .replace(/(".*?")/g, '<span class="string">$1</span>')
+                .replace(/(\d+)/g, '<span class="number">$1</span>')
+                .replace(/(true|false)/g, '<span class="boolean">$1</span>')
+                .replace(/null/g, '<span class="null">null</span>');
+        }
+        
+        function logResult(containerId, message, data = null, type = 'info') {
+            const container = document.getElementById(containerId);
+            const timestamp = new Date().toLocaleTimeString();
+            
+            let output = `[${timestamp}] ${message}\n`;
+            
+            if (data) {
+                output += formatJSON(data) + '\n';
+            }
+            
+            output += '\n' + '='.repeat(50) + '\n\n';
+            
+            container.innerHTML = output + container.innerHTML;
+            container.className = `result ${type}`;
+        }
+        
+        async function makeRequest(action, data = {}) {
+            const payload = { action, ...data };
+            
+            try {
+                const response = await fetch(getApiUrl(), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                return { success: true, data: result };
+                
+            } catch (error) {
+                return { 
+                    success: false, 
+                    error: error.message,
+                    data: { success: false, message: error.message }
+                };
+            }
+        }
+        
+        // Tests de connexion
+        async function testConnection() {
+            logResult('connectionResult', '🔍 Test de connexion à l\'API...', null, 'info');
+            
+            try {
+                const response = await fetch(getApiUrl(), {
+                    method: 'GET'
+                });
+                
+                if (response.ok) {
+                    logResult('connectionResult', '✅ Connexion réussie', {
+                        status: response.status,
+                        statusText: response.statusText,
+                        url: getApiUrl()
+                    }, 'success');
+                    showStatus('Connexion API réussie', 'success');
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                logResult('connectionResult', '❌ Échec de connexion', {
+                    error: error.message,
+                    url: getApiUrl()
+                }, 'error');
+                showStatus('Échec connexion API', 'error');
+            }
+        }
+        
+        async function testAPI() {
+            logResult('connectionResult', '🧪 Test du statut de l\'API...', null, 'info');
+            
+            const result = await makeRequest('test');
+            
+            if (result.success && result.data.success) {
+                logResult('connectionResult', '✅ API fonctionnelle', result.data, 'success');
+                showStatus('API fonctionnelle', 'success');
+            } else {
+                logResult('connectionResult', '❌ Problème API', result.data, 'error');
+                showStatus('Problème API', 'error');
+            }
+        }
+        
+        // Tests d'authentification
+        async function testRegister() {
+            logResult('authResult', '📝 Test d\'inscription...', null, 'info');
+            
+            // Générer un email unique pour éviter les conflits
+            const uniqueEmail = `test.${Date.now()}@laravel-academy.com`;
+            
+            const result = await makeRequest('register', {
+                name: testName,
+                email: uniqueEmail,
+                password: testPassword
+            });
+            
+            if (result.success && result.data.success) {
+                logResult('authResult', '✅ Inscription réussie', result.data, 'success');
+                showStatus('Inscription réussie', 'success');
+                
+                // Utiliser ce nouvel utilisateur pour les tests suivants
+                testEmail = uniqueEmail;
+            } else {
+                logResult('authResult', '❌ Échec inscription', result.data, 'error');
+                showStatus('Échec inscription', 'error');
+            }
+        }
+        
+        async function testLogin() {
+            logResult('authResult', '🔐 Test de connexion...', null, 'info');
+            
+            const result = await makeRequest('login', {
+                email: testEmail,
+                password: testPassword
+            });
+            
+            if (result.success && result.data.success) {
+                currentUser = result.data.user;
+                logResult('authResult', '✅ Connexion réussie', result.data, 'success');
+                showStatus('Connexion réussie', 'success');
+            } else {
+                logResult('authResult', '❌ Échec connexion', result.data, 'error');
+                showStatus('Échec connexion', 'error');
+            }
+        }
+        
+        async function testInvalidLogin() {
+            logResult('authResult', '🚫 Test connexion invalide...', null, 'info');
+            
+            const result = await makeRequest('login', {
+                email: 'inexistant@test.com',
+                password: 'wrongpassword'
+            });
+            
+            if (!result.data.success) {
+                logResult('authResult', '✅ Échec attendu (correct)', result.data, 'success');
+                showStatus('Test échec connexion OK', 'success');
+            } else {
+                logResult('authResult', '❌ Problème sécurité!', result.data, 'error');
+                showStatus('Problème sécurité', 'error');
+            }
+        }
+        
+        // Tests de progression
+        async function testGetProgress() {
+            if (!currentUser) {
+                showStatus('Connectez-vous d\'abord', 'warning');
+                return;
+            }
+            
+            logResult('progressResult', '📊 Test récupération progrès...', null, 'info');
+            
+            const result = await makeRequest('get_progress', {
+                user_id: currentUser.id
+            });
+            
+            if (result.success && result.data.success) {
+                logResult('progressResult', '✅ Progrès récupéré', result.data, 'success');
+                showStatus('Progrès récupéré', 'success');
+            } else {
+                logResult('progressResult', '❌ Échec récupération', result.data, 'error');
+                showStatus('Échec récupération progrès', 'error');
+            }
+        }
+        
+        async function testSaveProgress() {
+            if (!currentUser) {
+                showStatus('Connectez-vous d\'abord', 'warning');
+                return;
+            }
+            
+            logResult('progressResult', '💾 Test sauvegarde progrès...', null, 'info');
+            
+            const result = await makeRequest('save_progress', {
+                user_id: currentUser.id,
+                module_id: 1,
+                completed: true
+            });
+            
+            if (result.success && result.data.success) {
+                logResult('progressResult', '✅ Progrès sauvegardé', result.data, 'success');
+                showStatus('Progrès sauvegardé', 'success');
+            } else {
+                logResult('progressResult', '❌ Échec sauvegarde', result.data, 'error');
+                showStatus('Échec sauvegarde', 'error');
+            }
+        }
+        
+        async function testGetStats() {
+            if (!currentUser) {
+                showStatus('Connectez-vous d\'abord', 'warning');
+                return;
+            }
+            
+            logResult('progressResult', '📈 Test statistiques...', null, 'info');
+            
+            const result = await makeRequest('get_stats', {
+                user_id: currentUser.id
+            });
+            
+            if (result.success && result.data.success) {
+                logResult('progressResult', '✅ Statistiques récupérées', result.data, 'success');
+                showStatus('Statistiques OK', 'success');
+            } else {
+                logResult('progressResult', '❌ Échec statistiques', result.data, 'error');
+                showStatus('Échec statistiques', 'error');
+            }
+        }
+        
+        // Tests de classement
+        async function testLeaderboard() {
+            logResult('leaderboardResult', '🏆 Test classement...', null, 'info');
+            
+            const result = await makeRequest('get_leaderboard');
+            
+            if (result.success && result.data.success) {
+                logResult('leaderboardResult', '✅ Classement récupéré', result.data, 'success');
+                showStatus('Classement OK', 'success');
+            } else {
+                logResult('leaderboardResult', '❌ Échec classement', result.data, 'error');
+                showStatus('Échec classement', 'error');
+            }
+        }
+        
+        async function testUserCount() {
+            logResult('leaderboardResult', '👥 Test nombre utilisateurs...', null, 'info');
+            
+            const result = await makeRequest('get_user_count');
+            
+            if (result.success && result.data.success) {
+                logResult('leaderboardResult', '✅ Nombre utilisateurs récupéré', result.data, 'success');
+                showStatus('Comptage utilisateurs OK', 'success');
+            } else {
+                logResult('leaderboardResult', '❌ Échec comptage', result.data, 'error');
+                showStatus('Échec comptage', 'error');
+            }
+        }
+        
+        // Tests avancés
+        async function testResetProgress() {
+            if (!currentUser) {
+                showStatus('Connectez-vous d\'abord', 'warning');
+                return;
+            }
+            
+            if (!confirm('Voulez-vous vraiment réinitialiser le progrès de test?')) {
+                return;
+            }
+            
+            logResult('advancedResult', '🔄 Test reset progrès...', null, 'info');
+            
+            const result = await makeRequest('reset_progress', {
+                user_id: currentUser.id
+            });
+            
+            if (result.success && result.data.success) {
+                logResult('advancedResult', '✅ Reset réussi', result.data, 'success');
+                showStatus('Reset réussi', 'success');
+            } else {
+                logResult('advancedResult', '❌ Échec reset', result.data, 'error');
+                showStatus('Échec reset', 'error');
+            }
+        }
+        
+        async function testInvalidData() {
+            logResult('advancedResult', '💥 Test données invalides...', null, 'info');
+            
+            const tests = [
+                { action: 'register', data: { name: '', email: 'invalid', password: '123' }},
+                { action: 'login', data: { email: '', password: '' }},
+                { action: 'save_progress', data: { user_id: 0, module_id: 0 }},
+                { action: 'get_progress', data: { user_id: 'invalid' }},
+                { action: 'invalid_action', data: {} }
+            ];
+            
+            for (const test of tests) {
+                const result = await makeRequest(test.action, test.data);
+                
+                if (!result.data.success) {
+                    logResult('advancedResult', `✅ Validation OK pour ${test.action}`, {
+                        test: test.action,
+                        expected: 'failure',
+                        result: 'failure'
+                    }, 'success');
+                } else {
+                    logResult('advancedResult', `❌ Problème validation ${test.action}`, {
+                        test: test.action,
+                        expected: 'failure',
+                        result: 'success'
+                    }, 'error');
+                }
+            }
+            
+            showStatus('Tests de validation terminés', 'success');
+        }
+        
+        async function runAllTests() {
+            showStatus('Lancement de tous les tests...', 'info');
+            
+            const tests = [
+                { name: 'Connexion', func: testConnection, delay: 500 },
+                { name: 'API Status', func: testAPI, delay: 500 },
+                { name: 'Inscription', func: testRegister, delay: 1000 },
+                { name: 'Connexion', func: testLogin, delay: 1000 },
+                { name: 'Progrès', func: testGetProgress, delay: 500 },
+                { name: 'Sauvegarde', func: testSaveProgress, delay: 1000 },
+                { name: 'Statistiques', func: testGetStats, delay: 500 },
+                { name: 'Classement', func: testLeaderboard, delay: 500 },
+                { name: 'Comptage', func: testUserCount, delay: 500 },
+                { name: 'Validation', func: testInvalidData, delay: 1000 }
+            ];
+            
+            for (let i = 0; i < tests.length; i++) {
+                const test = tests[i];
+                showStatus(`Test ${i + 1}/${tests.length}: ${test.name}`, 'info');
+                
+                await test.func();
+                
+                if (i < tests.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, test.delay));
+                }
+            }
+            
+            showStatus('Tous les tests terminés!', 'success');
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Script de test Laravel Academy prêt');
+            showStatus('Script de test chargé', 'info');
+        });
+    </script>
+</body>
+</html>
