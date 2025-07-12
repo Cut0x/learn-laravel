@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test API - Laravel Academy</title>
+    <title>Test API Complet - Laravel Academy</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
@@ -80,6 +80,14 @@
             background: #ff9800;
         }
         
+        .btn.purple {
+            background: #9c27b0;
+        }
+        
+        .btn.cyan {
+            background: #00bcd4;
+        }
+        
         .config-section {
             background: #2d2d30;
             padding: 15px;
@@ -93,7 +101,7 @@
             margin-bottom: 5px;
         }
         
-        .config-section input {
+        .config-section input, .config-section select {
             width: 100%;
             background: #3c3c3c;
             border: 1px solid #464647;
@@ -101,6 +109,7 @@
             padding: 8px;
             border-radius: 4px;
             font-family: inherit;
+            margin-bottom: 10px;
         }
         
         .result {
@@ -189,8 +198,69 @@
         
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
+        }
+        
+        .clear-btn {
+            background: #666;
+            float: right;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .api-status {
+            background: #333;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .api-status.connected {
+            background: #2e7d32;
+        }
+        
+        .api-status.error {
+            background: #c62828;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #333;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: #333;
+            color: #ccc;
+            border: none;
+            font-family: inherit;
+        }
+        
+        .tab.active {
+            background: #007acc;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
         
         @media (max-width: 768px) {
@@ -206,72 +276,201 @@
 </head>
 <body>
     <div class="container">
-        <h1>🧪 Test API Laravel Academy</h1>
+        <h1>🧪 Test API Laravel Academy - Version Complète</h1>
         
+        <!-- Configuration -->
         <div class="config-section">
             <label for="apiUrl">URL de l'API :</label>
             <input type="text" id="apiUrl" value="https://valloic.dev/api/learn-projects/api.php" placeholder="https://votre-api.com/api.php">
+            
+            <label for="debugMode">Mode Debug :</label>
+            <select id="debugMode">
+                <option value="false">Désactivé</option>
+                <option value="true">Activé</option>
+            </select>
         </div>
         
-        <div class="grid">
-            <div>
-                <div class="test-section">
-                    <h2>🔍 Test de Connexion</h2>
-                    <div class="test-controls">
-                        <button class="btn" onclick="testConnection()">Tester Connexion</button>
-                        <button class="btn" onclick="testAPI()">Test API Status</button>
+        <!-- Statut API -->
+        <div id="apiStatus" class="api-status">
+            🔍 Statut API : Non testé
+        </div>
+        
+        <!-- Onglets -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('diagnostic')">🔧 Diagnostic</button>
+            <button class="tab" onclick="switchTab('auth')">👤 Authentification</button>
+            <button class="tab" onclick="switchTab('progress')">📊 Progression</button>
+            <button class="tab" onclick="switchTab('admin')">⚙️ Administration</button>
+        </div>
+        
+        <!-- Contenu des onglets -->
+        
+        <!-- Onglet Diagnostic -->
+        <div id="diagnostic" class="tab-content active">
+            <div class="grid">
+                <div>
+                    <div class="test-section">
+                        <h2>🔍 Tests de Base</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testConnection()">Connexion HTTP</button>
+                            <button class="btn" onclick="testAPI()">Test API</button>
+                            <button class="btn purple" onclick="fullDiagnostic()">Diagnostic Complet</button>
+                        </div>
+                        <button class="clear-btn" onclick="clearResult('diagnosticResult')">Effacer</button>
+                        <div id="diagnosticResult" class="result"></div>
                     </div>
-                    <div id="connectionResult" class="result"></div>
                 </div>
                 
-                <div class="test-section">
-                    <h2>👤 Test Authentification</h2>
-                    <div class="test-controls">
-                        <button class="btn" onclick="testRegister()">Test Inscription</button>
-                        <button class="btn" onclick="testLogin()">Test Connexion</button>
-                        <button class="btn warning" onclick="testInvalidLogin()">Test Échec Connexion</button>
+                <div>
+                    <div class="test-section">
+                        <h2>🏥 Santé du Système</h2>
+                        <div class="test-controls">
+                            <button class="btn cyan" onclick="checkSystemHealth()">Vérifier Santé</button>
+                            <button class="btn" onclick="testDatabaseOperations()">Test CRUD</button>
+                            <button class="btn warning" onclick="testPerformance()">Test Performance</button>
+                        </div>
+                        <button class="clear-btn" onclick="clearResult('healthResult')">Effacer</button>
+                        <div id="healthResult" class="result"></div>
                     </div>
-                    <div id="authResult" class="result"></div>
                 </div>
                 
-                <div class="test-section">
-                    <h2>📊 Test Progression</h2>
-                    <div class="test-controls">
-                        <button class="btn" onclick="testGetProgress()">Récupérer Progrès</button>
-                        <button class="btn" onclick="testSaveProgress()">Sauver Progrès</button>
-                        <button class="btn" onclick="testGetStats()">Statistiques</button>
+                <div>
+                    <div class="test-section">
+                        <h2>📝 Variables de Test</h2>
+                        <div id="testVars" class="result info">
+                            <div>📧 Email: test@laravel-academy.com</div>
+                            <div>👤 Nom: Utilisateur Test</div>
+                            <div>🔑 Password: testpass123</div>
+                            <div>📊 Module: ID 1</div>
+                            <div>🎯 Debug: <span id="debugStatus">Désactivé</span></div>
+                            <div>🌐 API: <span id="currentApi">Non défini</span></div>
+                        </div>
                     </div>
-                    <div id="progressResult" class="result"></div>
                 </div>
             </div>
-            
-            <div>
-                <div class="test-section">
-                    <h2>🏆 Test Classement</h2>
-                    <div class="test-controls">
-                        <button class="btn" onclick="testLeaderboard()">Classement</button>
-                        <button class="btn" onclick="testUserCount()">Nombre Utilisateurs</button>
+        </div>
+        
+        <!-- Onglet Authentification -->
+        <div id="auth" class="tab-content">
+            <div class="grid">
+                <div>
+                    <div class="test-section">
+                        <h2>👤 Tests d'Inscription</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testRegister()">Inscription Normale</button>
+                            <button class="btn" onclick="testRegisterDuplicate()">Inscription Dupliquée</button>
+                            <button class="btn error" onclick="testRegisterInvalid()">Données Invalides</button>
+                        </div>
+                        <button class="clear-btn" onclick="clearResult('authResult')">Effacer</button>
+                        <div id="authResult" class="result"></div>
                     </div>
-                    <div id="leaderboardResult" class="result"></div>
                 </div>
                 
-                <div class="test-section">
-                    <h2>🔧 Tests Avancés</h2>
-                    <div class="test-controls">
-                        <button class="btn" onclick="testResetProgress()">Reset Progrès</button>
-                        <button class="btn error" onclick="testInvalidData()">Test Données Invalides</button>
-                        <button class="btn success" onclick="runAllTests()">🚀 Tous les Tests</button>
+                <div>
+                    <div class="test-section">
+                        <h2>🔐 Tests de Connexion</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testLogin()">Connexion Valide</button>
+                            <button class="btn warning" onclick="testInvalidLogin()">Identifiants Incorrects</button>
+                            <button class="btn error" onclick="testLoginSecurity()">Tests de Sécurité</button>
+                        </div>
+                        <div id="loginResult" class="result"></div>
                     </div>
-                    <div id="advancedResult" class="result"></div>
                 </div>
                 
-                <div class="test-section">
-                    <h2>📝 Variables de Test</h2>
-                    <div id="testVars" class="result info">
-                        <div>📧 Email test: test@laravel-academy.com</div>
-                        <div>👤 Nom test: Utilisateur Test</div>
-                        <div>🔑 Mot de passe: testpass123</div>
-                        <div>📊 Module test: ID 1 (Installation Laravel)</div>
+                <div>
+                    <div class="test-section">
+                        <h2>🛡️ Sécurité</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testPasswordValidation()">Validation Password</button>
+                            <button class="btn" onclick="testEmailValidation()">Validation Email</button>
+                            <button class="btn error" onclick="testSQLInjection()">Test SQL Injection</button>
+                        </div>
+                        <div id="securityResult" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet Progression -->
+        <div id="progress" class="tab-content">
+            <div class="grid">
+                <div>
+                    <div class="test-section">
+                        <h2>📊 Gestion du Progrès</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testGetProgress()">Récupérer Progrès</button>
+                            <button class="btn" onclick="testSaveProgress()">Sauver Progrès</button>
+                            <button class="btn" onclick="testMultipleModules()">Modules Multiples</button>
+                        </div>
+                        <button class="clear-btn" onclick="clearResult('progressResult')">Effacer</button>
+                        <div id="progressResult" class="result"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="test-section">
+                        <h2>📈 Statistiques</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testGetStats()">Récupérer Stats</button>
+                            <button class="btn" onclick="testUpdateStats()">Mettre à Jour Stats</button>
+                            <button class="btn" onclick="testStatsCalculation()">Calculs Automatiques</button>
+                        </div>
+                        <div id="statsResult" class="result"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="test-section">
+                        <h2>🏆 Classement</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="testLeaderboard()">Récupérer Classement</button>
+                            <button class="btn" onclick="testUserCount()">Compter Utilisateurs</button>
+                            <button class="btn" onclick="createTestUsers()">Créer Utilisateurs Test</button>
+                        </div>
+                        <div id="leaderboardResult" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet Administration -->
+        <div id="admin" class="tab-content">
+            <div class="grid">
+                <div>
+                    <div class="test-section">
+                        <h2>🔄 Opérations Admin</h2>
+                        <div class="test-controls">
+                            <button class="btn warning" onclick="testResetProgress()">Reset Progrès</button>
+                            <button class="btn error" onclick="testDataValidation()">Validation Données</button>
+                            <button class="btn" onclick="testErrorHandling()">Gestion Erreurs</button>
+                        </div>
+                        <button class="clear-btn" onclick="clearResult('adminResult')">Effacer</button>
+                        <div id="adminResult" class="result"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="test-section">
+                        <h2>🚀 Tests Automatisés</h2>
+                        <div class="test-controls">
+                            <button class="btn success" onclick="runAllTests()">🚀 Tous les Tests</button>
+                            <button class="btn" onclick="runQuickTests()">⚡ Tests Rapides</button>
+                            <button class="btn purple" onclick="runStressTest()">💪 Test de Charge</button>
+                        </div>
+                        <div id="automatedResult" class="result"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="test-section">
+                        <h2>📋 Logs et Debug</h2>
+                        <div class="test-controls">
+                            <button class="btn" onclick="viewLogs()">Voir Logs</button>
+                            <button class="btn" onclick="clearLogs()">Effacer Logs</button>
+                            <button class="btn cyan" onclick="exportResults()">Exporter Résultats</button>
+                        </div>
+                        <div id="logsResult" class="result"></div>
                     </div>
                 </div>
             </div>
@@ -279,18 +478,59 @@
     </div>
 
     <script>
-        // Variables globales pour les tests
+        // Variables globales
         let currentUser = null;
         let testEmail = 'test@laravel-academy.com';
         let testPassword = 'testpass123';
         let testName = 'Utilisateur Test';
+        let testResults = [];
+        
+        // Gestion des onglets
+        function switchTab(tabName) {
+            // Cacher tous les contenus
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Désactiver tous les onglets
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activer l'onglet et le contenu sélectionnés
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
         
         // Configuration
         function getApiUrl() {
-            return document.getElementById('apiUrl').value.trim();
+            const baseUrl = document.getElementById('apiUrl').value.trim();
+            const debugMode = document.getElementById('debugMode').value === 'true';
+            
+            if (debugMode) {
+                const separator = baseUrl.includes('?') ? '&' : '?';
+                return baseUrl + separator + 'debug=1';
+            }
+            
+            return baseUrl;
+        }
+        
+        function getDebugMode() {
+            return document.getElementById('debugMode').value === 'true';
         }
         
         // Utilitaires
+        function updateApiStatus(status, type = 'info') {
+            const statusEl = document.getElementById('apiStatus');
+            statusEl.textContent = status;
+            statusEl.className = `api-status ${type}`;
+        }
+        
+        function updateTestVars() {
+            document.getElementById('debugStatus').textContent = getDebugMode() ? 'Activé' : 'Désactivé';
+            document.getElementById('currentApi').textContent = getApiUrl();
+        }
+        
         function showStatus(message, type = 'success') {
             const status = document.createElement('div');
             status.className = `status ${type}`;
@@ -326,6 +566,19 @@
             
             container.innerHTML = output + container.innerHTML;
             container.className = `result ${type}`;
+            
+            // Enregistrer le résultat
+            testResults.push({
+                timestamp: new Date(),
+                container: containerId,
+                message: message,
+                data: data,
+                type: type
+            });
+        }
+        
+        function clearResult(containerId) {
+            document.getElementById(containerId).innerHTML = '';
         }
         
         async function makeRequest(action, data = {}) {
@@ -345,7 +598,7 @@
                 }
                 
                 const result = await response.json();
-                return { success: true, data: result };
+                return { success: true, data: result, status: response.status };
                 
             } catch (error) {
                 return { 
@@ -356,53 +609,97 @@
             }
         }
         
-        // Tests de connexion
+        // Tests de diagnostic
         async function testConnection() {
-            logResult('connectionResult', '🔍 Test de connexion à l\'API...', null, 'info');
+            logResult('diagnosticResult', '🔍 Test de connexion à l\'API...', null, 'info');
+            updateApiStatus('🔍 Test en cours...', 'info');
             
             try {
-                const response = await fetch(getApiUrl(), {
-                    method: 'GET'
-                });
+                const response = await fetch(getApiUrl(), { method: 'GET' });
                 
                 if (response.ok) {
-                    logResult('connectionResult', '✅ Connexion réussie', {
+                    logResult('diagnosticResult', '✅ Connexion réussie', {
                         status: response.status,
                         statusText: response.statusText,
                         url: getApiUrl()
                     }, 'success');
+                    updateApiStatus('✅ API Connectée', 'connected');
                     showStatus('Connexion API réussie', 'success');
                 } else {
                     throw new Error(`HTTP ${response.status}`);
                 }
             } catch (error) {
-                logResult('connectionResult', '❌ Échec de connexion', {
+                logResult('diagnosticResult', '❌ Échec de connexion', {
                     error: error.message,
                     url: getApiUrl()
                 }, 'error');
+                updateApiStatus('❌ Connexion échouée', 'error');
                 showStatus('Échec connexion API', 'error');
             }
         }
         
         async function testAPI() {
-            logResult('connectionResult', '🧪 Test du statut de l\'API...', null, 'info');
+            logResult('diagnosticResult', '🧪 Test du statut de l\'API...', null, 'info');
             
             const result = await makeRequest('test');
             
             if (result.success && result.data.success) {
-                logResult('connectionResult', '✅ API fonctionnelle', result.data, 'success');
+                logResult('diagnosticResult', '✅ API fonctionnelle', result.data, 'success');
+                updateApiStatus('✅ API Opérationnelle', 'connected');
                 showStatus('API fonctionnelle', 'success');
             } else {
-                logResult('connectionResult', '❌ Problème API', result.data, 'error');
+                logResult('diagnosticResult', '❌ Problème API', result.data, 'error');
+                updateApiStatus('❌ API Défaillante', 'error');
                 showStatus('Problème API', 'error');
             }
+        }
+        
+        async function fullDiagnostic() {
+            logResult('diagnosticResult', '🔧 Diagnostic complet du système...', null, 'info');
+            
+            const result = await makeRequest('diagnostic');
+            
+            if (result.success && result.data.success) {
+                logResult('diagnosticResult', '✅ Diagnostic complet terminé', result.data, 'success');
+                showStatus('Diagnostic complet réussi', 'success');
+            } else {
+                logResult('diagnosticResult', '❌ Échec diagnostic', result.data, 'error');
+                showStatus('Échec diagnostic', 'error');
+            }
+        }
+        
+        async function checkSystemHealth() {
+            logResult('healthResult', '🏥 Vérification de la santé du système...', null, 'info');
+            
+            const healthChecks = [
+                { name: 'API Status', action: 'test' },
+                { name: 'User Count', action: 'get_user_count' },
+                { name: 'Leaderboard', action: 'get_leaderboard' }
+            ];
+            
+            let healthScore = 0;
+            
+            for (const check of healthChecks) {
+                const result = await makeRequest(check.action);
+                if (result.success && result.data.success) {
+                    healthScore++;
+                    logResult('healthResult', `✅ ${check.name} : OK`, null, 'success');
+                } else {
+                    logResult('healthResult', `❌ ${check.name} : ÉCHEC`, result.data, 'error');
+                }
+            }
+            
+            const healthPercentage = (healthScore / healthChecks.length) * 100;
+            logResult('healthResult', `🏥 Santé du système : ${healthPercentage}%`, {
+                score: `${healthScore}/${healthChecks.length}`,
+                percentage: healthPercentage
+            }, healthPercentage === 100 ? 'success' : 'warning');
         }
         
         // Tests d'authentification
         async function testRegister() {
             logResult('authResult', '📝 Test d\'inscription...', null, 'info');
             
-            // Générer un email unique pour éviter les conflits
             const uniqueEmail = `test.${Date.now()}@laravel-academy.com`;
             
             const result = await makeRequest('register', {
@@ -414,8 +711,6 @@
             if (result.success && result.data.success) {
                 logResult('authResult', '✅ Inscription réussie', result.data, 'success');
                 showStatus('Inscription réussie', 'success');
-                
-                // Utiliser ce nouvel utilisateur pour les tests suivants
                 testEmail = uniqueEmail;
             } else {
                 logResult('authResult', '❌ Échec inscription', result.data, 'error');
@@ -423,8 +718,34 @@
             }
         }
         
+        async function testRegisterDuplicate() {
+            logResult('authResult', '🔄 Test inscription dupliquée...', null, 'info');
+            
+            // Première inscription
+            await makeRequest('register', {
+                name: testName,
+                email: testEmail,
+                password: testPassword
+            });
+            
+            // Deuxième inscription avec le même email
+            const result = await makeRequest('register', {
+                name: testName,
+                email: testEmail,
+                password: testPassword
+            });
+            
+            if (!result.data.success && result.data.message.includes('déjà utilisée')) {
+                logResult('authResult', '✅ Protection contre doublons OK', result.data, 'success');
+                showStatus('Protection doublons OK', 'success');
+            } else {
+                logResult('authResult', '❌ Problème protection doublons', result.data, 'error');
+                showStatus('Problème protection', 'error');
+            }
+        }
+        
         async function testLogin() {
-            logResult('authResult', '🔐 Test de connexion...', null, 'info');
+            logResult('loginResult', '🔐 Test de connexion...', null, 'info');
             
             const result = await makeRequest('login', {
                 email: testEmail,
@@ -433,16 +754,16 @@
             
             if (result.success && result.data.success) {
                 currentUser = result.data.user;
-                logResult('authResult', '✅ Connexion réussie', result.data, 'success');
+                logResult('loginResult', '✅ Connexion réussie', result.data, 'success');
                 showStatus('Connexion réussie', 'success');
             } else {
-                logResult('authResult', '❌ Échec connexion', result.data, 'error');
+                logResult('loginResult', '❌ Échec connexion', result.data, 'error');
                 showStatus('Échec connexion', 'error');
             }
         }
         
         async function testInvalidLogin() {
-            logResult('authResult', '🚫 Test connexion invalide...', null, 'info');
+            logResult('loginResult', '🚫 Test connexion invalide...', null, 'info');
             
             const result = await makeRequest('login', {
                 email: 'inexistant@test.com',
@@ -450,10 +771,10 @@
             });
             
             if (!result.data.success) {
-                logResult('authResult', '✅ Échec attendu (correct)', result.data, 'success');
-                showStatus('Test échec connexion OK', 'success');
+                logResult('loginResult', '✅ Rejet identifiants incorrects OK', result.data, 'success');
+                showStatus('Sécurité connexion OK', 'success');
             } else {
-                logResult('authResult', '❌ Problème sécurité!', result.data, 'error');
+                logResult('loginResult', '❌ Problème sécurité!', result.data, 'error');
                 showStatus('Problème sécurité', 'error');
             }
         }
@@ -462,7 +783,8 @@
         async function testGetProgress() {
             if (!currentUser) {
                 showStatus('Connectez-vous d\'abord', 'warning');
-                return;
+                await testLogin();
+                if (!currentUser) return;
             }
             
             logResult('progressResult', '📊 Test récupération progrès...', null, 'info');
@@ -483,7 +805,8 @@
         async function testSaveProgress() {
             if (!currentUser) {
                 showStatus('Connectez-vous d\'abord', 'warning');
-                return;
+                await testLogin();
+                if (!currentUser) return;
             }
             
             logResult('progressResult', '💾 Test sauvegarde progrès...', null, 'info');
@@ -503,24 +826,80 @@
             }
         }
         
+        async function testMultipleModules() {
+            if (!currentUser) {
+                showStatus('Connectez-vous d\'abord', 'warning');
+                await testLogin();
+                if (!currentUser) return;
+            }
+            
+            logResult('progressResult', '📚 Test modules multiples...', null, 'info');
+            
+            const modules = [2, 3, 4, 5];
+            let successCount = 0;
+            
+            for (const moduleId of modules) {
+                const result = await makeRequest('save_progress', {
+                    user_id: currentUser.id,
+                    module_id: moduleId,
+                    completed: true
+                });
+                
+                if (result.success && result.data.success) {
+                    successCount++;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+            
+            logResult('progressResult', `✅ Modules complétés : ${successCount}/${modules.length}`, {
+                completed_modules: modules.slice(0, successCount)
+            }, successCount === modules.length ? 'success' : 'warning');
+        }
+        
+        // Tests de statistiques
         async function testGetStats() {
             if (!currentUser) {
                 showStatus('Connectez-vous d\'abord', 'warning');
-                return;
+                await testLogin();
+                if (!currentUser) return;
             }
             
-            logResult('progressResult', '📈 Test statistiques...', null, 'info');
+            logResult('statsResult', '📈 Test statistiques...', null, 'info');
             
             const result = await makeRequest('get_stats', {
                 user_id: currentUser.id
             });
             
             if (result.success && result.data.success) {
-                logResult('progressResult', '✅ Statistiques récupérées', result.data, 'success');
+                logResult('statsResult', '✅ Statistiques récupérées', result.data, 'success');
                 showStatus('Statistiques OK', 'success');
             } else {
-                logResult('progressResult', '❌ Échec statistiques', result.data, 'error');
+                logResult('statsResult', '❌ Échec statistiques', result.data, 'error');
                 showStatus('Échec statistiques', 'error');
+            }
+        }
+        
+        async function testUpdateStats() {
+            if (!currentUser) {
+                showStatus('Connectez-vous d\'abord', 'warning');
+                await testLogin();
+                if (!currentUser) return;
+            }
+            
+            logResult('statsResult', '⏱️ Test mise à jour stats...', null, 'info');
+            
+            const result = await makeRequest('update_stats', {
+                user_id: currentUser.id,
+                time_spent: 300 // 5 minutes
+            });
+            
+            if (result.success && result.data.success) {
+                logResult('statsResult', '✅ Stats mises à jour', result.data, 'success');
+                showStatus('Stats mises à jour', 'success');
+            } else {
+                logResult('statsResult', '❌ Échec mise à jour stats', result.data, 'error');
+                showStatus('Échec mise à jour', 'error');
             }
         }
         
@@ -553,70 +932,73 @@
             }
         }
         
-        // Tests avancés
+        // Tests d'administration
         async function testResetProgress() {
             if (!currentUser) {
                 showStatus('Connectez-vous d\'abord', 'warning');
-                return;
+                await testLogin();
+                if (!currentUser) return;
             }
             
             if (!confirm('Voulez-vous vraiment réinitialiser le progrès de test?')) {
                 return;
             }
             
-            logResult('advancedResult', '🔄 Test reset progrès...', null, 'info');
+            logResult('adminResult', '🔄 Test reset progrès...', null, 'info');
             
             const result = await makeRequest('reset_progress', {
                 user_id: currentUser.id
             });
             
             if (result.success && result.data.success) {
-                logResult('advancedResult', '✅ Reset réussi', result.data, 'success');
+                logResult('adminResult', '✅ Reset réussi', result.data, 'success');
                 showStatus('Reset réussi', 'success');
             } else {
-                logResult('advancedResult', '❌ Échec reset', result.data, 'error');
+                logResult('adminResult', '❌ Échec reset', result.data, 'error');
                 showStatus('Échec reset', 'error');
             }
         }
         
-        async function testInvalidData() {
-            logResult('advancedResult', '💥 Test données invalides...', null, 'info');
+        async function testDataValidation() {
+            logResult('adminResult', '💥 Test validation données...', null, 'info');
             
             const tests = [
-                { action: 'register', data: { name: '', email: 'invalid', password: '123' }},
-                { action: 'login', data: { email: '', password: '' }},
-                { action: 'save_progress', data: { user_id: 0, module_id: 0 }},
-                { action: 'get_progress', data: { user_id: 'invalid' }},
-                { action: 'invalid_action', data: {} }
+                { action: 'register', data: { name: '', email: 'invalid', password: '123' }, expected: 'failure' },
+                { action: 'login', data: { email: '', password: '' }, expected: 'failure' },
+                { action: 'save_progress', data: { user_id: 0, module_id: 0 }, expected: 'failure' },
+                { action: 'get_progress', data: { user_id: 'invalid' }, expected: 'failure' },
+                { action: 'invalid_action', data: {}, expected: 'failure' }
             ];
+            
+            let validationPassed = 0;
             
             for (const test of tests) {
                 const result = await makeRequest(test.action, test.data);
                 
                 if (!result.data.success) {
-                    logResult('advancedResult', `✅ Validation OK pour ${test.action}`, {
-                        test: test.action,
-                        expected: 'failure',
-                        result: 'failure'
-                    }, 'success');
+                    validationPassed++;
+                    logResult('adminResult', `✅ Validation OK pour ${test.action}`, null, 'success');
                 } else {
-                    logResult('advancedResult', `❌ Problème validation ${test.action}`, {
-                        test: test.action,
-                        expected: 'failure',
-                        result: 'success'
-                    }, 'error');
+                    logResult('adminResult', `❌ Problème validation ${test.action}`, result.data, 'error');
                 }
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
             }
             
-            showStatus('Tests de validation terminés', 'success');
+            logResult('adminResult', `📊 Validation : ${validationPassed}/${tests.length} tests réussis`, {
+                success_rate: `${Math.round((validationPassed / tests.length) * 100)}%`
+            }, validationPassed === tests.length ? 'success' : 'warning');
         }
         
+        // Tests automatisés
         async function runAllTests() {
             showStatus('Lancement de tous les tests...', 'info');
+            logResult('automatedResult', '🚀 DÉBUT DES TESTS AUTOMATISÉS', null, 'info');
             
             const tests = [
-                { name: 'Connexion', func: testConnection, delay: 500 },
+                { name: 'Connexion HTTP', func: testConnection, delay: 500 },
                 { name: 'API Status', func: testAPI, delay: 500 },
+                { name: 'Diagnostic', func: fullDiagnostic, delay: 1000 },
                 { name: 'Inscription', func: testRegister, delay: 1000 },
                 { name: 'Connexion', func: testLogin, delay: 1000 },
                 { name: 'Progrès', func: testGetProgress, delay: 500 },
@@ -624,12 +1006,15 @@
                 { name: 'Statistiques', func: testGetStats, delay: 500 },
                 { name: 'Classement', func: testLeaderboard, delay: 500 },
                 { name: 'Comptage', func: testUserCount, delay: 500 },
-                { name: 'Validation', func: testInvalidData, delay: 1000 }
+                { name: 'Validation', func: testDataValidation, delay: 1000 }
             ];
+            
+            let startTime = Date.now();
             
             for (let i = 0; i < tests.length; i++) {
                 const test = tests[i];
                 showStatus(`Test ${i + 1}/${tests.length}: ${test.name}`, 'info');
+                logResult('automatedResult', `🧪 Test ${i + 1}/${tests.length}: ${test.name}`, null, 'info');
                 
                 await test.func();
                 
@@ -638,14 +1023,70 @@
                 }
             }
             
+            let endTime = Date.now();
+            let duration = Math.round((endTime - startTime) / 1000);
+            
+            logResult('automatedResult', '🏁 TOUS LES TESTS TERMINÉS', {
+                duration: `${duration} secondes`,
+                tests_count: tests.length,
+                completion_time: new Date().toLocaleString()
+            }, 'success');
+            
             showStatus('Tous les tests terminés!', 'success');
+        }
+        
+        async function runQuickTests() {
+            showStatus('Tests rapides en cours...', 'info');
+            
+            const quickTests = [
+                { name: 'API Status', func: testAPI },
+                { name: 'User Count', func: testUserCount },
+                { name: 'Leaderboard', func: testLeaderboard }
+            ];
+            
+            for (const test of quickTests) {
+                await test.func();
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
+            
+            showStatus('Tests rapides terminés', 'success');
+        }
+        
+        // Utilitaires pour logs
+        function exportResults() {
+            const results = {
+                export_date: new Date().toISOString(),
+                api_url: getApiUrl(),
+                debug_mode: getDebugMode(),
+                total_tests: testResults.length,
+                results: testResults
+            };
+            
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `laravel-academy-test-results-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showStatus('Résultats exportés', 'success');
         }
         
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🧪 Script de test Laravel Academy prêt');
-            showStatus('Script de test chargé', 'info');
+            console.log('🧪 Interface de test Laravel Academy prête');
+            updateTestVars();
+            
+            // Écouter les changements de configuration
+            document.getElementById('debugMode').addEventListener('change', updateTestVars);
+            document.getElementById('apiUrl').addEventListener('input', updateTestVars);
+            
+            showStatus('Interface de test chargée', 'info');
         });
+        
+        // Mettre à jour les variables quand on change la config
+        setInterval(updateTestVars, 5000);
     </script>
 </body>
 </html>
