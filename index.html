@@ -172,10 +172,36 @@
             width: 80%;
         }
 
-        .nav-actions {
+        .progress-indicator {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-glass);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-primary) 0deg, var(--bg-secondary) 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .progress-circle::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            z-index: -1;
         }
 
         .mobile-menu-btn {
@@ -237,25 +263,8 @@
             box-shadow: var(--shadow-md);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--accent-primary);
-            border: 2px solid var(--accent-primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            box-shadow: var(--shadow-glow);
-        }
-
         .btn-success {
             background: var(--gradient-success);
-            color: var(--text-primary);
-        }
-
-        .btn-error {
-            background: var(--accent-error);
             color: var(--text-primary);
         }
 
@@ -409,99 +418,6 @@
             transform: scaleX(1);
         }
 
-        /* User Dashboard */
-        .user-dashboard {
-            display: none;
-            margin-bottom: 2rem;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .user-avatar {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-primary);
-            font-size: 2rem;
-            font-weight: 800;
-            position: relative;
-        }
-
-        .user-avatar::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.3;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.1); opacity: 0.1; }
-        }
-
-        .user-details {
-            flex: 1;
-        }
-
-        .user-details h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .user-details p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .user-badges {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .badge-primary {
-            background: rgba(0, 212, 255, 0.2);
-            color: var(--accent-primary);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--accent-success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--accent-warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
         /* Progress Section */
         .progress-section {
             margin-bottom: 3rem;
@@ -580,81 +496,6 @@
             color: var(--text-muted);
             flex-wrap: wrap;
             gap: 1rem;
-        }
-
-        /* Auth Section */
-        .auth-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .auth-card h3 {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        .auth-card h3 i {
-            color: var(--accent-primary);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-sm);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--bg-glass);
-            color: var(--text-primary);
-            backdrop-filter: blur(10px);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .form-input.error {
-            border-color: var(--accent-error);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
-
-        .error-message {
-            color: var(--accent-error);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .error-message::before {
-            content: '⚠';
-            font-size: 1rem;
         }
 
         /* Modules Section */
@@ -1044,54 +885,8 @@
             background: rgba(16, 185, 129, 0.9);
         }
 
-        .alert-error {
-            background: rgba(239, 68, 68, 0.9);
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.9);
-        }
-
         .alert-info {
             background: rgba(0, 212, 255, 0.9);
-        }
-
-        /* Loading */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--text-primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(5px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 4000;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(0, 212, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--accent-primary);
-            animation: spin 1s linear infinite;
         }
 
         /* Responsive Design */
@@ -1133,6 +928,10 @@
                 display: flex;
             }
 
+            .progress-indicator {
+                display: none;
+            }
+
             .hero {
                 padding: 3rem 1.5rem;
             }
@@ -1144,11 +943,6 @@
             .hero-stats {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
-            }
-
-            .auth-section {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
 
             .modules-grid {
@@ -1171,11 +965,6 @@
                 grid-template-columns: 1fr;
                 text-align: center;
                 gap: 2rem;
-            }
-
-            .user-info {
-                flex-direction: column;
-                text-align: center;
             }
 
             .progress-header {
@@ -1222,12 +1011,6 @@
             .card {
                 padding: 1.5rem;
             }
-
-            .user-avatar {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
         }
 
         /* Utility Classes */
@@ -1235,30 +1018,6 @@
             display: none !important;
         }
 
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-4 {
-            margin-top: 2rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 2rem;
-        }
-
-        .glass {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Animation utilities */
         .fade-in {
             animation: fadeIn 0.6s ease-out;
         }
@@ -1276,14 +1035,15 @@
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Pulse animation for progress circle */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+        }
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
-    </div>
-
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -1296,18 +1056,12 @@
                 <li><a href="#" class="nav-link">Accueil</a></li>
                 <li><a href="#modules" class="nav-link">Modules</a></li>
                 <li><a href="#progress" class="nav-link">Progression</a></li>
-                <li><a href="#community" class="nav-link">Communauté</a></li>
+                <li><a href="#about" class="nav-link">À propos</a></li>
             </ul>
             
-            <div class="nav-actions" id="navActions">
-                <button class="btn btn-outline" onclick="scrollToAuth()">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Connexion
-                </button>
-                <button class="btn btn-primary" onclick="scrollToAuth()">
-                    <i class="fas fa-user-plus"></i>
-                    S'inscrire
-                </button>
+            <div class="progress-indicator" id="progressIndicator">
+                <div class="progress-circle" id="progressCircle">0%</div>
+                <span id="progressLabel">0/20 modules</span>
             </div>
 
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
@@ -1323,7 +1077,7 @@
             <section class="hero fade-in">
                 <div class="hero-content">
                     <h1><i class="fas fa-code"></i> Maîtrisez Laravel</h1>
-                    <p>La plateforme d'apprentissage la plus complète pour devenir expert en Laravel. Du débutant au niveau avancé avec des projets pratiques et une approche moderne.</p>
+                    <p>La plateforme d'apprentissage complète pour devenir expert en Laravel. Suivez nos 20 modules progressifs, du débutant au niveau expert, avec des projets pratiques et du contenu moderne.</p>
                     
                     <div class="hero-stats">
                         <div class="stat-item">
@@ -1339,30 +1093,9 @@
                             <span class="stat-label">Exercices</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" id="userCount">...</span>
-                            <span class="stat-label">Étudiants</span>
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Apprentissage</span>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- User Dashboard -->
-            <section class="user-dashboard card" id="userDashboard">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">U</div>
-                    <div class="user-details">
-                        <h3 id="userName">Utilisateur</h3>
-                        <p id="userEmail">email@exemple.com</p>
-                        <div class="user-badges">
-                            <span class="badge badge-primary" id="userLevel">Débutant</span>
-                            <span class="badge badge-success" id="userStreak">🔥 0 jours</span>
-                        </div>
-                    </div>
-                    <div style="margin-left: auto;">
-                        <button class="btn btn-error" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Déconnexion
-                        </button>
                     </div>
                 </div>
             </section>
@@ -1384,56 +1117,8 @@
                     
                     <div class="progress-details">
                         <span id="progressText">0 sur 20 modules complétés</span>
-                        <span id="progressTime">Temps estimé restant: ~50h</span>
+                        <span id="progressTime">Temps estimé: ~50h</span>
                     </div>
-                </div>
-            </section>
-
-            <!-- Auth Section -->
-            <section class="auth-section" id="authSection">
-                <div class="card auth-card slide-up">
-                    <h3><i class="fas fa-sign-in-alt"></i> Connexion</h3>
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label class="form-label" for="loginEmail">Adresse email</label>
-                            <input type="email" id="loginEmail" class="form-input" required placeholder="votre@email.com">
-                            <div class="error-message" id="loginEmailError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="loginPassword">Mot de passe</label>
-                            <input type="password" id="loginPassword" class="form-input" required placeholder="••••••••">
-                            <div class="error-message" id="loginPasswordError"></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-sign-in-alt"></i>
-                            Se connecter
-                        </button>
-                    </form>
-                </div>
-
-                <div class="card auth-card slide-up">
-                    <h3><i class="fas fa-user-plus"></i> Inscription</h3>
-                    <form id="registerForm">
-                        <div class="form-group">
-                            <label class="form-label" for="registerName">Nom complet</label>
-                            <input type="text" id="registerName" class="form-input" required placeholder="John Doe">
-                            <div class="error-message" id="registerNameError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="registerEmail">Adresse email</label>
-                            <input type="email" id="registerEmail" class="form-input" required placeholder="votre@email.com">
-                            <div class="error-message" id="registerEmailError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="registerPassword">Mot de passe</label>
-                            <input type="password" id="registerPassword" class="form-input" required placeholder="••••••••">
-                            <div class="error-message" id="registerPasswordError"></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-user-plus"></i>
-                            S'inscrire
-                        </button>
-                    </form>
                 </div>
             </section>
 
@@ -1464,8 +1149,8 @@
         <div class="footer-content">
             <div class="footer-grid">
                 <div class="footer-section">
-                    <h3><i class="fas fa-rocket"></i> Laravel Academy</h3>
-                    <p>La plateforme de référence pour apprendre Laravel et devenir un développeur web professionnel. Rejoignez notre communauté de développeurs passionnés et maîtrisez le framework le plus populaire de PHP.</p>
+                    <h3><i class="fas fa-rocket"></i> Laravel Academy V1</h3>
+                    <p>La plateforme de référence pour apprendre Laravel et devenir un développeur web professionnel. Cette version vous permet de suivre votre progression localement, sans inscription.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-github"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
@@ -1477,39 +1162,39 @@
                 <div class="footer-section">
                     <h3>Apprentissage</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Parcours Laravel</a></li>
+                        <li><a href="#">Installation Laravel</a></li>
+                        <li><a href="#">Routes & Contrôleurs</a></li>
+                        <li><a href="#">Base de données</a></li>
+                        <li><a href="#">Authentification</a></li>
+                        <li><a href="#">API REST</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Niveaux</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Débutant (8 modules)</a></li>
+                        <li><a href="#">Intermédiaire (7 modules)</a></li>
+                        <li><a href="#">Avancé (5 modules)</a></li>
                         <li><a href="#">Projets pratiques</a></li>
-                        <li><a href="#">Exercices interactifs</a></li>
-                        <li><a href="#">Certificats</a></li>
-                        <li><a href="#">API & Documentation</a></li>
+                        <li><a href="#">Certification</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Communauté</h3>
+                    <h3>Ressources</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Discord</a></li>
-                        <li><a href="#">Forum</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Événements</a></li>
-                        <li><a href="#">Challenges</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Signaler un bug</a></li>
-                        <li><a href="#">Statut API</a></li>
+                        <li><a href="#">Documentation Laravel</a></li>
+                        <li><a href="#">GitHub Repository</a></li>
+                        <li><a href="#">Communauté</a></li>
+                        <li><a href="#">Blog & Actualités</a></li>
+                        <li><a href="#">Support</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Laravel Academy. Tous droits réservés. Fait avec ❤️ pour la communauté des développeurs. API v3.0 | MySQL</p>
+                <p>&copy; 2025 Laravel Academy V1. Apprentissage gratuit et open source. Fait avec ❤️ pour la communauté Laravel.</p>
             </div>
         </div>
     </footer>
@@ -1529,39 +1214,54 @@
     </div>
 
     <script>
-        // Configuration API
-        const API_BASE = 'https://valloic.dev/api/learn-projects/api.php';
-        const API_VERSION = '3.0';
-        
         // Variables globales
-        let currentUser = null;
-        let currentSession = null;
         let userProgress = {};
         let modules = [];
-        let isLoading = false;
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Laravel Academy v3.0 - Initialisation...');
+            console.log('🚀 Laravel Academy V1 - Initialisation...');
+            
+            // Charger la progression depuis localStorage
+            loadProgressFromStorage();
             
             // Initialiser les modules
             initializeModules();
             
-            // Vérifier l'authentification
-            checkAuth();
-            
             // Configurer les événements
             setupEventListeners();
             
-            // Charger les statistiques
-            loadStats();
-            
             // Initialiser l'interface
             renderModules();
+            updateProgress();
             updateNavbarScroll();
             
-            console.log('✅ Laravel Academy - Prêt !');
+            console.log('✅ Laravel Academy V1 - Prêt !');
         });
+
+        // Charger la progression depuis localStorage
+        function loadProgressFromStorage() {
+            const saved = localStorage.getItem('laravel_academy_progress');
+            if (saved) {
+                try {
+                    userProgress = JSON.parse(saved);
+                    console.log('📊 Progression chargée:', userProgress);
+                } catch (error) {
+                    console.error('Erreur lors du chargement de la progression:', error);
+                    userProgress = {};
+                }
+            }
+        }
+
+        // Sauvegarder la progression dans localStorage
+        function saveProgressToStorage() {
+            try {
+                localStorage.setItem('laravel_academy_progress', JSON.stringify(userProgress));
+                console.log('💾 Progression sauvegardée');
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde:', error);
+            }
+        }
 
         // Initialisation des modules
         function initializeModules() {
@@ -1771,10 +1471,6 @@
 
         // Configuration des événements
         function setupEventListeners() {
-            // Formulaires d'authentification
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
-            document.getElementById('registerForm').addEventListener('submit', handleRegister);
-            
             // Navigation mobile
             window.addEventListener('scroll', updateNavbarScroll);
             
@@ -1833,366 +1529,6 @@
             navMenu.classList.toggle('active');
         }
 
-        // Affichage du loading
-        function showLoading(show) {
-            const overlay = document.getElementById('loadingOverlay');
-            if (show) {
-                overlay.style.display = 'flex';
-                isLoading = true;
-            } else {
-                overlay.style.display = 'none';
-                isLoading = false;
-            }
-        }
-
-        // Gestion de la connexion
-        async function handleLogin(e) {
-            e.preventDefault();
-            if (isLoading) return;
-            
-            clearErrors();
-            
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            // Validation côté client
-            if (!validateEmail(email)) {
-                showFieldError('loginEmail', 'Adresse email invalide');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showFieldError('loginPassword', 'Le mot de passe doit contenir au moins 6 caractères');
-                return;
-            }
-
-            try {
-                showLoading(true);
-                
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'login',
-                        email: email,
-                        password: password
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    currentUser = data.user;
-                    localStorage.setItem('laravel_academy_user', JSON.stringify(currentUser));
-                    
-                    showAlert(`Bienvenue ${currentUser.name} ! 🎉`, 'success');
-                    
-                    // Mettre à jour l'interface
-                    updateUI();
-                    
-                    // Charger le progrès utilisateur
-                    await loadUserProgress();
-                    
-                    // Créer une session
-                    await createUserSession();
-                    
-                    // Reset du formulaire
-                    document.getElementById('loginForm').reset();
-                    
-                } else {
-                    showAlert(data.message || 'Erreur de connexion', 'error');
-                    
-                    // Gestion des erreurs spécifiques
-                    if (data.message && data.message.includes('incorrect')) {
-                        showFieldError('loginPassword', 'Email ou mot de passe incorrect');
-                    }
-                }
-            } catch (error) {
-                console.error('Erreur de connexion:', error);
-                showAlert('Erreur de connexion au serveur. Vérifiez votre connexion internet.', 'error');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Gestion de l'inscription
-        async function handleRegister(e) {
-            e.preventDefault();
-            if (isLoading) return;
-            
-            clearErrors();
-            
-            const name = document.getElementById('registerName').value.trim();
-            const email = document.getElementById('registerEmail').value.trim();
-            const password = document.getElementById('registerPassword').value;
-            
-            // Validation côté client améliorée
-            if (name.length < 2) {
-                showFieldError('registerName', 'Le nom doit contenir au moins 2 caractères');
-                return;
-            }
-            
-            if (name.length > 255) {
-                showFieldError('registerName', 'Le nom ne peut pas dépasser 255 caractères');
-                return;
-            }
-            
-            if (!validateEmail(email)) {
-                showFieldError('registerEmail', 'Adresse email invalide');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showFieldError('registerPassword', 'Le mot de passe doit contenir au moins 6 caractères');
-                return;
-            }
-            
-            if (password.length > 255) {
-                showFieldError('registerPassword', 'Le mot de passe ne peut pas dépasser 255 caractères');
-                return;
-            }
-
-            try {
-                showLoading(true);
-                
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'register',
-                        name: name,
-                        email: email,
-                        password: password
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    showAlert('Inscription réussie ! Vous pouvez maintenant vous connecter. 🎉', 'success');
-                    
-                    // Reset du formulaire d'inscription
-                    document.getElementById('registerForm').reset();
-                    
-                    // Pré-remplir le formulaire de connexion
-                    setTimeout(() => {
-                        document.getElementById('loginEmail').value = email;
-                        document.getElementById('loginPassword').value = password;
-                        document.getElementById('loginEmail').focus();
-                    }, 1000);
-                    
-                } else {
-                    showAlert(data.message || 'Erreur d\'inscription', 'error');
-                    
-                    // Gestion des erreurs spécifiques
-                    if (data.message && data.message.includes('email')) {
-                        showFieldError('registerEmail', data.message);
-                    }
-                }
-            } catch (error) {
-                console.error('Erreur d\'inscription:', error);
-                showAlert('Erreur de connexion au serveur. Vérifiez votre connexion internet.', 'error');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Créer une session utilisateur
-        async function createUserSession() {
-            if (!currentUser) return;
-
-            try {
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'create_session',
-                        user_id: currentUser.id
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    currentSession = data.session_id;
-                    console.log('✅ Session créée:', currentSession);
-                }
-            } catch (error) {
-                console.error('Erreur création session:', error);
-            }
-        }
-
-        // Terminer la session utilisateur
-        async function endUserSession() {
-            if (!currentSession) return;
-
-            try {
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'end_session',
-                        session_id: currentSession,
-                        modules_viewed: Object.keys(userProgress)
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    console.log('✅ Session terminée');
-                }
-            } catch (error) {
-                console.error('Erreur fin de session:', error);
-            }
-        }
-
-        // Vérification de l'authentification
-        function checkAuth() {
-            const savedUser = localStorage.getItem('laravel_academy_user');
-            if (savedUser) {
-                try {
-                    currentUser = JSON.parse(savedUser);
-                    updateUI();
-                    loadUserProgress();
-                    createUserSession();
-                } catch (error) {
-                    console.error('Erreur lors de la récupération des données utilisateur:', error);
-                    localStorage.removeItem('laravel_academy_user');
-                }
-            }
-        }
-
-        // Mise à jour de l'interface utilisateur
-        function updateUI() {
-            const authSection = document.getElementById('authSection');
-            const userDashboard = document.getElementById('userDashboard');
-            const navActions = document.getElementById('navActions');
-            
-            if (currentUser) {
-                // Cacher l'auth, montrer le dashboard
-                authSection.classList.add('hidden');
-                userDashboard.classList.remove('hidden');
-                
-                // Mise à jour des informations utilisateur
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('userEmail').textContent = currentUser.email;
-                document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
-                
-                // Mise à jour de la navbar
-                navActions.innerHTML = `
-                    <span style="color: var(--text-secondary); margin-right: 1rem;">
-                        Bonjour, <strong>${currentUser.name}</strong>
-                    </span>
-                    <button class="btn btn-error" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Déconnexion
-                    </button>
-                `;
-                
-                // Animer l'apparition du dashboard
-                setTimeout(() => {
-                    userDashboard.classList.add('fade-in');
-                }, 100);
-                
-            } else {
-                // Montrer l'auth, cacher le dashboard
-                authSection.classList.remove('hidden');
-                userDashboard.classList.add('hidden');
-                
-                navActions.innerHTML = `
-                    <button class="btn btn-outline" onclick="scrollToAuth()">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Connexion
-                    </button>
-                    <button class="btn btn-primary" onclick="scrollToAuth()">
-                        <i class="fas fa-user-plus"></i>
-                        S'inscrire
-                    </button>
-                `;
-            }
-            
-            // Re-render des modules et mise à jour du progrès
-            renderModules();
-            updateProgress();
-        }
-
-        // Charger le progrès utilisateur
-        async function loadUserProgress() {
-            if (!currentUser) return;
-
-            try {
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'get_progress',
-                        user_id: currentUser.id
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    userProgress = data.progress || {};
-                    updateProgress();
-                    renderModules();
-                    
-                    // Charger aussi les statistiques détaillées
-                    await loadUserStats();
-                    
-                } else {
-                    console.error('Erreur lors du chargement du progrès:', data.message);
-                }
-            } catch (error) {
-                console.error('Erreur lors du chargement du progrès:', error);
-            }
-        }
-
-        // Charger les statistiques utilisateur
-        async function loadUserStats() {
-            if (!currentUser) return;
-
-            try {
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'get_stats',
-                        user_id: currentUser.id
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success && data.stats) {
-                    const stats = data.stats;
-                    
-                    // Mise à jour des badges utilisateur
-                    const streakEl = document.getElementById('userStreak');
-                    if (streakEl) {
-                        streakEl.textContent = `🔥 ${stats.streak_days || 0} jours`;
-                    }
-                    
-                    console.log('📊 Stats utilisateur chargées:', stats);
-                }
-            } catch (error) {
-                console.error('Erreur lors du chargement des stats:', error);
-            }
-        }
-
         // Mise à jour du progrès
         function updateProgress() {
             const completedModules = Object.keys(userProgress).filter(id => userProgress[id]).length;
@@ -2204,9 +1540,10 @@
             const progressPercentage = document.getElementById('progressPercentage');
             const progressText = document.getElementById('progressText');
             const progressTime = document.getElementById('progressTime');
+            const progressCircle = document.getElementById('progressCircle');
+            const progressLabel = document.getElementById('progressLabel');
             
             if (progressBar) {
-                // Animation de la barre de progression
                 setTimeout(() => {
                     progressBar.style.width = percentage + '%';
                 }, 300);
@@ -2221,43 +1558,28 @@
             }
             
             // Estimation du temps restant
-            const avgTimePerModule = 90; // minutes en moyenne
+            const avgTimePerModule = 90;
             const remainingModules = totalModules - completedModules;
             const remainingTime = remainingModules * avgTimePerModule;
             const hours = Math.round(remainingTime / 60);
             
             if (progressTime) {
                 if (remainingModules > 0) {
-                    progressTime.textContent = `Temps estimé restant: ~${hours}h`;
+                    progressTime.textContent = `Temps estimé: ~${hours}h`;
                 } else {
-                    progressTime.textContent = '🎉 Parcours terminé ! Félicitations !';
+                    progressTime.textContent = '🎉 Parcours terminé !';
                 }
             }
             
-            // Mise à jour du niveau utilisateur
-            const userLevel = document.getElementById('userLevel');
-            if (userLevel) {
-                let level, className;
-                
-                if (percentage >= 90) {
-                    level = 'Expert';
-                    className = 'badge badge-success';
-                } else if (percentage >= 70) {
-                    level = 'Avancé';
-                    className = 'badge badge-warning';
-                } else if (percentage >= 40) {
-                    level = 'Intermédiaire';
-                    className = 'badge badge-primary';
-                } else if (percentage >= 10) {
-                    level = 'Apprenti';
-                    className = 'badge badge-primary';
-                } else {
-                    level = 'Débutant';
-                    className = 'badge badge-primary';
-                }
-                
-                userLevel.textContent = level;
-                userLevel.className = className;
+            // Mise à jour du cercle de progression dans la navbar
+            if (progressCircle) {
+                const degrees = (percentage / 100) * 360;
+                progressCircle.style.background = `conic-gradient(var(--accent-primary) ${degrees}deg, var(--bg-secondary) ${degrees}deg)`;
+                progressCircle.textContent = percentage + '%';
+            }
+            
+            if (progressLabel) {
+                progressLabel.textContent = `${completedModules}/${totalModules} modules`;
             }
         }
 
@@ -2270,7 +1592,7 @@
 
             modules.forEach((module, index) => {
                 const isCompleted = userProgress[module.id];
-                const isAvailable = !currentUser || index === 0 || userProgress[modules[index - 1]?.id];
+                const isAvailable = index === 0 || userProgress[modules[index - 1]?.id];
                 const isCurrent = !isCompleted && isAvailable;
                 const isLocked = !isAvailable;
                 
@@ -2326,14 +1648,12 @@
                 `;
 
                 // Gestion des clics
-                if (isAvailable && currentUser) {
+                if (isAvailable) {
                     moduleCard.style.cursor = 'pointer';
                     moduleCard.addEventListener('click', () => openModule(module));
-                } else if (!currentUser) {
-                    moduleCard.style.cursor = 'pointer';
+                } else {
                     moduleCard.addEventListener('click', () => {
-                        showAlert('Veuillez vous connecter pour accéder aux cours', 'warning');
-                        scrollToAuth();
+                        showAlert('Terminez les modules précédents pour débloquer celui-ci', 'info');
                     });
                 }
 
@@ -2343,7 +1663,6 @@
                 
                 modulesGrid.appendChild(moduleCard);
                 
-                // Animation avec délai
                 setTimeout(() => {
                     moduleCard.style.transition = 'all 0.6s ease';
                     moduleCard.style.opacity = '1';
@@ -2361,7 +1680,6 @@
                 
                 if (filter === 'all' || module.difficulty === filter) {
                     card.style.display = 'block';
-                    // Re-animation
                     setTimeout(() => {
                         card.style.transform = 'translateY(0)';
                         card.style.opacity = '1';
@@ -2374,12 +1692,6 @@
 
         // Ouvrir un module
         function openModule(module) {
-            if (!currentUser) {
-                showAlert('Veuillez vous connecter pour accéder aux cours', 'warning');
-                scrollToAuth();
-                return;
-            }
-
             const modal = document.getElementById('courseModal');
             const content = document.getElementById('courseContent');
             
@@ -2387,7 +1699,6 @@
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            // Focus pour l'accessibilité
             const closeBtn = modal.querySelector('.modal-close');
             if (closeBtn) closeBtn.focus();
         }
@@ -2399,7 +1710,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Contenu des modules (amélioré)
+        // Contenu des modules
         function getModuleContent(module) {
             const moduleContents = {
                 1: `
@@ -2419,141 +1730,92 @@
 
                     <div style="margin-bottom: 2rem;">
                         <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-cog"></i> Étape 4: Configuration initiale
+                            <i class="fas fa-bullseye"></i> Objectifs du module
                         </h3>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+                            <li>Installer PHP 8.1+ avec toutes les extensions requises</li>
+                            <li>Configurer Composer et comprendre son rôle</li>
+                            <li>Créer votre premier projet Laravel avec les bonnes pratiques</li>
+                            <li>Comprendre la structure initiale et les fichiers importants</li>
+                            <li>Configurer l'environnement de développement moderne</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-download"></i> Installation de PHP 8+
+                        </h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Laravel 10 nécessite PHP 8.1 ou supérieur. Voici comment l'installer sur différents systèmes :</p>
                         
-                        <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent-secondary);">1. Fichier d'environnement (.env)</h4>
-                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-warning);">
-# Copier le fichier d'exemple
-cp .env.example .env
-
-# Générer la clé d'application (OBLIGATOIRE)
-php artisan key:generate
-
-# Vérifier que la clé a été générée
-cat .env | grep APP_KEY
-                        </div>
-
-                        <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent-secondary);">2. Configuration de base dans .env</h4>
                         <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-primary);">
-APP_NAME="Mon Premier Blog"
-APP_ENV=local
-APP_DEBUG=true
-APP_URL=http://localhost:8000
+# Windows (Laragon - Recommandé)
+# Téléchargez depuis laragon.org
+# Installation simple et complète
 
-# Configuration de base de données
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=mon_blog
-DB_USERNAME=root
-DB_PASSWORD=
+# macOS (Homebrew)
+brew install php@8.2
+brew link php@8.2 --force
 
-# Cache et sessions
-CACHE_DRIVER=file
-SESSION_DRIVER=file
+# Ubuntu/Debian
+sudo apt install php8.2 php8.2-cli php8.2-common \\
+php8.2-mysql php8.2-zip php8.2-gd php8.2-mbstring \\
+php8.2-curl php8.2-xml php8.2-bcmath
+
+# Vérification
+php --version
                         </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
                         <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-rocket"></i> Étape 5: Lancement du serveur de développement
+                            <i class="fab fa-php"></i> Installation de Composer
                         </h3>
                         <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-success);">
-# Démarrer le serveur de développement
+# Installation globale (Linux/macOS)
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+# Windows: Téléchargez l'installateur depuis getcomposer.org
+
+# Vérification
+composer --version
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fab fa-laravel"></i> Création du projet Laravel
+                        </h3>
+                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-warning);">
+# Méthode 1: Via Composer
+composer create-project laravel/laravel mon-blog
+
+# Méthode 2: Laravel Installer (recommandé)
+composer global require laravel/installer
+laravel new mon-blog
+
+# Navigation et lancement
+cd mon-blog
 php artisan serve
-
-# Serveur disponible sur:
-# http://localhost:8000
-
-# Ou spécifier un port personnalisé
-php artisan serve --port=8080
-
-# Ou écouter toutes les interfaces
-php artisan serve --host=0.0.0.0 --port=8000
-                        </div>
-                        
-                        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 1px solid var(--accent-success); padding: 1.5rem; border-radius: var(--radius-md); margin: 1rem 0;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <i class="fas fa-check-circle" style="color: var(--accent-success); font-size: 1.5rem;"></i>
-                                <strong style="color: var(--accent-success);">Succès !</strong>
-                            </div>
-                            <p style="color: var(--text-secondary); margin: 0;">Si vous voyez la page d'accueil Laravel avec le message "Laravel 10", félicitations ! Votre installation est réussie.</p>
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-folder-tree"></i> Structure du projet Laravel
-                        </h3>
-                        <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.1);">
-mon-premier-blog/
-├── 📁 app/                 # Code de l'application
-│   ├── Http/Controllers/   # Contrôleurs
-│   ├── Models/            # Modèles Eloquent
-│   └── Providers/         # Service Providers
-├── 📁 bootstrap/          # Fichiers de démarrage
-├── 📁 config/             # Configuration
-├── 📁 database/           # Migrations, seeders
-├── 📁 public/             # Point d'entrée web
-├── 📁 resources/          # Vues, assets, langues
-├── 📁 routes/             # Définition des routes
-├── 📁 storage/            # Fichiers générés, logs
-├── 📁 tests/              # Tests automatisés
-├── 📁 vendor/             # Dépendances Composer
-├── 📄 .env                # Variables d'environnement
-├── 📄 artisan             # CLI Laravel
-└── 📄 composer.json       # Dépendances PHP
+                    <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 1px solid var(--accent-success); padding: 1.5rem; border-radius: var(--radius-md); margin: 1rem 0;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-success); font-size: 1.5rem;"></i>
+                            <strong style="color: var(--accent-success);">Félicitations !</strong>
                         </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-terminal"></i> Commandes Artisan essentielles
-                        </h3>
-                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-primary);">
-# Voir toutes les commandes disponibles
-php artisan list
-
-# Informations sur Laravel
-php artisan about
-
-# Vider tous les caches
-php artisan optimize:clear
-
-# Lister les routes définies
-php artisan route:list
-
-# Aide détaillée sur une commande
-php artisan help make:controller
-
-# Générer la documentation des routes
-php artisan route:cache
-                        </div>
-                    </div>
-
-                    <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1)); border: 1px solid rgba(0, 212, 255, 0.3); padding: 2rem; border-radius: var(--radius-lg); margin: 2rem 0;">
-                        <h4 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-lightbulb"></i> Prochaines étapes recommandées
-                        </h4>
-                        <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
-                            <li>Explorez la page d'accueil Laravel dans votre navigateur</li>
-                            <li>Ouvrez le projet dans votre éditeur de code favori (VS Code, PhpStorm)</li>
-                            <li>Installez les extensions Laravel pour votre éditeur</li>
-                            <li>Configurez une base de données (MySQL, PostgreSQL, SQLite)</li>
-                            <li>Familiarisez-vous avec la structure des dossiers</li>
-                        </ul>
+                        <p style="color: var(--text-secondary); margin: 0;">Votre environnement Laravel est maintenant configuré. Rendez-vous sur http://localhost:8000 pour voir votre application !</p>
                     </div>
 
                     <div style="text-align: center; margin-top: 3rem;">
                         <button class="btn btn-success" onclick="completeModule(1)" style="font-size: 1.2rem; padding: 1.25rem 2.5rem;">
                             <i class="fas fa-check-circle"></i>
-                            J'ai installé Laravel avec succès !
+                            Module terminé !
                         </button>
                     </div>
                 `,
                 
-                // Module 2 avec plus de détails
                 2: `
                     <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; color: var(--text-primary);">
                         <span style="font-size: 2.5rem;">${module.icon}</span>
@@ -2571,128 +1833,62 @@ php artisan route:cache
 
                     <div style="margin-bottom: 2rem;">
                         <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-bullseye"></i> Objectifs du module
+                            <i class="fas fa-sitemap"></i> Architecture MVC
                         </h3>
-                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
-                            <li>Comprendre l'architecture MVC et ses avantages</li>
-                            <li>Naviguer efficacement dans la structure Laravel</li>
-                            <li>Identifier le rôle de chaque dossier et fichier</li>
-                            <li>Localiser rapidement les fichiers importants</li>
-                            <li>Maîtriser l'organisation des namespace</li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-sitemap"></i> Architecture MVC expliquée
-                        </h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Laravel suit le pattern Model-View-Controller (MVC) qui sépare la logique en trois couches distinctes pour une meilleure organisation et maintenabilité.</p>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Laravel suit le pattern Model-View-Controller qui sépare clairement les responsabilités :</p>
                         
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
                             <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 212, 255, 0.05)); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-primary);">
-                                <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-database"></i> Model (Modèle)
-                                </h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Gère les données, la logique métier et les interactions avec la base de données via Eloquent ORM.</p>
+                                <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;">📊 Model</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Gère les données et la logique métier</p>
                             </div>
                             <div style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.05)); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-secondary);">
-                                <h4 style="color: var(--accent-secondary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-eye"></i> View (Vue)
-                                </h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Gère l'affichage et l'interface utilisateur avec les templates Blade et les composants.</p>
+                                <h4 style="color: var(--accent-secondary); margin-bottom: 0.5rem;">👁️ View</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Interface utilisateur et templates</p>
                             </div>
                             <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-success);">
-                                <h4 style="color: var(--accent-success); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-cogs"></i> Controller (Contrôleur)
-                                </h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Fait le lien entre Model et View, traite les requêtes et coordonne les réponses.</p>
+                                <h4 style="color: var(--accent-success); margin-bottom: 0.5rem;">🎮 Controller</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Logique de traitement des requêtes</p>
                             </div>
                         </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
                         <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-folder-open"></i> Dossiers principaux détaillés
+                            <i class="fas fa-folder-open"></i> Structure principale
                         </h3>
-                        
-                        <div style="margin-bottom: 2rem;">
-                            <h4 style="color: var(--accent-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-code"></i> app/ - Cœur de l'application
-                            </h4>
-                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
-app/
-├── 📁 Http/
-│   ├── Controllers/      # 🎮 Contrôleurs de l'application
-│   ├── Middleware/       # 🛡️ Middlewares personnalisés
-│   ├── Requests/         # ✅ Classes de validation
-│   └── Kernel.php        # Configuration HTTP et console
-├── 📁 Models/            # 📊 Modèles Eloquent
-├── 📁 Providers/         # 🔧 Service Providers
-├── 📁 Console/           # 💻 Commandes Artisan personnalisées
-└── 📁 Exceptions/        # ❌ Gestion d'erreurs personnalisée
-                            </div>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">C'est ici que vous écrirez la majorité de votre code métier. Les contrôleurs gèrent les requêtes, les modèles interagissent avec la base de données.</p>
-                        </div>
-
-                        <div style="margin-bottom: 2rem;">
-                            <h4 style="color: var(--accent-secondary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-palette"></i> resources/ - Interface et assets
-                            </h4>
-                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
-resources/
-├── 📁 views/             # 👁️ Templates Blade
-│   ├── layouts/          # Layouts de base (app.blade.php)
-│   ├── components/       # Composants réutilisables
-│   ├── partials/         # Parties communes (header, footer)
-│   └── pages/            # Pages spécifiques
-├── 📁 css/               # 🎨 Fichiers CSS/SCSS
-├── 📁 js/                # ⚡ Fichiers JavaScript/Vue/React
-└── 📁 lang/              # 🌍 Fichiers de traduction
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom: 2rem;">
-                            <h4 style="color: var(--accent-success); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-route"></i> routes/ - Définition des routes
-                            </h4>
-                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
-routes/
-├── 📄 web.php            # 🌐 Routes web (avec sessions, CSRF)
-├── 📄 api.php            # 📡 Routes API (stateless, pour mobile/SPA)
-├── 📄 console.php        # 💻 Routes pour commandes Artisan
-└── 📄 channels.php       # 📢 Routes de broadcasting temps réel
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom: 2rem;">
-                            <h4 style="color: var(--accent-warning); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-database"></i> database/ - Gestion des données
-                            </h4>
-                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
-database/
-├── 📁 migrations/        # 📋 Migrations (structure de la BDD)
-├── 📁 seeders/           # 🌱 Seeders (données de test/production)
-├── 📁 factories/         # 🏭 Factories (génération de données)
-└── 📄 database.sqlite    # 💾 Fichier SQLite (si utilisé)
-                            </div>
+                        <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.1);">
+laravel-project/
+├── 📁 app/                 # Code de l'application
+│   ├── Http/Controllers/   # 🎮 Contrôleurs
+│   ├── Models/            # 📊 Modèles Eloquent
+│   └── Providers/         # 🔧 Service Providers
+├── 📁 resources/          # 🎨 Vues et assets
+│   ├── views/             # Templates Blade
+│   ├── css/               # Fichiers CSS
+│   └── js/                # Fichiers JavaScript
+├── 📁 routes/             # 🛣️ Définition des routes
+├── 📁 database/           # 🗄️ Migrations et seeders
+├── 📁 config/             # ⚙️ Configuration
+└── 📄 .env                # 🔒 Variables d'environnement
                         </div>
                     </div>
 
                     <div style="text-align: center; margin-top: 3rem;">
                         <button class="btn btn-success" onclick="completeModule(2)" style="font-size: 1.2rem; padding: 1.25rem 2.5rem;">
                             <i class="fas fa-check-circle"></i>
-                            Je maîtrise la structure Laravel !
+                            Structure comprise !
                         </button>
                     </div>
                 `
             };
 
-            // Retourner le contenu spécifique ou un contenu par défaut
+            // Contenu spécifique ou contenu par défaut
             if (moduleContents[module.id]) {
                 return moduleContents[module.id];
             }
 
-            // Contenu par défaut pour les modules non encore détaillés
+            // Contenu par défaut pour les autres modules
             return `
                 <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; color: var(--text-primary);">
                     <span style="font-size: 2.5rem;">${module.icon}</span>
@@ -2703,34 +1899,15 @@ database/
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                         <div><strong>Durée:</strong> ${module.duration}</div>
                         <div><strong>Niveau:</strong> ${module.difficultyLabel}</div>
-                        <div><strong>Description:</strong> ${module.description}</div>
                         <div><strong>Sujets:</strong> ${module.topics.join(', ')}</div>
                     </div>
                 </div>
                 
                 <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1)); padding: 3rem; border-radius: var(--radius-lg); margin-bottom: 2rem; text-align: center; border: 1px solid rgba(0, 212, 255, 0.3);">
                     <i class="fas fa-rocket" style="font-size: 4rem; color: var(--accent-primary); margin-bottom: 1.5rem; display: block;"></i>
-                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Module en cours de développement</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Le contenu détaillé de ce module sera bientôt disponible avec :</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 600px; margin: 0 auto 1.5rem;">
-                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
-                            <i class="fas fa-book" style="color: var(--accent-primary); margin-bottom: 0.5rem;"></i>
-                            <div style="font-size: 0.9rem;">Théorie complète</div>
-                        </div>
-                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
-                            <i class="fas fa-code" style="color: var(--accent-success); margin-bottom: 0.5rem;"></i>
-                            <div style="font-size: 0.9rem;">Exemples pratiques</div>
-                        </div>
-                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
-                            <i class="fas fa-tasks" style="color: var(--accent-warning); margin-bottom: 0.5rem;"></i>
-                            <div style="font-size: 0.9rem;">Exercices interactifs</div>
-                        </div>
-                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
-                            <i class="fas fa-project-diagram" style="color: var(--accent-secondary); margin-bottom: 0.5rem;"></i>
-                            <div style="font-size: 0.9rem;">Projets pratiques</div>
-                        </div>
-                    </div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">En attendant, vous pouvez marquer ce module comme terminé pour débloquer le suivant.</p>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Contenu du module</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">${module.description}</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">Le contenu détaillé de ce module sera ajouté prochainement. Vous pouvez marquer ce module comme terminé pour continuer votre apprentissage.</p>
                 </div>
                 
                 <div style="text-align: center;">
@@ -2743,178 +1920,34 @@ database/
         }
 
         // Compléter un module
-        async function completeModule(moduleId) {
-            if (!currentUser) {
-                showAlert('Veuillez vous connecter pour sauvegarder votre progression', 'warning');
-                return;
+        function completeModule(moduleId) {
+            userProgress[moduleId] = true;
+            saveProgressToStorage();
+            
+            // Mise à jour immédiate de l'interface
+            updateProgress();
+            renderModules();
+            
+            // Fermer le modal
+            closeModal();
+            
+            // Animation de célébration
+            showAlert(`🎉 Module ${moduleId} terminé ! Félicitations !`, 'success');
+            
+            // Débloquer le module suivant
+            const nextModule = modules.find(m => m.id === moduleId + 1);
+            if (nextModule) {
+                setTimeout(() => {
+                    showAlert(`🔓 Module "${nextModule.title}" débloqué !`, 'info');
+                }, 2000);
+            } else if (moduleId === 20) {
+                setTimeout(() => {
+                    showAlert(`🏆 Félicitations ! Vous avez terminé tout le parcours Laravel !`, 'success');
+                }, 2000);
             }
-
-            if (isLoading) return;
-
-            try {
-                showLoading(true);
-                
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'save_progress',
-                        user_id: currentUser.id,
-                        module_id: moduleId,
-                        completed: true
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    userProgress[moduleId] = true;
-                    
-                    // Mise à jour immédiate de l'interface
-                    updateProgress();
-                    renderModules();
-                    
-                    // Fermer le modal
-                    closeModal();
-                    
-                    // Mettre à jour les statistiques
-                    await updateUserStats();
-                    
-                    // Animation de célébration
-                    showAlert(`🎉 Module ${moduleId} terminé ! Félicitations !`, 'success');
-                    
-                    // Débloquer le module suivant si disponible
-                    const nextModule = modules.find(m => m.id === moduleId + 1);
-                    if (nextModule) {
-                        setTimeout(() => {
-                            showAlert(`🔓 Module "${nextModule.title}" débloqué !`, 'info');
-                        }, 2000);
-                    }
-                    
-                } else {
-                    showAlert(data.message || 'Erreur lors de la sauvegarde', 'error');
-                }
-            } catch (error) {
-                console.error('Erreur lors de la sauvegarde:', error);
-                showAlert('Erreur de connexion au serveur', 'error');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Mettre à jour les statistiques utilisateur
-        async function updateUserStats() {
-            if (!currentUser) return;
-
-            try {
-                const completedModules = Object.keys(userProgress).filter(id => userProgress[id]).length;
-                const timeSpent = completedModules * 30; // Estimation: 30 min par module
-
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update_stats',
-                        user_id: currentUser.id,
-                        time_spent: timeSpent
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    console.log('📊 Stats mises à jour');
-                    await loadUserStats();
-                }
-            } catch (error) {
-                console.error('Erreur mise à jour stats:', error);
-            }
-        }
-
-        // Déconnexion
-        async function logout() {
-            if (isLoading) return;
-
-            try {
-                // Terminer la session si elle existe
-                await endUserSession();
-                
-                // Nettoyer les données locales
-                currentUser = null;
-                currentSession = null;
-                userProgress = {};
-                localStorage.removeItem('laravel_academy_user');
-                
-                // Mettre à jour l'interface
-                updateUI();
-                
-                showAlert('Déconnexion réussie ! À bientôt ! 👋', 'success');
-                
-                // Scroll vers le haut
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-            } catch (error) {
-                console.error('Erreur lors de la déconnexion:', error);
-                showAlert('Erreur lors de la déconnexion', 'error');
-            }
-        }
-
-        // Charger les statistiques globales
-        async function loadStats() {
-            try {
-                const response = await fetch(API_BASE, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'get_user_count'
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success && data.user_count !== undefined) {
-                    const userCountEl = document.getElementById('userCount');
-                    if (userCountEl) {
-                        // Animation du compteur
-                        animateCounter(userCountEl, 0, data.user_count, 2000);
-                    }
-                } else {
-                    document.getElementById('userCount').textContent = '100+';
-                }
-            } catch (error) {
-                console.error('Erreur lors du chargement des statistiques:', error);
-                document.getElementById('userCount').textContent = '100+';
-            }
-        }
-
-        // Animation de compteur
-        function animateCounter(element, start, end, duration) {
-            const range = end - start;
-            let current = start;
-            const increment = range / (duration / 16);
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= end) {
-                    current = end;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current);
-            }, 16);
         }
 
         // Fonctions utilitaires
-
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
         function showAlert(message, type = 'success') {
             const alert = document.createElement('div');
             alert.className = `alert alert-${type}`;
@@ -2922,8 +1955,6 @@ database/
             let icon;
             switch(type) {
                 case 'success': icon = 'fas fa-check-circle'; break;
-                case 'error': icon = 'fas fa-exclamation-circle'; break;
-                case 'warning': icon = 'fas fa-exclamation-triangle'; break;
                 case 'info': icon = 'fas fa-info-circle'; break;
                 default: icon = 'fas fa-info-circle';
             }
@@ -2943,81 +1974,22 @@ database/
             }, 5000);
         }
 
-        function clearErrors() {
-            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-            document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
-        }
-
-        function showFieldError(fieldId, message) {
-            const field = document.getElementById(fieldId);
-            const errorEl = document.getElementById(fieldId + 'Error');
-            
-            if (field) field.classList.add('error');
-            if (errorEl) errorEl.textContent = message;
-        }
-
-        function scrollToAuth() {
-            const authSection = document.getElementById('authSection');
-            if (authSection) {
-                authSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // Gestion des erreurs globales
-        window.addEventListener('error', function(e) {
-            console.error('Erreur JavaScript:', e.error);
-            if (isLoading) {
-                showLoading(false);
-            }
-        });
-
-        window.addEventListener('unhandledrejection', function(e) {
-            console.error('Promise rejetée:', e.reason);
-            if (isLoading) {
-                showLoading(false);
-            }
-        });
-
-        // Nettoyage avant fermeture de la page
-        window.addEventListener('beforeunload', function() {
-            if (currentSession) {
-                endUserSession();
-            }
-        });
-
-        // Performance: lazy loading des images si nécessaire
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-
-        // Service Worker pour le cache (optionnel)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(function(registrationError) {
-                        console.log('SW registration failed: ', registrationError);
+        // Navigation fluide
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
+                }
             });
-        }
+        });
 
-        console.log('🚀 Laravel Academy v3.0 - Prêt !');
-        console.log('🐬 API MySQL v3.0 configurée');
+        console.log('🚀 Laravel Academy V1 - Prêt !');
+        console.log('💾 Progression sauvegardée localement');
         console.log('🎨 Dark Theme moderne activé');
     </script>
 </body>
