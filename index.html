@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel Academy - Maîtrisez Laravel de A à Z</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,41 +14,96 @@
         }
 
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --dark: #1f2937;
-            --gray: #6b7280;
-            --light-gray: #f3f4f6;
-            --white: #ffffff;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-light: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            /* Dark Theme Colors */
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --bg-card: rgba(26, 26, 46, 0.8);
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            
+            /* Accent Colors */
+            --accent-primary: #00d4ff;
+            --accent-secondary: #7c3aed;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-error: #ef4444;
+            
+            /* Text Colors */
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+            --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px rgba(0, 212, 255, 0.3);
+            
+            /* Border Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-xl: 2rem;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.6;
-            color: var(--dark);
-            background: var(--gradient);
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Navbar */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+
+        /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(15, 15, 35, 0.98);
+            box-shadow: var(--shadow-md);
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -58,11 +114,24 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-weight: 800;
+            color: var(--text-primary);
             text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo i {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
         }
 
         .nav-menu {
@@ -74,16 +143,33 @@
 
         .nav-link {
             text-decoration: none;
-            color: var(--gray);
+            color: var(--text-secondary);
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            border-radius: var(--radius-sm);
+            position: relative;
         }
 
         .nav-link:hover {
-            color: var(--primary);
-            background: var(--gradient-light);
+            color: var(--accent-primary);
+            background: var(--bg-glass);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
         }
 
         .nav-actions {
@@ -92,10 +178,27 @@
             align-items: center;
         }
 
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--bg-glass);
+        }
+
+        /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 0.5rem;
+            border-radius: var(--radius-sm);
             font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
@@ -104,146 +207,354 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
-            background: var(--gradient);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-outline {
             background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
         }
 
         .btn-outline:hover {
-            background: var(--primary);
-            color: var(--white);
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow);
         }
 
         .btn-success {
-            background: var(--success);
-            color: var(--white);
+            background: var(--gradient-success);
+            color: var(--text-primary);
         }
 
         .btn-error {
-            background: var(--error);
-            color: var(--white);
+            background: var(--accent-error);
+            color: var(--text-primary);
+        }
+
+        .btn-glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-primary);
         }
 
         /* Main Content */
         .main-content {
-            min-height: calc(100vh - 200px);
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
             padding: 2rem 0;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
         /* Hero Section */
         .hero {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            padding: 3rem;
-            margin-bottom: 3rem;
+            background: var(--gradient-glass);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
-            color: var(--white);
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
         }
 
         .hero p {
             font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            max-width: 600px;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .hero-stats {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .stat-item {
             text-align: center;
-            color: var(--white);
+            padding: 1.5rem;
+            background: var(--bg-glass);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
         }
 
         .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
             display: block;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .stat-label {
             font-size: 0.875rem;
-            opacity: 0.8;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* User Dashboard */
+        .user-dashboard {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 800;
+            position: relative;
+        }
+
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-details h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .user-details p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .user-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .badge-primary {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-primary);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         /* Progress Section */
         .progress-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
         }
 
         .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .progress-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .progress-title i {
+            color: var(--accent-primary);
         }
 
         .progress-percentage {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .progress-bar-container {
-            background: var(--light-gray);
+            background: var(--bg-secondary);
             border-radius: 50px;
-            height: 12px;
+            height: 16px;
             overflow: hidden;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .progress-bar {
-            background: var(--gradient);
+            background: var(--gradient-primary);
             height: 100%;
             border-radius: 50px;
             width: 0%;
-            transition: width 0.8s ease;
+            transition: width 1s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .progress-bar::after {
@@ -266,34 +577,31 @@
             display: flex;
             justify-content: space-between;
             font-size: 0.875rem;
-            color: var(--gray);
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         /* Auth Section */
         .auth-section {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .auth-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 4rem;
         }
 
         .auth-card h3 {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .auth-card h3 i {
+            color: var(--accent-primary);
         }
 
         .form-group {
@@ -302,148 +610,117 @@
 
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-primary);
         }
 
         .form-input {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
+            padding: 1rem 1.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: var(--white);
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .form-input.error {
-            border-color: var(--error);
+            border-color: var(--accent-error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
         .error-message {
-            color: var(--error);
+            color: var(--accent-error);
             font-size: 0.875rem;
-            margin-top: 0.25rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* User Dashboard */
-        .user-dashboard {
-            display: none;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .error-message::before {
+            content: '⚠';
+            font-size: 1rem;
         }
 
-        .user-info {
+        /* Modules Section */
+        .modules-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .modules-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .user-details h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .user-details p {
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-        }
-
-        .user-badges {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-primary {
-            background: var(--gradient-light);
-            color: var(--primary);
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        /* Modules Grid */
-        .modules-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .modules-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--white);
+        .modules-title i {
+            color: var(--accent-primary);
         }
 
         .filter-buttons {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 0.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--white);
+            border-radius: 50px;
+            background: var(--bg-glass);
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .filter-btn.active {
-            background: var(--white);
-            color: var(--primary);
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
 
         .module-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -455,15 +732,16 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: var(--gradient);
+            height: 3px;
+            background: var(--gradient-primary);
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
         }
 
         .module-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(0, 212, 255, 0.3);
         }
 
         .module-card:hover::before {
@@ -471,38 +749,49 @@
         }
 
         .module-card.completed {
-            border-left: 4px solid var(--success);
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-success);
+        }
+
+        .module-card.completed::before {
+            background: var(--gradient-success);
+            transform: scaleX(1);
         }
 
         .module-card.current {
-            border-left: 4px solid var(--warning);
-            background: rgba(245, 158, 11, 0.05);
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent-warning);
+        }
+
+        .module-card.current::before {
+            background: linear-gradient(135deg, var(--accent-warning) 0%, #fb923c 100%);
+            transform: scaleX(1);
         }
 
         .module-card.locked {
             opacity: 0.6;
             cursor: not-allowed;
-            background: rgba(107, 114, 128, 0.1);
+            background: rgba(100, 116, 139, 0.1);
         }
 
         .module-header {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .module-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 0.75rem;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
         }
 
         .module-content {
@@ -510,31 +799,37 @@
         }
 
         .module-title {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
         }
 
         .module-description {
-            color: var(--gray);
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .module-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75rem;
-            color: var(--gray);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .module-meta-item {
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.5rem;
+        }
+
+        .module-meta-item i {
+            color: var(--accent-primary);
         }
 
         .module-status {
@@ -542,18 +837,24 @@
             align-items: center;
             gap: 0.5rem;
             font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background: var(--bg-glass);
         }
 
         .status-completed {
-            color: var(--success);
+            color: var(--accent-success);
+            background: rgba(16, 185, 129, 0.2);
         }
 
         .status-current {
-            color: var(--warning);
+            color: var(--accent-warning);
+            background: rgba(245, 158, 11, 0.2);
         }
 
         .status-locked {
-            color: var(--gray);
+            color: var(--text-muted);
+            background: rgba(100, 116, 139, 0.2);
         }
 
         /* Modal */
@@ -564,66 +865,80 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
             z-index: 2000;
             padding: 2rem;
             overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
-            background: var(--white);
-            border-radius: 1rem;
-            max-width: 900px;
-            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            max-width: 1000px;
+            margin: 2rem auto;
             position: relative;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
             padding: 2rem 2rem 0;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 2rem;
+            position: relative;
         }
 
         .modal-close {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: none;
+            background: var(--bg-glass);
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--gray);
-            width: 40px;
-            height: 40px;
+            color: var(--text-secondary);
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .modal-close:hover {
-            background: var(--light-gray);
-            color: var(--dark);
+            background: var(--accent-error);
+            color: var(--text-primary);
+            transform: scale(1.1);
         }
 
         .modal-body {
-            padding: 0 2rem 2rem;
+            padding: 2rem;
         }
 
         /* Footer */
         .footer {
-            background: rgba(31, 41, 55, 0.95);
-            backdrop-filter: blur(10px);
-            color: var(--white);
-            padding: 3rem 0 1rem;
-            margin-top: auto;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
         }
@@ -631,21 +946,21 @@
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
         .footer-section h3 {
             font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--white);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         .footer-section p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
 
         .footer-links {
@@ -653,63 +968,71 @@
         }
 
         .footer-links li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: var(--white);
+            color: var(--accent-primary);
         }
 
         .social-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 50px;
+            height: 50px;
+            background: var(--bg-glass);
             border-radius: 50%;
-            color: var(--white);
+            color: var(--text-secondary);
             text-decoration: none;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .social-link:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1rem;
+            padding-top: 2rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-muted);
         }
 
         /* Alerts */
         .alert {
             position: fixed;
-            top: 100px;
+            top: 120px;
             right: 2rem;
             padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            color: var(--white);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
             font-weight: 600;
             z-index: 3000;
             transform: translateX(400px);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-lg);
+            min-width: 320px;
         }
 
         .alert.show {
@@ -718,15 +1041,19 @@
         }
 
         .alert-success {
-            background: var(--success);
+            background: rgba(16, 185, 129, 0.9);
         }
 
         .alert-error {
-            background: var(--error);
+            background: rgba(239, 68, 68, 0.9);
         }
 
         .alert-warning {
-            background: var(--warning);
+            background: rgba(245, 158, 11, 0.9);
+        }
+
+        .alert-info {
+            background: rgba(0, 212, 255, 0.9);
         }
 
         /* Loading */
@@ -736,7 +1063,7 @@
             height: 20px;
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top-color: var(--white);
+            border-top-color: var(--text-primary);
             animation: spin 1s ease-in-out infinite;
         }
 
@@ -744,10 +1071,144 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Responsive */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 4000;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-primary);
+            animation: spin 1s linear infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
             .nav-menu {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .auth-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-header {
+                text-align: center;
+            }
+
+            .modules-title {
+                font-size: 2rem;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .progress-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .alert {
+                right: 1rem;
+                left: 1rem;
+                min-width: auto;
+            }
+
+            .modal {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                margin: 1rem auto;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
             }
 
             .hero h1 {
@@ -755,45 +1216,83 @@
             }
 
             .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .auth-section {
                 grid-template-columns: 1fr;
             }
 
-            .modules-grid {
-                grid-template-columns: 1fr;
+            .card {
+                padding: 1.5rem;
             }
 
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .modules-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+            .user-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
         }
 
+        /* Utility Classes */
         .hidden {
             display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation utilities */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <!-- Navbar -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
                 <i class="fas fa-rocket"></i>
                 Laravel Academy
             </a>
             
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#" class="nav-link">Accueil</a></li>
                 <li><a href="#modules" class="nav-link">Modules</a></li>
                 <li><a href="#progress" class="nav-link">Progression</a></li>
@@ -801,15 +1300,19 @@
             </ul>
             
             <div class="nav-actions" id="navActions">
-                <button class="btn btn-outline" onclick="showLoginModal()">
+                <button class="btn btn-outline" onclick="scrollToAuth()">
                     <i class="fas fa-sign-in-alt"></i>
                     Connexion
                 </button>
-                <button class="btn btn-primary" onclick="showRegisterModal()">
+                <button class="btn btn-primary" onclick="scrollToAuth()">
                     <i class="fas fa-user-plus"></i>
                     S'inscrire
                 </button>
             </div>
+
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
@@ -817,32 +1320,34 @@
     <main class="main-content">
         <div class="container">
             <!-- Hero Section -->
-            <section class="hero">
-                <h1><i class="fas fa-code"></i> Maîtrisez Laravel</h1>
-                <p>La plateforme d'apprentissage la plus complète pour devenir expert en Laravel. Du débutant au niveau avancé avec des projets pratiques.</p>
-                
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">20</span>
-                        <span class="stat-label">Modules</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">Heures</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">100+</span>
-                        <span class="stat-label">Exercices</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="userCount">0</span>
-                        <span class="stat-label">Étudiants</span>
+            <section class="hero fade-in">
+                <div class="hero-content">
+                    <h1><i class="fas fa-code"></i> Maîtrisez Laravel</h1>
+                    <p>La plateforme d'apprentissage la plus complète pour devenir expert en Laravel. Du débutant au niveau avancé avec des projets pratiques et une approche moderne.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">20</span>
+                            <span class="stat-label">Modules</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Heures</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100+</span>
+                            <span class="stat-label">Exercices</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="userCount">...</span>
+                            <span class="stat-label">Étudiants</span>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- User Dashboard -->
-            <section class="user-dashboard" id="userDashboard">
+            <section class="user-dashboard card" id="userDashboard">
                 <div class="user-info">
                     <div class="user-avatar" id="userAvatar">U</div>
                     <div class="user-details">
@@ -864,27 +1369,29 @@
 
             <!-- Progress Section -->
             <section class="progress-section" id="progressSection">
-                <div class="progress-header">
-                    <h2 class="progress-title">
-                        <i class="fas fa-chart-line"></i>
-                        Votre Progression
-                    </h2>
-                    <span class="progress-percentage" id="progressPercentage">0%</span>
-                </div>
-                
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                
-                <div class="progress-details">
-                    <span id="progressText">0 sur 20 modules complétés</span>
-                    <span id="progressTime">Temps estimé restant: ~50h</span>
+                <div class="card">
+                    <div class="progress-header">
+                        <h2 class="progress-title">
+                            <i class="fas fa-chart-line"></i>
+                            Votre Progression
+                        </h2>
+                        <span class="progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    
+                    <div class="progress-details">
+                        <span id="progressText">0 sur 20 modules complétés</span>
+                        <span id="progressTime">Temps estimé restant: ~50h</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Auth Section -->
             <section class="auth-section" id="authSection">
-                <div class="auth-card">
+                <div class="card auth-card slide-up">
                     <h3><i class="fas fa-sign-in-alt"></i> Connexion</h3>
                     <form id="loginForm">
                         <div class="form-group">
@@ -904,7 +1411,7 @@
                     </form>
                 </div>
 
-                <div class="auth-card">
+                <div class="card auth-card slide-up">
                     <h3><i class="fas fa-user-plus"></i> Inscription</h3>
                     <form id="registerForm">
                         <div class="form-group">
@@ -958,7 +1465,7 @@
             <div class="footer-grid">
                 <div class="footer-section">
                     <h3><i class="fas fa-rocket"></i> Laravel Academy</h3>
-                    <p>La plateforme de référence pour apprendre Laravel et devenir un développeur web professionnel. Rejoignez notre communauté de développeurs passionnés.</p>
+                    <p>La plateforme de référence pour apprendre Laravel et devenir un développeur web professionnel. Rejoignez notre communauté de développeurs passionnés et maîtrisez le framework le plus populaire de PHP.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-github"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
@@ -972,8 +1479,9 @@
                     <ul class="footer-links">
                         <li><a href="#">Parcours Laravel</a></li>
                         <li><a href="#">Projets pratiques</a></li>
-                        <li><a href="#">Exercices</a></li>
+                        <li><a href="#">Exercices interactifs</a></li>
                         <li><a href="#">Certificats</a></li>
+                        <li><a href="#">API & Documentation</a></li>
                     </ul>
                 </div>
                 
@@ -984,6 +1492,7 @@
                         <li><a href="#">Forum</a></li>
                         <li><a href="#">Blog</a></li>
                         <li><a href="#">Événements</a></li>
+                        <li><a href="#">Challenges</a></li>
                     </ul>
                 </div>
                 
@@ -994,12 +1503,13 @@
                         <li><a href="#">FAQ</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Signaler un bug</a></li>
+                        <li><a href="#">Statut API</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Laravel Academy. Tous droits réservés. Fait avec ❤️ pour la communauté des développeurs.</p>
+                <p>&copy; 2025 Laravel Academy. Tous droits réservés. Fait avec ❤️ pour la communauté des développeurs. API v3.0 | MySQL</p>
             </div>
         </div>
     </footer>
@@ -1019,239 +1529,269 @@
     </div>
 
     <script>
-        // Configuration
+        // Configuration API
         const API_BASE = 'https://valloic.dev/api/learn-projects/api.php';
+        const API_VERSION = '3.0';
+        
+        // Variables globales
         let currentUser = null;
+        let currentSession = null;
         let userProgress = {};
         let modules = [];
+        let isLoading = false;
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Laravel Academy - Initialisation...');
+            console.log('🚀 Laravel Academy v3.0 - Initialisation...');
+            
+            // Initialiser les modules
             initializeModules();
+            
+            // Vérifier l'authentification
             checkAuth();
-            renderModules();
+            
+            // Configurer les événements
             setupEventListeners();
+            
+            // Charger les statistiques
             loadStats();
+            
+            // Initialiser l'interface
+            renderModules();
+            updateNavbarScroll();
+            
+            console.log('✅ Laravel Academy - Prêt !');
         });
 
+        // Initialisation des modules
         function initializeModules() {
             modules = [
                 {
                     id: 1,
                     title: "Installation de Laravel",
-                    description: "Apprenez à installer Laravel, Composer, et configurer votre environnement de développement complet.",
+                    description: "Apprenez à installer Laravel, Composer, et configurer votre environnement de développement complet avec les dernières versions.",
                     icon: "⚙️",
                     duration: "45 min",
                     difficulty: "beginner",
                     difficultyLabel: "Débutant",
-                    topics: ["PHP", "Composer", "Artisan", "Configuration"]
+                    topics: ["PHP 8+", "Composer", "Artisan", "Configuration", "Docker"]
                 },
                 {
                     id: 2,
                     title: "Structure des dossiers",
-                    description: "Comprenez l'architecture MVC et la structure des dossiers Laravel pour une organisation optimale.",
+                    description: "Comprenez l'architecture MVC et la structure des dossiers Laravel pour une organisation optimale de vos projets.",
                     icon: "📁",
                     duration: "30 min",
                     difficulty: "beginner",
                     difficultyLabel: "Débutant",
-                    topics: ["MVC", "Architecture", "Organisation"]
+                    topics: ["MVC", "Architecture", "Organisation", "Namespaces"]
                 },
                 {
                     id: 3,
                     title: "Routes et Contrôleurs",
-                    description: "Créez vos premières routes et contrôleurs pour gérer les requêtes HTTP efficacement.",
+                    description: "Créez vos premières routes et contrôleurs pour gérer les requêtes HTTP efficacement avec les nouvelles syntaxes.",
                     icon: "🛣️",
                     duration: "60 min",
                     difficulty: "beginner",
                     difficultyLabel: "Débutant",
-                    topics: ["Routes", "Contrôleurs", "HTTP"]
+                    topics: ["Routes", "Contrôleurs", "HTTP", "Middleware", "Groupes"]
                 },
                 {
                     id: 4,
                     title: "Vues et Blade Templates",
-                    description: "Maîtrisez le système de templates Blade pour créer des interfaces dynamiques et réutilisables.",
+                    description: "Maîtrisez le système de templates Blade pour créer des interfaces dynamiques et réutilisables avec les composants modernes.",
                     icon: "🎨",
                     duration: "75 min",
                     difficulty: "beginner",
                     difficultyLabel: "Débutant",
-                    topics: ["Blade", "Templates", "Frontend"]
+                    topics: ["Blade", "Templates", "Composants", "Frontend", "Livewire"]
                 },
                 {
                     id: 5,
                     title: "Base de données et Migrations",
-                    description: "Configurez votre base de données et créez vos premières migrations pour gérer la structure.",
+                    description: "Configurez votre base de données et créez vos premières migrations pour gérer la structure avec MySQL et PostgreSQL.",
                     icon: "🗄️",
                     duration: "90 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["BDD", "Migrations", "Schema"]
+                    topics: ["MySQL", "Migrations", "Schema", "Seeders", "Factories"]
                 },
                 {
                     id: 6,
-                    title: "Modèles Eloquent",
-                    description: "Découvrez l'ORM Eloquent pour interagir avec votre base de données de manière élégante.",
+                    title: "Modèles Eloquent ORM",
+                    description: "Découvrez l'ORM Eloquent pour interagir avec votre base de données de manière élégante et performante.",
                     icon: "🔗",
                     duration: "120 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["Eloquent", "ORM", "Relations"]
+                    topics: ["Eloquent", "ORM", "Relations", "Query Builder", "Scopes"]
                 },
                 {
                     id: 7,
                     title: "Formulaires et Validation",
-                    description: "Créez des formulaires sécurisés avec validation des données côté serveur.",
+                    description: "Créez des formulaires sécurisés avec validation des données côté serveur et gestion des erreurs avancée.",
                     icon: "📋",
                     duration: "90 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["Formulaires", "Validation", "Sécurité"]
+                    topics: ["Form Requests", "Validation", "CSRF", "Sécurité", "Upload"]
                 },
                 {
                     id: 8,
-                    title: "Authentification",
-                    description: "Implémentez un système de connexion/inscription complet avec Laravel Breeze.",
+                    title: "Authentification Laravel",
+                    description: "Implémentez un système de connexion/inscription complet avec Laravel Breeze, Sanctum et les bonnes pratiques.",
                     icon: "🔐",
                     duration: "150 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["Auth", "Sessions", "Middleware"]
+                    topics: ["Auth", "Breeze", "Sanctum", "Sessions", "2FA", "Fortify"]
                 },
                 {
                     id: 9,
                     title: "Middleware et Sécurité",
-                    description: "Sécurisez vos routes avec des middlewares personnalisés et les bonnes pratiques.",
+                    description: "Sécurisez vos routes avec des middlewares personnalisés et implémentez les meilleures pratiques de sécurité.",
                     icon: "🛡️",
                     duration: "75 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["Middleware", "Sécurité", "CSRF"]
+                    topics: ["Middleware", "Gates", "Policies", "RBAC", "XSS", "CSRF"]
                 },
                 {
                     id: 10,
-                    title: "API REST",
-                    description: "Créez une API REST complète avec Laravel et gestion des tokens.",
+                    title: "API REST avec Laravel",
+                    description: "Créez une API REST complète avec authentication, versioning et documentation automatique.",
                     icon: "🌐",
                     duration: "180 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["API", "REST", "JSON", "Sanctum"]
+                    topics: ["API REST", "JSON:API", "Sanctum", "Rate Limiting", "Versioning"]
                 },
                 {
                     id: 11,
                     title: "OAuth et Socialite",
-                    description: "Intégrez OAuth avec Google, GitHub, et d'autres services via Laravel Socialite.",
+                    description: "Intégrez OAuth avec Google, GitHub, et d'autres services via Laravel Socialite pour l'authentification sociale.",
                     icon: "🔑",
                     duration: "120 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["OAuth", "Socialite", "API externes"]
+                    topics: ["OAuth 2.0", "Socialite", "JWT", "API externes", "OpenID"]
                 },
                 {
                     id: 12,
-                    title: "Gestion des fichiers",
-                    description: "Upload, stockage et manipulation de fichiers avec le système de storage Laravel.",
+                    title: "Gestion avancée des fichiers",
+                    description: "Upload, stockage cloud et manipulation de fichiers avec Amazon S3, DigitalOcean Spaces et optimisation.",
                     icon: "📄",
                     duration: "90 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["Storage", "Upload", "Images"]
+                    topics: ["S3", "CDN", "Images", "Validation", "Compression", "Sécurité"]
                 },
                 {
                     id: 13,
                     title: "Mails et Notifications",
-                    description: "Configurez et envoyez des emails avec Mailables et le système de notifications.",
+                    description: "Configurez et envoyez des emails avec Mailables, notifications multi-canaux et templates modernes.",
                     icon: "📧",
                     duration: "105 min",
                     difficulty: "intermediate",
                     difficultyLabel: "Intermédiaire",
-                    topics: ["Mail", "Notifications", "SMTP"]
+                    topics: ["Mailables", "Notifications", "Queues", "SMS", "Slack", "Templates"]
                 },
                 {
                     id: 14,
                     title: "Cache et Performance",
-                    description: "Optimisez vos applications avec Redis, cache et techniques d'optimisation.",
+                    description: "Optimisez vos applications avec Redis, cache intelligent et techniques d'optimisation avancées.",
                     icon: "⚡",
                     duration: "135 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["Cache", "Redis", "Performance"]
+                    topics: ["Redis", "Memcached", "OPcache", "CDN", "Lazy Loading", "Profiling"]
                 },
                 {
                     id: 15,
-                    title: "Tests automatisés",
-                    description: "Écrivez des tests unitaires et d'intégration avec PHPUnit et Pest.",
+                    title: "Tests automatisés modernes",
+                    description: "Écrivez des tests unitaires et d'intégration avec PHPUnit, Pest et Feature Testing.",
                     icon: "🧪",
                     duration: "165 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["PHPUnit", "Tests", "TDD"]
+                    topics: ["PHPUnit", "Pest", "TDD", "Feature Tests", "Mocking", "CI/CD"]
                 },
                 {
                     id: 16,
-                    title: "Queues et Jobs",
-                    description: "Gérez les tâches asynchrones avec le système de queues et Redis.",
+                    title: "Queues et Jobs asynchrones",
+                    description: "Gérez les tâches asynchrones avec le système de queues, Redis et monitoring des performances.",
                     icon: "⏰",
                     duration: "120 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["Queues", "Jobs", "Background"]
+                    topics: ["Queues", "Redis", "Horizon", "Failed Jobs", "Batching", "Monitoring"]
                 },
                 {
                     id: 17,
-                    title: "Packages Composer",
-                    description: "Créez et publiez vos propres packages Laravel sur Packagist.",
+                    title: "Packages Composer avancés",
+                    description: "Créez et publiez vos propres packages Laravel sur Packagist avec testing et documentation.",
                     icon: "📦",
                     duration: "150 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["Packages", "Composer", "Distribution"]
+                    topics: ["Packages", "Service Providers", "Facades", "Testing", "Documentation"]
                 },
                 {
                     id: 18,
                     title: "WebSockets et Broadcasting",
-                    description: "Implémentez des fonctionnalités temps réel avec Pusher et Laravel Echo.",
+                    description: "Implémentez des fonctionnalités temps réel avec Pusher, Laravel Echo et WebSockets privés.",
                     icon: "📡",
                     duration: "180 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["WebSockets", "Broadcasting", "Temps réel"]
+                    topics: ["WebSockets", "Pusher", "Echo", "Private Channels", "Presence"]
                 },
                 {
                     id: 19,
-                    title: "Déploiement Production",
-                    description: "Déployez votre application sur différents serveurs et plateformes cloud.",
+                    title: "Déploiement Production moderne",
+                    description: "Déployez votre application sur AWS, DigitalOcean, et autres plateformes cloud avec Docker et CI/CD.",
                     icon: "🚀",
                     duration: "135 min",
                     difficulty: "advanced",
                     difficultyLabel: "Avancé",
-                    topics: ["Déploiement", "Serveur", "Cloud"]
+                    topics: ["Docker", "AWS", "Nginx", "SSL", "CI/CD", "Monitoring", "Scaling"]
                 },
                 {
                     id: 20,
-                    title: "Projet Final",
-                    description: "Créez une application e-commerce complète en utilisant toutes les compétences acquises.",
+                    title: "Projet E-commerce Complet",
+                    description: "Créez une application e-commerce complète avec paiements, gestion de stock et tableau de bord admin.",
                     icon: "🏆",
                     duration: "480 min",
                     difficulty: "advanced",
                     difficultyLabel: "Expert",
-                    topics: ["Projet", "E-commerce", "Full-stack"]
+                    topics: ["E-commerce", "Stripe", "Inventory", "Admin Panel", "Multi-tenant", "Analytics"]
                 }
             ];
         }
 
+        // Configuration des événements
         function setupEventListeners() {
             // Formulaires d'authentification
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             document.getElementById('registerForm').addEventListener('submit', handleRegister);
             
-            // Fermer modal en cliquant à l'extérieur
-            window.onclick = function(event) {
+            // Navigation mobile
+            window.addEventListener('scroll', updateNavbarScroll);
+            
+            // Fermer modal
+            window.addEventListener('click', function(event) {
                 const modal = document.getElementById('courseModal');
                 if (event.target === modal) {
                     closeModal();
                 }
-            }
+            });
+            
+            // Touche Escape pour fermer le modal
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
             
             // Filtres de modules
             document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -1261,15 +1801,61 @@
                     filterModules(this.dataset.filter);
                 });
             });
+
+            // Liens de navigation fluide
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
         }
 
+        // Gestion de la navbar au scroll
+        function updateNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        // Toggle menu mobile
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Affichage du loading
+        function showLoading(show) {
+            const overlay = document.getElementById('loadingOverlay');
+            if (show) {
+                overlay.style.display = 'flex';
+                isLoading = true;
+            } else {
+                overlay.style.display = 'none';
+                isLoading = false;
+            }
+        }
+
+        // Gestion de la connexion
         async function handleLogin(e) {
             e.preventDefault();
+            if (isLoading) return;
+            
             clearErrors();
             
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             
+            // Validation côté client
             if (!validateEmail(email)) {
                 showFieldError('loginEmail', 'Adresse email invalide');
                 return;
@@ -1282,6 +1868,7 @@
 
             try {
                 showLoading(true);
+                
                 const response = await fetch(API_BASE, {
                     method: 'POST',
                     headers: {
@@ -1299,32 +1886,56 @@
                 if (data.success) {
                     currentUser = data.user;
                     localStorage.setItem('laravel_academy_user', JSON.stringify(currentUser));
-                    showAlert('Connexion réussie ! Bienvenue ' + currentUser.name, 'success');
+                    
+                    showAlert(`Bienvenue ${currentUser.name} ! 🎉`, 'success');
+                    
+                    // Mettre à jour l'interface
                     updateUI();
+                    
+                    // Charger le progrès utilisateur
                     await loadUserProgress();
+                    
+                    // Créer une session
+                    await createUserSession();
+                    
+                    // Reset du formulaire
                     document.getElementById('loginForm').reset();
+                    
                 } else {
                     showAlert(data.message || 'Erreur de connexion', 'error');
+                    
+                    // Gestion des erreurs spécifiques
+                    if (data.message && data.message.includes('incorrect')) {
+                        showFieldError('loginPassword', 'Email ou mot de passe incorrect');
+                    }
                 }
             } catch (error) {
                 console.error('Erreur de connexion:', error);
-                showAlert('Erreur de connexion au serveur', 'error');
+                showAlert('Erreur de connexion au serveur. Vérifiez votre connexion internet.', 'error');
             } finally {
                 showLoading(false);
             }
         }
 
+        // Gestion de l'inscription
         async function handleRegister(e) {
             e.preventDefault();
+            if (isLoading) return;
+            
             clearErrors();
             
             const name = document.getElementById('registerName').value.trim();
             const email = document.getElementById('registerEmail').value.trim();
             const password = document.getElementById('registerPassword').value;
             
-            // Validation
+            // Validation côté client améliorée
             if (name.length < 2) {
                 showFieldError('registerName', 'Le nom doit contenir au moins 2 caractères');
+                return;
+            }
+            
+            if (name.length > 255) {
+                showFieldError('registerName', 'Le nom ne peut pas dépasser 255 caractères');
                 return;
             }
             
@@ -1337,9 +1948,15 @@
                 showFieldError('registerPassword', 'Le mot de passe doit contenir au moins 6 caractères');
                 return;
             }
+            
+            if (password.length > 255) {
+                showFieldError('registerPassword', 'Le mot de passe ne peut pas dépasser 255 caractères');
+                return;
+            }
 
             try {
                 showLoading(true);
+                
                 const response = await fetch(API_BASE, {
                     method: 'POST',
                     headers: {
@@ -1356,24 +1973,89 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    showAlert('Inscription réussie ! Vous pouvez maintenant vous connecter.', 'success');
+                    showAlert('Inscription réussie ! Vous pouvez maintenant vous connecter. 🎉', 'success');
+                    
+                    // Reset du formulaire d'inscription
                     document.getElementById('registerForm').reset();
-                    // Optionnel: connexion automatique
+                    
+                    // Pré-remplir le formulaire de connexion
                     setTimeout(() => {
                         document.getElementById('loginEmail').value = email;
                         document.getElementById('loginPassword').value = password;
+                        document.getElementById('loginEmail').focus();
                     }, 1000);
+                    
                 } else {
                     showAlert(data.message || 'Erreur d\'inscription', 'error');
+                    
+                    // Gestion des erreurs spécifiques
+                    if (data.message && data.message.includes('email')) {
+                        showFieldError('registerEmail', data.message);
+                    }
                 }
             } catch (error) {
                 console.error('Erreur d\'inscription:', error);
-                showAlert('Erreur de connexion au serveur', 'error');
+                showAlert('Erreur de connexion au serveur. Vérifiez votre connexion internet.', 'error');
             } finally {
                 showLoading(false);
             }
         }
 
+        // Créer une session utilisateur
+        async function createUserSession() {
+            if (!currentUser) return;
+
+            try {
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'create_session',
+                        user_id: currentUser.id
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentSession = data.session_id;
+                    console.log('✅ Session créée:', currentSession);
+                }
+            } catch (error) {
+                console.error('Erreur création session:', error);
+            }
+        }
+
+        // Terminer la session utilisateur
+        async function endUserSession() {
+            if (!currentSession) return;
+
+            try {
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'end_session',
+                        session_id: currentSession,
+                        modules_viewed: Object.keys(userProgress)
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('✅ Session terminée');
+                }
+            } catch (error) {
+                console.error('Erreur fin de session:', error);
+            }
+        }
+
+        // Vérification de l'authentification
         function checkAuth() {
             const savedUser = localStorage.getItem('laravel_academy_user');
             if (savedUser) {
@@ -1381,6 +2063,7 @@
                     currentUser = JSON.parse(savedUser);
                     updateUI();
                     loadUserProgress();
+                    createUserSession();
                 } catch (error) {
                     console.error('Erreur lors de la récupération des données utilisateur:', error);
                     localStorage.removeItem('laravel_academy_user');
@@ -1388,12 +2071,14 @@
             }
         }
 
+        // Mise à jour de l'interface utilisateur
         function updateUI() {
             const authSection = document.getElementById('authSection');
             const userDashboard = document.getElementById('userDashboard');
             const navActions = document.getElementById('navActions');
             
             if (currentUser) {
+                // Cacher l'auth, montrer le dashboard
                 authSection.classList.add('hidden');
                 userDashboard.classList.remove('hidden');
                 
@@ -1404,32 +2089,43 @@
                 
                 // Mise à jour de la navbar
                 navActions.innerHTML = `
-                    <span style="color: var(--gray);">Bonjour, ${currentUser.name}</span>
+                    <span style="color: var(--text-secondary); margin-right: 1rem;">
+                        Bonjour, <strong>${currentUser.name}</strong>
+                    </span>
                     <button class="btn btn-error" onclick="logout()">
                         <i class="fas fa-sign-out-alt"></i>
                         Déconnexion
                     </button>
                 `;
+                
+                // Animer l'apparition du dashboard
+                setTimeout(() => {
+                    userDashboard.classList.add('fade-in');
+                }, 100);
+                
             } else {
+                // Montrer l'auth, cacher le dashboard
                 authSection.classList.remove('hidden');
                 userDashboard.classList.add('hidden');
                 
                 navActions.innerHTML = `
-                    <button class="btn btn-outline" onclick="showLoginModal()">
+                    <button class="btn btn-outline" onclick="scrollToAuth()">
                         <i class="fas fa-sign-in-alt"></i>
                         Connexion
                     </button>
-                    <button class="btn btn-primary" onclick="showRegisterModal()">
+                    <button class="btn btn-primary" onclick="scrollToAuth()">
                         <i class="fas fa-user-plus"></i>
                         S'inscrire
                     </button>
                 `;
             }
             
+            // Re-render des modules et mise à jour du progrès
             renderModules();
             updateProgress();
         }
 
+        // Charger le progrès utilisateur
         async function loadUserProgress() {
             if (!currentUser) return;
 
@@ -1451,6 +2147,10 @@
                     userProgress = data.progress || {};
                     updateProgress();
                     renderModules();
+                    
+                    // Charger aussi les statistiques détaillées
+                    await loadUserStats();
+                    
                 } else {
                     console.error('Erreur lors du chargement du progrès:', data.message);
                 }
@@ -1459,6 +2159,41 @@
             }
         }
 
+        // Charger les statistiques utilisateur
+        async function loadUserStats() {
+            if (!currentUser) return;
+
+            try {
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'get_stats',
+                        user_id: currentUser.id
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success && data.stats) {
+                    const stats = data.stats;
+                    
+                    // Mise à jour des badges utilisateur
+                    const streakEl = document.getElementById('userStreak');
+                    if (streakEl) {
+                        streakEl.textContent = `🔥 ${stats.streak_days || 0} jours`;
+                    }
+                    
+                    console.log('📊 Stats utilisateur chargées:', stats);
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des stats:', error);
+            }
+        }
+
+        // Mise à jour du progrès
         function updateProgress() {
             const completedModules = Object.keys(userProgress).filter(id => userProgress[id]).length;
             const totalModules = modules.length;
@@ -1468,45 +2203,65 @@
             const progressBar = document.getElementById('progressBar');
             const progressPercentage = document.getElementById('progressPercentage');
             const progressText = document.getElementById('progressText');
+            const progressTime = document.getElementById('progressTime');
             
-            if (progressBar) progressBar.style.width = percentage + '%';
-            if (progressPercentage) progressPercentage.textContent = percentage + '%';
-            if (progressText) progressText.textContent = `${completedModules} sur ${totalModules} modules complétés`;
+            if (progressBar) {
+                // Animation de la barre de progression
+                setTimeout(() => {
+                    progressBar.style.width = percentage + '%';
+                }, 300);
+            }
+            
+            if (progressPercentage) {
+                progressPercentage.textContent = percentage + '%';
+            }
+            
+            if (progressText) {
+                progressText.textContent = `${completedModules} sur ${totalModules} modules complétés`;
+            }
             
             // Estimation du temps restant
-            const avgTimePerModule = 75; // minutes
+            const avgTimePerModule = 90; // minutes en moyenne
             const remainingModules = totalModules - completedModules;
             const remainingTime = remainingModules * avgTimePerModule;
             const hours = Math.round(remainingTime / 60);
             
-            const progressTime = document.getElementById('progressTime');
             if (progressTime) {
                 if (remainingModules > 0) {
                     progressTime.textContent = `Temps estimé restant: ~${hours}h`;
                 } else {
-                    progressTime.textContent = '🎉 Parcours terminé !';
+                    progressTime.textContent = '🎉 Parcours terminé ! Félicitations !';
                 }
             }
             
             // Mise à jour du niveau utilisateur
             const userLevel = document.getElementById('userLevel');
             if (userLevel) {
-                if (percentage >= 80) {
-                    userLevel.textContent = 'Expert';
-                    userLevel.className = 'badge badge-success';
-                } else if (percentage >= 50) {
-                    userLevel.textContent = 'Avancé';
-                    userLevel.className = 'badge badge-warning';
-                } else if (percentage >= 20) {
-                    userLevel.textContent = 'Intermédiaire';
-                    userLevel.className = 'badge badge-primary';
+                let level, className;
+                
+                if (percentage >= 90) {
+                    level = 'Expert';
+                    className = 'badge badge-success';
+                } else if (percentage >= 70) {
+                    level = 'Avancé';
+                    className = 'badge badge-warning';
+                } else if (percentage >= 40) {
+                    level = 'Intermédiaire';
+                    className = 'badge badge-primary';
+                } else if (percentage >= 10) {
+                    level = 'Apprenti';
+                    className = 'badge badge-primary';
                 } else {
-                    userLevel.textContent = 'Débutant';
-                    userLevel.className = 'badge badge-primary';
+                    level = 'Débutant';
+                    className = 'badge badge-primary';
                 }
+                
+                userLevel.textContent = level;
+                userLevel.className = className;
             }
         }
 
+        // Render des modules
         function renderModules() {
             const modulesGrid = document.getElementById('modulesGrid');
             if (!modulesGrid) return;
@@ -1565,11 +2320,12 @@
                         </div>
                         <div class="module-status ${statusClass}">
                             ${statusIcon}
-                            ${statusText}
+                            <span>${statusText}</span>
                         </div>
                     </div>
                 `;
 
+                // Gestion des clics
                 if (isAvailable && currentUser) {
                     moduleCard.style.cursor = 'pointer';
                     moduleCard.addEventListener('click', () => openModule(module));
@@ -1577,31 +2333,50 @@
                     moduleCard.style.cursor = 'pointer';
                     moduleCard.addEventListener('click', () => {
                         showAlert('Veuillez vous connecter pour accéder aux cours', 'warning');
+                        scrollToAuth();
                     });
                 }
 
+                // Animation d'apparition
+                moduleCard.style.opacity = '0';
+                moduleCard.style.transform = 'translateY(20px)';
+                
                 modulesGrid.appendChild(moduleCard);
+                
+                // Animation avec délai
+                setTimeout(() => {
+                    moduleCard.style.transition = 'all 0.6s ease';
+                    moduleCard.style.opacity = '1';
+                    moduleCard.style.transform = 'translateY(0)';
+                }, index * 100);
             });
         }
 
+        // Filtrage des modules
         function filterModules(filter) {
             const moduleCards = document.querySelectorAll('.module-card');
             
-            moduleCards.forEach(card => {
-                const moduleIndex = Array.from(card.parentNode.children).indexOf(card);
-                const module = modules[moduleIndex];
+            moduleCards.forEach((card, index) => {
+                const module = modules[index];
                 
                 if (filter === 'all' || module.difficulty === filter) {
                     card.style.display = 'block';
+                    // Re-animation
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(0)';
+                        card.style.opacity = '1';
+                    }, index * 50);
                 } else {
                     card.style.display = 'none';
                 }
             });
         }
 
+        // Ouvrir un module
         function openModule(module) {
             if (!currentUser) {
                 showAlert('Veuillez vous connecter pour accéder aux cours', 'warning');
+                scrollToAuth();
                 return;
             }
 
@@ -1611,535 +2386,302 @@
             content.innerHTML = getModuleContent(module);
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            
+            // Focus pour l'accessibilité
+            const closeBtn = modal.querySelector('.modal-close');
+            if (closeBtn) closeBtn.focus();
         }
 
+        // Fermer le modal
         function closeModal() {
             const modal = document.getElementById('courseModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
+        // Contenu des modules (amélioré)
         function getModuleContent(module) {
             const moduleContents = {
                 1: `
-                    <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                        <span style="font-size: 2rem;">⚙️</span>
-                        Installation de Laravel
+                    <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; color: var(--text-primary);">
+                        <span style="font-size: 2.5rem;">${module.icon}</span>
+                        ${module.title}
                     </h2>
                     
-                    <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                        <p style="margin: 0;"><strong>Durée:</strong> 45 minutes</p>
-                        <p style="margin: 0;"><strong>Niveau:</strong> Débutant</p>
-                        <p style="margin: 0;"><strong>Prérequis:</strong> Aucun</p>
+                    <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div><strong>Durée:</strong> ${module.duration}</div>
+                            <div><strong>Niveau:</strong> ${module.difficultyLabel}</div>
+                            <div><strong>Prérequis:</strong> Aucun</div>
+                            <div><strong>Sujets:</strong> ${module.topics.join(', ')}</div>
+                        </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Objectifs</h3>
-                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                            <li>Installer PHP 8.1+ et ses extensions</li>
-                            <li>Configurer Composer</li>
-                            <li>Créer votre premier projet Laravel</li>
-                            <li>Comprendre la structure initiale</li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔧 Étape 1: Installation de PHP</h3>
-                        <p>Laravel nécessite PHP 8.1 ou supérieur avec certaines extensions.</p>
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-cog"></i> Étape 4: Configuration initiale
+                        </h3>
                         
-                        <h4 style="margin: 1rem 0 0.5rem 0;">Sur Windows (XAMPP/Laragon):</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-# Téléchargez XAMPP ou Laragon
-# Vérifiez la version PHP
-php --version
-                        </div>
-
-                        <h4 style="margin: 1rem 0 0.5rem 0;">Sur macOS (Homebrew):</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-# Installation via Homebrew
-brew install php@8.2
-brew link php@8.2
-                        </div>
-
-                        <h4 style="margin: 1rem 0 0.5rem 0;">Sur Ubuntu/Debian:</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-sudo apt update
-sudo apt install php8.2 php8.2-cli php8.2-common php8.2-mysql \\
-php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-xml
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📦 Étape 2: Installation de Composer</h3>
-                        <p>Composer est le gestionnaire de dépendances PHP indispensable pour Laravel.</p>
-                        
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-# Installation globale de Composer
-curl -sS https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer
-
-# Vérification
-composer --version
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🚀 Étape 3: Création du projet Laravel</h3>
-                        <p>Créons votre premier projet Laravel !</p>
-                        
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-# Méthode 1: Via Composer
-composer create-project laravel/laravel mon-blog
-
-# Méthode 2: Via Laravel Installer (recommandé)
-composer global require laravel/installer
-laravel new mon-blog
-
-# Navigation dans le projet
-cd mon-blog
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">⚙️ Étape 4: Configuration initiale</h3>
-                        
-                        <h4 style="margin: 1rem 0 0.5rem 0;">1. Fichier d'environnement</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+                        <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent-secondary);">1. Fichier d'environnement (.env)</h4>
+                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-warning);">
 # Copier le fichier d'exemple
 cp .env.example .env
 
-# Générer la clé d'application
+# Générer la clé d'application (OBLIGATOIRE)
 php artisan key:generate
+
+# Vérifier que la clé a été générée
+cat .env | grep APP_KEY
                         </div>
 
-                        <h4 style="margin: 1rem 0 0.5rem 0;">2. Configuration de base dans .env</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-APP_NAME="Mon Blog Laravel"
+                        <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent-secondary);">2. Configuration de base dans .env</h4>
+                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-primary);">
+APP_NAME="Mon Premier Blog"
 APP_ENV=local
 APP_DEBUG=true
-APP_URL=http://localhost
+APP_URL=http://localhost:8000
 
+# Configuration de base de données
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=mon_blog
 DB_USERNAME=root
 DB_PASSWORD=
+
+# Cache et sessions
+CACHE_DRIVER=file
+SESSION_DRIVER=file
                         </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🌐 Étape 5: Lancement du serveur</h3>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-rocket"></i> Étape 5: Lancement du serveur de développement
+                        </h3>
+                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-success);">
 # Démarrer le serveur de développement
 php artisan serve
 
-# Votre application sera accessible sur:
+# Serveur disponible sur:
 # http://localhost:8000
+
+# Ou spécifier un port personnalisé
+php artisan serve --port=8080
+
+# Ou écouter toutes les interfaces
+php artisan serve --host=0.0.0.0 --port=8000
                         </div>
                         
-                        <div style="background: #d1fae5; border: 1px solid #a7f3d0; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
-                            <strong style="color: #065f46;">✅ Succès !</strong><br>
-                            Si vous voyez la page d'accueil Laravel, félicitations ! Votre installation est réussie.
+                        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 1px solid var(--accent-success); padding: 1.5rem; border-radius: var(--radius-md); margin: 1rem 0;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--accent-success); font-size: 1.5rem;"></i>
+                                <strong style="color: var(--accent-success);">Succès !</strong>
+                            </div>
+                            <p style="color: var(--text-secondary); margin: 0;">Si vous voyez la page d'accueil Laravel avec le message "Laravel 10", félicitations ! Votre installation est réussie.</p>
                         </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📚 Structure du projet</h3>
-                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
-mon-blog/
-├── app/                 # Code de l'application
-├── bootstrap/           # Fichiers de démarrage
-├── config/              # Configuration
-├── database/            # Migrations, seeders
-├── public/              # Point d'entrée web
-├── resources/           # Vues, assets
-├── routes/              # Définition des routes
-├── storage/             # Fichiers générés
-├── tests/               # Tests
-├── vendor/              # Dépendances Composer
-├── .env                 # Variables d'environnement
-└── artisan              # Interface en ligne de commande
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-folder-tree"></i> Structure du projet Laravel
+                        </h3>
+                        <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.1);">
+mon-premier-blog/
+├── 📁 app/                 # Code de l'application
+│   ├── Http/Controllers/   # Contrôleurs
+│   ├── Models/            # Modèles Eloquent
+│   └── Providers/         # Service Providers
+├── 📁 bootstrap/          # Fichiers de démarrage
+├── 📁 config/             # Configuration
+├── 📁 database/           # Migrations, seeders
+├── 📁 public/             # Point d'entrée web
+├── 📁 resources/          # Vues, assets, langues
+├── 📁 routes/             # Définition des routes
+├── 📁 storage/            # Fichiers générés, logs
+├── 📁 tests/              # Tests automatisés
+├── 📁 vendor/             # Dépendances Composer
+├── 📄 .env                # Variables d'environnement
+├── 📄 artisan             # CLI Laravel
+└── 📄 composer.json       # Dépendances PHP
                         </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🛠️ Commandes Artisan essentielles</h3>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-terminal"></i> Commandes Artisan essentielles
+                        </h3>
+                        <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 1.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; border-left: 4px solid var(--accent-primary);">
 # Voir toutes les commandes disponibles
-php artisan
+php artisan list
 
-# Vider le cache
-php artisan cache:clear
+# Informations sur Laravel
+php artisan about
 
-# Lister les routes
+# Vider tous les caches
+php artisan optimize:clear
+
+# Lister les routes définies
 php artisan route:list
 
-# Aide sur une commande
-php artisan help serve
+# Aide détaillée sur une commande
+php artisan help make:controller
+
+# Générer la documentation des routes
+php artisan route:cache
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-success" onclick="completeModule(1)" style="font-size: 1.1rem; padding: 1rem 2rem;">
-                            <i class="fas fa-check"></i>
-                            J'ai installé Laravel !
+                    <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1)); border: 1px solid rgba(0, 212, 255, 0.3); padding: 2rem; border-radius: var(--radius-lg); margin: 2rem 0;">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-lightbulb"></i> Prochaines étapes recommandées
+                        </h4>
+                        <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>Explorez la page d'accueil Laravel dans votre navigateur</li>
+                            <li>Ouvrez le projet dans votre éditeur de code favori (VS Code, PhpStorm)</li>
+                            <li>Installez les extensions Laravel pour votre éditeur</li>
+                            <li>Configurez une base de données (MySQL, PostgreSQL, SQLite)</li>
+                            <li>Familiarisez-vous avec la structure des dossiers</li>
+                        </ul>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <button class="btn btn-success" onclick="completeModule(1)" style="font-size: 1.2rem; padding: 1.25rem 2.5rem;">
+                            <i class="fas fa-check-circle"></i>
+                            J'ai installé Laravel avec succès !
                         </button>
                     </div>
                 `,
                 
+                // Module 2 avec plus de détails
                 2: `
-                    <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                        <span style="font-size: 2rem;">📁</span>
-                        Structure des dossiers Laravel
+                    <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; color: var(--text-primary);">
+                        <span style="font-size: 2.5rem;">${module.icon}</span>
+                        ${module.title}
                     </h2>
                     
-                    <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                        <p style="margin: 0;"><strong>Durée:</strong> 30 minutes</p>
-                        <p style="margin: 0;"><strong>Niveau:</strong> Débutant</p>
-                        <p style="margin: 0;"><strong>Prérequis:</strong> Installation Laravel</p>
+                    <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div><strong>Durée:</strong> ${module.duration}</div>
+                            <div><strong>Niveau:</strong> ${module.difficultyLabel}</div>
+                            <div><strong>Prérequis:</strong> Installation Laravel</div>
+                            <div><strong>Sujets:</strong> ${module.topics.join(', ')}</div>
+                        </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Objectifs</h3>
-                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                            <li>Comprendre l'architecture MVC</li>
-                            <li>Naviguer dans la structure Laravel</li>
-                            <li>Identifier le rôle de chaque dossier</li>
-                            <li>Localiser les fichiers importants</li>
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-bullseye"></i> Objectifs du module
+                        </h3>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+                            <li>Comprendre l'architecture MVC et ses avantages</li>
+                            <li>Naviguer efficacement dans la structure Laravel</li>
+                            <li>Identifier le rôle de chaque dossier et fichier</li>
+                            <li>Localiser rapidement les fichiers importants</li>
+                            <li>Maîtriser l'organisation des namespace</li>
                         </ul>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🏗️ Architecture MVC</h3>
-                        <p>Laravel suit le pattern Model-View-Controller (MVC) qui sépare la logique en trois couches :</p>
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-sitemap"></i> Architecture MVC expliquée
+                        </h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Laravel suit le pattern Model-View-Controller (MVC) qui sépare la logique en trois couches distinctes pour une meilleure organisation et maintenabilité.</p>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
-                            <div style="background: #e0f2fe; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #0288d1;">
-                                <strong>Model (Modèle)</strong><br>
-                                Gère les données et la logique métier
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                            <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 212, 255, 0.05)); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-primary);">
+                                <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-database"></i> Model (Modèle)
+                                </h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Gère les données, la logique métier et les interactions avec la base de données via Eloquent ORM.</p>
                             </div>
-                            <div style="background: #f3e5f5; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #7b1fa2;">
-                                <strong>View (Vue)</strong><br>
-                                Gère l'affichage et l'interface utilisateur
+                            <div style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.05)); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-secondary);">
+                                <h4 style="color: var(--accent-secondary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-eye"></i> View (Vue)
+                                </h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Gère l'affichage et l'interface utilisateur avec les templates Blade et les composants.</p>
                             </div>
-                            <div style="background: #e8f5e8; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #388e3c;">
-                                <strong>Controller (Contrôleur)</strong><br>
-                                Fait le lien entre Model et View
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-success);">
+                                <h4 style="color: var(--accent-success); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-cogs"></i> Controller (Contrôleur)
+                                </h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Fait le lien entre Model et View, traite les requêtes et coordonne les réponses.</p>
                             </div>
                         </div>
                     </div>
 
                     <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📂 Dossiers principaux</h3>
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-folder-open"></i> Dossiers principaux détaillés
+                        </h3>
                         
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 style="color: #0288d1; margin-bottom: 0.5rem;">📱 app/ - Cœur de l'application</h4>
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--accent-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-code"></i> app/ - Cœur de l'application
+                            </h4>
+                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
 app/
-├── Http/
-│   ├── Controllers/      # 🎮 Contrôleurs
-│   ├── Middleware/       # 🛡️ Middlewares
-│   ├── Requests/         # ✅ Validation des requêtes
-│   └── Kernel.php        # Configuration HTTP
-├── Models/               # 📊 Modèles Eloquent
-├── Providers/            # 🔧 Fournisseurs de services
-└── Console/              # 💻 Commandes Artisan
+├── 📁 Http/
+│   ├── Controllers/      # 🎮 Contrôleurs de l'application
+│   ├── Middleware/       # 🛡️ Middlewares personnalisés
+│   ├── Requests/         # ✅ Classes de validation
+│   └── Kernel.php        # Configuration HTTP et console
+├── 📁 Models/            # 📊 Modèles Eloquent
+├── 📁 Providers/         # 🔧 Service Providers
+├── 📁 Console/           # 💻 Commandes Artisan personnalisées
+└── 📁 Exceptions/        # ❌ Gestion d'erreurs personnalisée
                             </div>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">C'est ici que vous écrirez la majorité de votre code métier. Les contrôleurs gèrent les requêtes, les modèles interagissent avec la base de données.</p>
                         </div>
 
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 style="color: #7b1fa2; margin-bottom: 0.5rem;">🎨 resources/ - Assets et vues</h4>
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--accent-secondary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-palette"></i> resources/ - Interface et assets
+                            </h4>
+                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
 resources/
-├── views/                # 👁️ Templates Blade
-│   ├── layouts/          # Layouts de base
+├── 📁 views/             # 👁️ Templates Blade
+│   ├── layouts/          # Layouts de base (app.blade.php)
 │   ├── components/       # Composants réutilisables
-│   └── partials/         # Parties communes
-├── css/                  # 🎨 Fichiers CSS
-├── js/                   # ⚡ Fichiers JavaScript
-└── lang/                 # 🌍 Traductions
+│   ├── partials/         # Parties communes (header, footer)
+│   └── pages/            # Pages spécifiques
+├── 📁 css/               # 🎨 Fichiers CSS/SCSS
+├── 📁 js/                # ⚡ Fichiers JavaScript/Vue/React
+└── 📁 lang/              # 🌍 Fichiers de traduction
                             </div>
                         </div>
 
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 style="color: #388e3c; margin-bottom: 0.5rem;">🛣️ routes/ - Définition des routes</h4>
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--accent-success); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-route"></i> routes/ - Définition des routes
+                            </h4>
+                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
 routes/
-├── web.php               # 🌐 Routes web (sessions, CSRF)
-├── api.php               # 📡 Routes API (stateless)
-├── console.php           # 💻 Commandes Artisan
-└── channels.php          # 📢 Broadcasting
+├── 📄 web.php            # 🌐 Routes web (avec sessions, CSRF)
+├── 📄 api.php            # 📡 Routes API (stateless, pour mobile/SPA)
+├── 📄 console.php        # 💻 Routes pour commandes Artisan
+└── 📄 channels.php       # 📢 Routes de broadcasting temps réel
                             </div>
                         </div>
 
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 style="color: #ff6f00; margin-bottom: 0.5rem;">🗄️ database/ - Base de données</h4>
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace; margin-bottom: 1rem;">
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--accent-warning); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-database"></i> database/ - Gestion des données
+                            </h4>
+                            <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">
 database/
-├── migrations/           # 📋 Migrations (structure BDD)
-├── seeders/              # 🌱 Seeders (données test)
-├── factories/            # 🏭 Factories (génération données)
-└── database.sqlite       # 💾 Fichier SQLite (si utilisé)
+├── 📁 migrations/        # 📋 Migrations (structure de la BDD)
+├── 📁 seeders/           # 🌱 Seeders (données de test/production)
+├── 📁 factories/         # 🏭 Factories (génération de données)
+└── 📄 database.sqlite    # 💾 Fichier SQLite (si utilisé)
                             </div>
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">⚙️ Fichiers de configuration</h3>
-                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
-config/
-├── app.php               # Configuration générale
-├── database.php          # Configuration BDD
-├── cache.php             # Configuration cache
-├── mail.php              # Configuration email
-├── services.php          # Services tiers
-└── filesystems.php       # Stockage fichiers
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔑 Fichiers importants</h3>
-                        
-                        <div style="margin-bottom: 1rem;">
-                            <h4 style="margin-bottom: 0.5rem;">.env - Variables d'environnement</h4>
-                            <p style="margin-bottom: 0.5rem;">Contient la configuration sensible (clés API, mots de passe, etc.)</p>
-                            <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
-APP_NAME=Laravel
-APP_ENV=local
-APP_KEY=base64:xxx
-APP_DEBUG=true
-APP_URL=http://localhost
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_DATABASE=laravel
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom: 1rem;">
-                            <h4 style="margin-bottom: 0.5rem;">composer.json - Dépendances PHP</h4>
-                            <p style="margin-bottom: 0.5rem;">Définit les packages PHP requis</p>
-                        </div>
-
-                        <div style="margin-bottom: 1rem;">
-                            <h4 style="margin-bottom: 0.5rem;">artisan - Interface en ligne de commande</h4>
-                            <p style="margin-bottom: 0.5rem;">Outil puissant pour générer du code et gérer l'application</p>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🚀 Exercice pratique</h3>
-                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 1rem; border-radius: 0.5rem;">
-                            <strong>Défi :</strong> Explorez votre projet Laravel et trouvez :
-                            <ul style="margin: 0.5rem 0 0 1.5rem;">
-                                <li>Le fichier de bienvenue par défaut</li>
-                                <li>Le contrôleur principal</li>
-                                <li>Le fichier de routes web</li>
-                                <li>Le modèle User</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-success" onclick="completeModule(2)" style="font-size: 1.1rem; padding: 1rem 2rem;">
-                            <i class="fas fa-check"></i>
-                            Je maîtrise la structure !
-                        </button>
-                    </div>
-                `,
-
-                3: `
-                    <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                        <span style="font-size: 2rem;">🛣️</span>
-                        Routes et Contrôleurs
-                    </h2>
-                    
-                    <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                        <p style="margin: 0;"><strong>Durée:</strong> 60 minutes</p>
-                        <p style="margin: 0;"><strong>Niveau:</strong> Débutant</p>
-                        <p style="margin: 0;"><strong>Prérequis:</strong> Structure Laravel</p>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Objectifs</h3>
-                        <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                            <li>Comprendre le système de routage</li>
-                            <li>Créer des routes simples et paramétrées</li>
-                            <li>Générer et utiliser des contrôleurs</li>
-                            <li>Organiser la logique métier</li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🛣️ Les Routes dans Laravel</h3>
-                        <p>Les routes définissent comment votre application répond aux requêtes HTTP. Dans Laravel, elles sont définies dans le dossier <code>routes/</code>.</p>
-                        
-                        <h4 style="margin: 1rem 0 0.5rem 0;">Routes de base</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-// routes/web.php
-
-// Route GET simple
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route avec réponse texte
-Route::get('/about', function () {
-    return 'À propos de notre site';
-});
-
-// Route avec paramètre
-Route::get('/user/{id}', function ($id) {
-    return "Utilisateur #" . $id;
-});
-
-// Route avec paramètre optionnel
-Route::get('/posts/{id?}', function ($id = null) {
-    if ($id) {
-        return "Article #" . $id;
-    }
-    return "Liste des articles";
-});
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🎮 Les Contrôleurs</h3>
-                        <p>Les contrôleurs organisent la logique de gestion des requêtes en classes. C'est plus propre que de mettre tout dans les routes.</p>
-                        
-                        <h4 style="margin: 1rem 0 0.5rem 0;">Créer un contrôleur</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-# Générer un contrôleur simple
-php artisan make:controller HomeController
-
-# Générer un contrôleur avec méthodes CRUD
-php artisan make:controller PostController --resource
-                        </div>
-
-                        <h4 style="margin: 1rem 0 0.5rem 0;">Exemple de contrôleur</h4>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-&lt;?php
-// app/Http/Controllers/HomeController.php
-
-namespace App\\Http\\Controllers;
-
-use Illuminate\\Http\\Request;
-
-class HomeController extends Controller
-{
-    public function index()
-    {
-        return view('home');
-    }
-    
-    public function about()
-    {
-        $data = [
-            'title' => 'À propos',
-            'description' => 'Notre belle application Laravel'
-        ];
-        
-        return view('about', $data);
-    }
-    
-    public function contact()
-    {
-        return view('contact');
-    }
-}
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔗 Lier Routes et Contrôleurs</h3>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-// routes/web.php
-
-use App\\Http\\Controllers\\HomeController;
-
-// Syntaxe moderne (recommandée)
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/about', [HomeController::class, 'about']);
-Route::get('/contact', [HomeController::class, 'contact']);
-
-// Grouper les routes d'un contrôleur
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::get('/about', 'about');
-    Route::get('/contact', 'contact');
-});
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🌐 Routes avec méthodes HTTP</h3>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-// Différentes méthodes HTTP
-Route::get('/posts', [PostController::class, 'index']);      // Afficher
-Route::post('/posts', [PostController::class, 'store']);     // Créer
-Route::put('/posts/{id}', [PostController::class, 'update']); // Modifier
-Route::delete('/posts/{id}', [PostController::class, 'destroy']); // Supprimer
-
-// Route resource (génère toutes les routes CRUD)
-Route::resource('posts', PostController::class);
-
-// Route resource partielle
-Route::resource('posts', PostController::class)->only(['index', 'show']);
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🏷️ Nommage et Groupage</h3>
-                        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0; font-family: monospace;">
-// Nommer les routes
-Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
-
-// Générer une URL nommée
-$url = route('user.profile');
-
-// Grouper avec préfixe
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard']);
-    Route::get('/users', [AdminController::class, 'users']);
-});
-
-// Grouper avec middleware
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [UserController::class, 'profile']);
-    Route::get('/settings', [UserController::class, 'settings']);
-});
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🛠️ Exercice pratique</h3>
-                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 1rem; border-radius: 0.5rem;">
-                            <strong>À vous de jouer !</strong><br>
-                            Créez un contrôleur <code>BlogController</code> avec les méthodes :
-                            <ul style="margin: 0.5rem 0 0 1.5rem;">
-                                <li><code>index()</code> - Liste des articles</li>
-                                <li><code>show($id)</code> - Afficher un article</li>
-                                <li><code>create()</code> - Formulaire création</li>
-                            </ul>
-                            Puis liez-les à des routes dans <code>web.php</code>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">💡 Bonnes pratiques</h3>
-                        <ul style="margin-left: 1.5rem;">
-                            <li>Un contrôleur par entité métier (User, Post, Order...)</li>
-                            <li>Nommez vos routes pour la génération d'URLs</li>
-                            <li>Groupez les routes par fonctionnalité</li>
-                            <li>Utilisez les contrôleurs resource pour les CRUD</li>
-                        </ul>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-success" onclick="completeModule(3)" style="font-size: 1.1rem; padding: 1rem 2rem;">
-                            <i class="fas fa-check"></i>
-                            Routes et contrôleurs maîtrisés !
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <button class="btn btn-success" onclick="completeModule(2)" style="font-size: 1.2rem; padding: 1.25rem 2.5rem;">
+                            <i class="fas fa-check-circle"></i>
+                            Je maîtrise la structure Laravel !
                         </button>
                     </div>
                 `
@@ -2152,47 +2694,66 @@ Route::middleware('auth')->group(function () {
 
             // Contenu par défaut pour les modules non encore détaillés
             return `
-                <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                    <span style="font-size: 2rem;">${module.icon}</span>
+                <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; color: var(--text-primary);">
+                    <span style="font-size: 2.5rem;">${module.icon}</span>
                     ${module.title}
                 </h2>
                 
-                <div style="background: var(--light-gray); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-                    <p style="margin: 0;"><strong>Durée:</strong> ${module.duration}</p>
-                    <p style="margin: 0;"><strong>Niveau:</strong> ${module.difficultyLabel}</p>
-                    <p style="margin: 0;"><strong>Description:</strong> ${module.description}</p>
-                    <p style="margin: 0;"><strong>Sujets abordés:</strong> ${module.topics.join(', ')}</p>
+                <div style="background: var(--bg-glass); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div><strong>Durée:</strong> ${module.duration}</div>
+                        <div><strong>Niveau:</strong> ${module.difficultyLabel}</div>
+                        <div><strong>Description:</strong> ${module.description}</div>
+                        <div><strong>Sujets:</strong> ${module.topics.join(', ')}</div>
+                    </div>
                 </div>
                 
-                <div style="background: #f0f8ff; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center; border-left: 4px solid var(--primary);">
-                    <i class="fas fa-book-open" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
-                    <h3>Module en cours de développement</h3>
-                    <p>Le contenu détaillé de ce module sera bientôt disponible avec :</p>
-                    <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
-                        <li>Explications théoriques complètes</li>
-                        <li>Exemples de code pratiques</li>
-                        <li>Exercices interactifs</li>
-                        <li>Projets pratiques à réaliser</li>
-                    </ul>
-                    <p><em>En attendant, vous pouvez marquer ce module comme terminé pour débloquer le suivant.</em></p>
+                <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1)); padding: 3rem; border-radius: var(--radius-lg); margin-bottom: 2rem; text-align: center; border: 1px solid rgba(0, 212, 255, 0.3);">
+                    <i class="fas fa-rocket" style="font-size: 4rem; color: var(--accent-primary); margin-bottom: 1.5rem; display: block;"></i>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Module en cours de développement</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Le contenu détaillé de ce module sera bientôt disponible avec :</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 600px; margin: 0 auto 1.5rem;">
+                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
+                            <i class="fas fa-book" style="color: var(--accent-primary); margin-bottom: 0.5rem;"></i>
+                            <div style="font-size: 0.9rem;">Théorie complète</div>
+                        </div>
+                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
+                            <i class="fas fa-code" style="color: var(--accent-success); margin-bottom: 0.5rem;"></i>
+                            <div style="font-size: 0.9rem;">Exemples pratiques</div>
+                        </div>
+                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
+                            <i class="fas fa-tasks" style="color: var(--accent-warning); margin-bottom: 0.5rem;"></i>
+                            <div style="font-size: 0.9rem;">Exercices interactifs</div>
+                        </div>
+                        <div style="background: var(--bg-glass); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1);">
+                            <i class="fas fa-project-diagram" style="color: var(--accent-secondary); margin-bottom: 0.5rem;"></i>
+                            <div style="font-size: 0.9rem;">Projets pratiques</div>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">En attendant, vous pouvez marquer ce module comme terminé pour débloquer le suivant.</p>
                 </div>
                 
                 <div style="text-align: center;">
-                    <button class="btn btn-success" onclick="completeModule(${module.id})" style="font-size: 1.1rem; padding: 1rem 2rem;">
-                        <i class="fas fa-check"></i>
+                    <button class="btn btn-success" onclick="completeModule(${module.id})" style="font-size: 1.2rem; padding: 1.25rem 2.5rem;">
+                        <i class="fas fa-check-circle"></i>
                         Marquer comme terminé
                     </button>
                 </div>
             `;
         }
 
+        // Compléter un module
         async function completeModule(moduleId) {
             if (!currentUser) {
-                showAlert('Veuillez vous connecter', 'error');
+                showAlert('Veuillez vous connecter pour sauvegarder votre progression', 'warning');
                 return;
             }
 
+            if (isLoading) return;
+
             try {
+                showLoading(true);
+                
                 const response = await fetch(API_BASE, {
                     method: 'POST',
                     headers: {
@@ -2210,27 +2771,99 @@ Route::middleware('auth')->group(function () {
                 
                 if (data.success) {
                     userProgress[moduleId] = true;
+                    
+                    // Mise à jour immédiate de l'interface
                     updateProgress();
                     renderModules();
+                    
+                    // Fermer le modal
                     closeModal();
-                    showAlert('Module terminé ! Félicitations ! 🎉', 'success');
+                    
+                    // Mettre à jour les statistiques
+                    await updateUserStats();
+                    
+                    // Animation de célébration
+                    showAlert(`🎉 Module ${moduleId} terminé ! Félicitations !`, 'success');
+                    
+                    // Débloquer le module suivant si disponible
+                    const nextModule = modules.find(m => m.id === moduleId + 1);
+                    if (nextModule) {
+                        setTimeout(() => {
+                            showAlert(`🔓 Module "${nextModule.title}" débloqué !`, 'info');
+                        }, 2000);
+                    }
+                    
                 } else {
                     showAlert(data.message || 'Erreur lors de la sauvegarde', 'error');
                 }
             } catch (error) {
                 console.error('Erreur lors de la sauvegarde:', error);
                 showAlert('Erreur de connexion au serveur', 'error');
+            } finally {
+                showLoading(false);
             }
         }
 
-        function logout() {
-            currentUser = null;
-            userProgress = {};
-            localStorage.removeItem('laravel_academy_user');
-            updateUI();
-            showAlert('Déconnexion réussie !', 'success');
+        // Mettre à jour les statistiques utilisateur
+        async function updateUserStats() {
+            if (!currentUser) return;
+
+            try {
+                const completedModules = Object.keys(userProgress).filter(id => userProgress[id]).length;
+                const timeSpent = completedModules * 30; // Estimation: 30 min par module
+
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'update_stats',
+                        user_id: currentUser.id,
+                        time_spent: timeSpent
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('📊 Stats mises à jour');
+                    await loadUserStats();
+                }
+            } catch (error) {
+                console.error('Erreur mise à jour stats:', error);
+            }
         }
 
+        // Déconnexion
+        async function logout() {
+            if (isLoading) return;
+
+            try {
+                // Terminer la session si elle existe
+                await endUserSession();
+                
+                // Nettoyer les données locales
+                currentUser = null;
+                currentSession = null;
+                userProgress = {};
+                localStorage.removeItem('laravel_academy_user');
+                
+                // Mettre à jour l'interface
+                updateUI();
+                
+                showAlert('Déconnexion réussie ! À bientôt ! 👋', 'success');
+                
+                // Scroll vers le haut
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error('Erreur lors de la déconnexion:', error);
+                showAlert('Erreur lors de la déconnexion', 'error');
+            }
+        }
+
+        // Charger les statistiques globales
         async function loadStats() {
             try {
                 const response = await fetch(API_BASE, {
@@ -2239,22 +2872,44 @@ Route::middleware('auth')->group(function () {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        action: 'get_leaderboard'
+                        action: 'get_user_count'
                     })
                 });
 
                 const data = await response.json();
                 
-                if (data.success && data.leaderboard) {
-                    const userCount = data.leaderboard.length;
-                    document.getElementById('userCount').textContent = userCount;
+                if (data.success && data.user_count !== undefined) {
+                    const userCountEl = document.getElementById('userCount');
+                    if (userCountEl) {
+                        // Animation du compteur
+                        animateCounter(userCountEl, 0, data.user_count, 2000);
+                    }
+                } else {
+                    document.getElementById('userCount').textContent = '100+';
                 }
             } catch (error) {
                 console.error('Erreur lors du chargement des statistiques:', error);
+                document.getElementById('userCount').textContent = '100+';
             }
         }
 
+        // Animation de compteur
+        function animateCounter(element, start, end, duration) {
+            const range = end - start;
+            let current = start;
+            const increment = range / (duration / 16);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 16);
+        }
+
         // Fonctions utilitaires
+
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
@@ -2263,8 +2918,18 @@ Route::middleware('auth')->group(function () {
         function showAlert(message, type = 'success') {
             const alert = document.createElement('div');
             alert.className = `alert alert-${type}`;
+            
+            let icon;
+            switch(type) {
+                case 'success': icon = 'fas fa-check-circle'; break;
+                case 'error': icon = 'fas fa-exclamation-circle'; break;
+                case 'warning': icon = 'fas fa-exclamation-triangle'; break;
+                case 'info': icon = 'fas fa-info-circle'; break;
+                default: icon = 'fas fa-info-circle';
+            }
+            
             alert.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <i class="${icon}" style="margin-right: 0.5rem;"></i>
                 ${message}
             `;
             
@@ -2274,8 +2939,8 @@ Route::middleware('auth')->group(function () {
             
             setTimeout(() => {
                 alert.classList.remove('show');
-                setTimeout(() => alert.remove(), 300);
-            }, 4000);
+                setTimeout(() => alert.remove(), 400);
+            }, 5000);
         }
 
         function clearErrors() {
@@ -2291,33 +2956,69 @@ Route::middleware('auth')->group(function () {
             if (errorEl) errorEl.textContent = message;
         }
 
-        function showLoading(show) {
-            // Implémentation du loading si nécessaire
+        function scrollToAuth() {
+            const authSection = document.getElementById('authSection');
+            if (authSection) {
+                authSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
-        function showLoginModal() {
-            document.getElementById('loginEmail').focus();
-        }
-
-        function showRegisterModal() {
-            document.getElementById('registerName').focus();
-        }
-
-        // Navigation fluide
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+        // Gestion des erreurs globales
+        window.addEventListener('error', function(e) {
+            console.error('Erreur JavaScript:', e.error);
+            if (isLoading) {
+                showLoading(false);
+            }
         });
 
-        console.log('✅ Laravel Academy - Prêt !');
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Promise rejetée:', e.reason);
+            if (isLoading) {
+                showLoading(false);
+            }
+        });
+
+        // Nettoyage avant fermeture de la page
+        window.addEventListener('beforeunload', function() {
+            if (currentSession) {
+                endUserSession();
+            }
+        });
+
+        // Performance: lazy loading des images si nécessaire
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // Service Worker pour le cache (optionnel)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        console.log('🚀 Laravel Academy v3.0 - Prêt !');
+        console.log('🐬 API MySQL v3.0 configurée');
+        console.log('🎨 Dark Theme moderne activé');
     </script>
 </body>
 </html>
