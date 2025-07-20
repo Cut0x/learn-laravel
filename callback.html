@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logger Simple - Authentication</title>
+    <title>Logger Simple - Authentification</title>
     
     <style>
         :root {
@@ -262,6 +262,16 @@
             color: var(--primary-color);
         }
         
+        .api-info {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
         @media (max-width: 480px) {
             .callback-container {
                 padding: 24px;
@@ -279,86 +289,105 @@
     <div class="callback-container">
         <div class="logo">LS</div>
         
-        <h1 class="callback-title">Processing Authentication</h1>
+        <h1 class="callback-title">Traitement de l'authentification</h1>
         <p class="callback-subtitle" id="subtitle">
-            Please wait while we complete your login...
+            Veuillez patienter pendant que nous finalisons votre connexion...
         </p>
         
-        <!-- Progress Steps -->
+        <!-- Info API -->
+        <div id="api-info" class="api-info" style="display: none;">
+            <strong>🔧 Configuration API :</strong><br>
+            <span id="api-url">-</span>
+        </div>
+        
+        <!-- Étapes de progression -->
         <div class="progress-steps">
             <div class="step active" id="step-verify">
                 <div class="step-icon">1</div>
-                <span>Verifying</span>
+                <span>Vérification</span>
             </div>
             <div class="step" id="step-token">
                 <div class="step-icon">2</div>
-                <span>Getting Token</span>
+                <span>Token</span>
             </div>
             <div class="step" id="step-user">
                 <div class="step-icon">3</div>
-                <span>Loading Profile</span>
+                <span>Profil</span>
             </div>
             <div class="step" id="step-complete">
                 <div class="step-icon">✓</div>
-                <span>Complete</span>
+                <span>Terminé</span>
             </div>
         </div>
         
-        <!-- Loading Spinner -->
+        <!-- Spinner de chargement -->
         <div class="loading-spinner" id="loading"></div>
         
-        <!-- Status Messages -->
+        <!-- Messages de statut -->
         <div id="status-success" class="status-message status-success">
-            <strong>✅ Authentication Successful!</strong><br>
-            <span id="success-details">You have been successfully logged in.</span>
+            <strong>✅ Authentification réussie !</strong><br>
+            <span id="success-details">Vous avez été connecté avec succès.</span>
         </div>
         
         <div id="status-error" class="status-message status-error">
-            <strong>❌ Authentication Failed</strong><br>
-            <span id="error-details">An error occurred during authentication.</span>
+            <strong>❌ Échec de l'authentification</strong><br>
+            <span id="error-details">Une erreur s'est produite lors de l'authentification.</span>
         </div>
         
         <div id="status-warning" class="status-message status-warning">
-            <strong>⚠️ Warning</strong><br>
-            <span id="warning-details">Please check the information below.</span>
+            <strong>⚠️ Attention</strong><br>
+            <span id="warning-details">Veuillez vérifier les informations ci-dessous.</span>
         </div>
         
-        <!-- User Preview -->
+        <!-- Aperçu utilisateur -->
         <div id="user-preview" class="user-preview">
-            <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+            <img id="user-avatar" class="user-avatar" src="" alt="Avatar utilisateur">
             <div id="user-name" class="user-name">-</div>
             <div id="user-email" class="user-email">-</div>
         </div>
         
-        <!-- Action Buttons -->
+        <!-- Boutons d'action -->
         <div id="action-buttons" style="display: none;">
             <button class="btn btn-primary" onclick="continueToApp()">
-                Continue to Application
+                Continuer vers l'application
             </button>
             <button class="btn btn-secondary" onclick="tryAgain()">
-                Try Again
+                Réessayer
             </button>
         </div>
         
-        <!-- Debug Information -->
+        <!-- Informations de débogage -->
         <div class="toggle-debug" onclick="toggleDebug()">
-            🔧 Show Debug Info
+            🔧 Afficher les infos de débogage
         </div>
         <div id="debug-info" class="debug-info"></div>
     </div>
     
-    <!-- Include the callback handler script -->
     <script>
-        // Inline callback script (you can also include callback.js as external file)
-        
-        // Configuration
+        // Configuration avec détection automatique de l'API
         const CONFIG = {
-            apiUrl: 'https://connexion.logger-simple.com/api',
+            apiUrl: '', // Sera détecté automatiquement
             storageKey: 'logger_simple_user',
             stateKey: 'oauth_state'
         };
         
-        // Debug logging
+        // Détection automatique de l'URL de l'API
+        function detectApiUrl() {
+            // Essayer différentes possibilités
+            const possibilities = [
+                window.location.origin + '/api.php',
+                window.location.origin + '/api/index.php',
+                window.location.origin + '/oauth/api.php',
+                'https://connexion.logger-simple.com/api.php',
+                'http://localhost/api.php'
+            ];
+            
+            return possibilities[0]; // Par défaut, utiliser la première
+        }
+        
+        CONFIG.apiUrl = detectApiUrl();
+        
+        // Logging de débogage
         const debugLogs = [];
         
         function log(message, type = 'info') {
@@ -383,14 +412,14 @@
             
             if (debugElement.classList.contains('show')) {
                 debugElement.classList.remove('show');
-                toggleButton.textContent = '🔧 Show Debug Info';
+                toggleButton.textContent = '🔧 Afficher les infos de débogage';
             } else {
                 debugElement.classList.add('show');
-                toggleButton.textContent = '🔧 Hide Debug Info';
+                toggleButton.textContent = '🔧 Masquer les infos de débogage';
             }
         }
         
-        // UI Update Functions
+        // Fonctions de mise à jour de l'interface
         function updateStep(stepId, status = 'active') {
             const step = document.getElementById(stepId);
             if (step) {
@@ -399,15 +428,15 @@
         }
         
         function showMessage(type, title, details) {
-            // Hide loading
+            // Masquer le chargement
             document.getElementById('loading').style.display = 'none';
             
-            // Hide all status messages
+            // Masquer tous les messages de statut
             document.querySelectorAll('.status-message').forEach(el => {
                 el.classList.remove('show');
             });
             
-            // Show specific message
+            // Afficher le message spécifique
             const messageEl = document.getElementById(`status-${type}`);
             if (messageEl) {
                 const detailsEl = document.getElementById(`${type}-details`);
@@ -417,14 +446,14 @@
                 messageEl.classList.add('show');
             }
             
-            // Update subtitle
+            // Mettre à jour le sous-titre
             document.getElementById('subtitle').textContent = title;
         }
         
         function showUserPreview(user) {
             document.getElementById('user-avatar').src = user.avatar || 'https://via.placeholder.com/80';
-            document.getElementById('user-name').textContent = user.username || 'Unknown User';
-            document.getElementById('user-email').textContent = user.email || 'No email provided';
+            document.getElementById('user-name').textContent = user.username || 'Utilisateur inconnu';
+            document.getElementById('user-email').textContent = user.email || 'Pas d\'email fourni';
             document.getElementById('user-preview').classList.add('show');
         }
         
@@ -432,12 +461,17 @@
             document.getElementById('action-buttons').style.display = 'block';
         }
         
-        // OAuth Callback Implementation
+        // Gestionnaire de callback OAuth
         class CallbackHandler {
             constructor() {
                 this.urlParams = this.parseUrlParams();
-                log('Callback handler initialized');
-                log('URL parameters: ' + JSON.stringify(this.urlParams));
+                log('Gestionnaire de callback initialisé');
+                log('Paramètres URL: ' + JSON.stringify(this.urlParams));
+                log('URL API détectée: ' + CONFIG.apiUrl);
+                
+                // Afficher l'info API
+                document.getElementById('api-url').textContent = CONFIG.apiUrl;
+                document.getElementById('api-info').style.display = 'block';
             }
             
             parseUrlParams() {
@@ -453,66 +487,70 @@
             
             async process() {
                 try {
-                    log('Starting OAuth callback processing');
+                    log('Démarrage du traitement du callback OAuth');
                     
-                    // Check for errors first
+                    // Vérifier les erreurs en premier
                     if (this.urlParams.error) {
-                        throw new Error(`OAuth Error: ${this.urlParams.error} - ${this.urlParams.error_description || 'Unknown error'}`);
+                        throw new Error(`Erreur OAuth: ${this.urlParams.error} - ${this.urlParams.error_description || 'Erreur inconnue'}`);
                     }
                     
-                    // Check for authorization code
+                    // Vérifier le code d'autorisation
                     if (!this.urlParams.code) {
-                        throw new Error('No authorization code found in URL');
+                        throw new Error('Aucun code d\'autorisation trouvé dans l\'URL');
                     }
                     
-                    // Step 1: Verify state
+                    // Étape 1: Vérifier l'état
                     updateStep('step-verify', 'active');
                     await this.verifyState();
                     updateStep('step-verify', 'completed');
                     
-                    // Step 2: Exchange code for token
+                    // Étape 2: Échanger le code contre un token
                     updateStep('step-token', 'active');
                     const tokenData = await this.exchangeCodeForToken();
                     updateStep('step-token', 'completed');
                     
-                    // Step 3: Get user info
+                    // Étape 3: Récupérer les infos utilisateur
                     updateStep('step-user', 'active');
                     const user = await this.getUserInfo(tokenData.access_token);
                     user.access_token = tokenData.access_token;
                     updateStep('step-user', 'completed');
                     
-                    // Step 4: Complete
+                    // Étape 4: Terminé
                     updateStep('step-complete', 'completed');
                     
                     this.handleSuccess(user);
                     
                 } catch (error) {
-                    log('Error during callback processing: ' + error.message, 'error');
+                    log('Erreur lors du traitement du callback: ' + error.message, 'error');
                     this.handleError(error);
                 }
             }
             
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            
             async verifyState() {
-                log('Verifying state parameter');
+                log('Vérification du paramètre state');
                 
                 const savedState = sessionStorage.getItem(CONFIG.stateKey);
                 const urlState = this.urlParams.state;
                 
                 if (!savedState || !urlState) {
-                    throw new Error('Missing state parameter');
+                    throw new Error('Paramètre state manquant');
                 }
                 
                 if (savedState !== urlState) {
-                    throw new Error('State parameter mismatch');
+                    throw new Error('Le paramètre state ne correspond pas');
                 }
                 
-                // Clear stored state
+                // Nettoyer l'état stocké
                 sessionStorage.removeItem(CONFIG.stateKey);
-                log('State verification successful');
+                log('Vérification du state réussie');
             }
             
             async exchangeCodeForToken() {
-                log('Exchanging authorization code for access token');
+                log('Échange du code d\'autorisation contre un token d\'accès');
                 
                 const appConfig = this.getAppConfig();
                 
@@ -523,66 +561,78 @@
                     redirect_uri: appConfig.redirect_uri
                 };
                 
-                log('Token request: ' + JSON.stringify(tokenRequest));
+                log('Requête de token: ' + JSON.stringify(tokenRequest));
                 
-                const response = await fetch(CONFIG.apiUrl + '/token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(tokenRequest)
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                try {
+                    const response = await fetch(CONFIG.apiUrl + '?action=token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(tokenRequest)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(`Erreur de token: ${data.error} - ${data.error_description || 'Erreur inconnue'}`);
+                    }
+                    
+                    log('Token d\'accès reçu avec succès');
+                    return data;
+                    
+                } catch (fetchError) {
+                    log('Échec de l\'échange de token: ' + fetchError.message, 'error');
+                    throw fetchError;
                 }
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    throw new Error(`Token Error: ${data.error} - ${data.error_description || 'Unknown error'}`);
-                }
-                
-                log('Access token received successfully');
-                return data;
             }
             
             async getUserInfo(accessToken) {
-                log('Fetching user information');
+                log('Récupération des informations utilisateur');
                 
-                const response = await fetch(CONFIG.apiUrl + '/user', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + accessToken
+                try {
+                    const response = await fetch(CONFIG.apiUrl + '?action=user', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    
+                    const user = await response.json();
+                    
+                    if (user.error) {
+                        throw new Error(`Erreur d\'info utilisateur: ${user.error} - ${user.error_description || 'Erreur inconnue'}`);
+                    }
+                    
+                    log('Informations utilisateur reçues: ' + JSON.stringify(user));
+                    return user;
+                    
+                } catch (fetchError) {
+                    log('Échec de récupération des infos utilisateur: ' + fetchError.message, 'error');
+                    throw fetchError;
                 }
-                
-                const user = await response.json();
-                
-                if (user.error) {
-                    throw new Error(`User Info Error: ${user.error} - ${user.error_description || 'Unknown error'}`);
-                }
-                
-                log('User information received: ' + JSON.stringify(user));
-                return user;
             }
             
             getAppConfig() {
-                // Try to get from sessionStorage
+                // Essayer de récupérer depuis sessionStorage
                 try {
                     const storedConfig = sessionStorage.getItem('oauth_app_config');
                     if (storedConfig) {
                         return JSON.parse(storedConfig);
                     }
                 } catch (e) {
-                    log('Cannot parse stored app config: ' + e.message, 'warn');
+                    log('Impossible de parser la config d\'app stockée: ' + e.message, 'warn');
                 }
                 
-                // Fallback configuration
+                // Configuration de fallback
                 return {
                     app_id: this.urlParams.client_id || 'ls_demo_app_12345',
                     redirect_uri: window.location.origin + window.location.pathname
@@ -590,21 +640,21 @@
             }
             
             handleSuccess(user) {
-                log('Authentication successful: ' + user.username);
+                log('Authentification réussie: ' + user.username);
                 
-                // Store user data
+                // Stocker les données utilisateur
                 try {
                     localStorage.setItem(CONFIG.storageKey, JSON.stringify(user));
-                    log('User data stored in localStorage');
+                    log('Données utilisateur stockées dans localStorage');
                 } catch (e) {
-                    log('Cannot store user data: ' + e.message, 'warn');
+                    log('Impossible de stocker les données utilisateur: ' + e.message, 'warn');
                 }
                 
-                // Update UI
-                showMessage('success', 'Authentication Successful!', `Welcome back, ${user.username}!`);
+                // Mettre à jour l'interface
+                showMessage('success', 'Authentification réussie !', `Bienvenue, ${user.username} !`);
                 showUserPreview(user);
                 
-                // Handle different scenarios
+                // Gérer différents scénarios
                 if (this.isPopupWindow()) {
                     this.handlePopupSuccess(user);
                 } else {
@@ -613,13 +663,13 @@
             }
             
             handleError(error) {
-                log('Authentication failed: ' + error.message, 'error');
+                log('Échec de l\'authentification: ' + error.message, 'error');
                 
-                // Update UI
-                showMessage('error', 'Authentication Failed', error.message);
+                // Mettre à jour l'interface
+                showMessage('error', 'Échec de l\'authentification', error.message);
                 showActionButtons();
                 
-                // Handle different scenarios
+                // Gérer différents scénarios
                 if (this.isPopupWindow()) {
                     this.handlePopupError(error);
                 } else {
@@ -636,35 +686,35 @@
             }
             
             handlePopupSuccess(user) {
-                log('Handling popup success');
+                log('Gestion du succès popup');
                 
                 try {
-                    // Store data in opener's sessionStorage
+                    // Stocker les données dans le sessionStorage de l'ouvreur
                     if (window.opener && window.opener.sessionStorage) {
                         window.opener.sessionStorage.setItem('logger_simple_user', JSON.stringify(user));
                     }
                     
-                    // Call success callback in opener
+                    // Appeler le callback de succès dans l'ouvreur
                     if (window.opener && window.opener.LoggerSimple) {
                         window.opener.LoggerSimple.handleSuccess(user);
                     }
                     
-                    // Auto-close popup after delay
+                    // Fermer automatiquement le popup après un délai
                     setTimeout(() => {
                         window.close();
                     }, 2000);
                     
                 } catch (e) {
-                    log('Error handling popup success: ' + e.message, 'error');
-                    showMessage('warning', 'Success, but Communication Failed', 'Please close this window manually.');
+                    log('Erreur lors de la gestion du succès popup: ' + e.message, 'error');
+                    showMessage('warning', 'Succès, mais communication échouée', 'Veuillez fermer cette fenêtre manuellement.');
                 }
             }
             
             handlePopupError(error) {
-                log('Handling popup error');
+                log('Gestion de l\'erreur popup');
                 
                 try {
-                    // Store error in opener's sessionStorage
+                    // Stocker l'erreur dans le sessionStorage de l'ouvreur
                     if (window.opener && window.opener.sessionStorage) {
                         window.opener.sessionStorage.setItem('logger_simple_error', JSON.stringify({
                             error: error.message,
@@ -672,53 +722,53 @@
                         }));
                     }
                     
-                    // Call error callback in opener
+                    // Appeler le callback d'erreur dans l'ouvreur
                     if (window.opener && window.opener.LoggerSimple) {
                         window.opener.LoggerSimple.handleError('callback_error', error.message);
                     }
                     
-                    // Auto-close popup after delay
+                    // Fermer automatiquement le popup après un délai
                     setTimeout(() => {
                         window.close();
-                    }, 3000);
+                    }, 4000);
                     
                 } catch (e) {
-                    log('Error handling popup error: ' + e.message, 'error');
+                    log('Erreur lors de la gestion d\'erreur popup: ' + e.message, 'error');
                 }
             }
             
             handleRedirectSuccess(user) {
-                log('Handling redirect success');
+                log('Gestion du succès par redirection');
                 
-                // Dispatch custom event
+                // Déclencher un événement personnalisé
                 try {
                     const event = new CustomEvent('ls:login:success', { detail: { user } });
                     window.dispatchEvent(event);
                 } catch (e) {
-                    log('Cannot dispatch success event: ' + e.message, 'warn');
+                    log('Impossible de déclencher l\'événement de succès: ' + e.message, 'warn');
                 }
                 
                 showActionButtons();
             }
             
             handleRedirectError(error) {
-                log('Handling redirect error');
+                log('Gestion de l\'erreur par redirection');
                 
-                // Dispatch custom event
+                // Déclencher un événement personnalisé
                 try {
                     const event = new CustomEvent('ls:login:error', { 
                         detail: { error: error.message, description: error.message } 
                     });
                     window.dispatchEvent(event);
                 } catch (e) {
-                    log('Cannot dispatch error event: ' + e.message, 'warn');
+                    log('Impossible de déclencher l\'événement d\'erreur: ' + e.message, 'warn');
                 }
             }
         }
         
-        // Action Functions
+        // Fonctions d'action
         function continueToApp() {
-            // Get redirect URL from various sources
+            // Récupérer l'URL de redirection depuis diverses sources
             const urlParams = new URLSearchParams(window.location.search);
             let redirectUrl = urlParams.get('redirect_to');
             
@@ -729,29 +779,29 @@
                         sessionStorage.removeItem('oauth_redirect_url');
                     }
                 } catch (e) {
-                    log('Cannot access sessionStorage: ' + e.message, 'warn');
+                    log('Impossible d\'accéder au sessionStorage: ' + e.message, 'warn');
                 }
             }
             
-            // Default redirect
+            // Redirection par défaut
             if (!redirectUrl) {
                 redirectUrl = '/';
             }
             
-            log('Redirecting to: ' + redirectUrl);
+            log('Redirection vers: ' + redirectUrl);
             window.location.href = redirectUrl;
         }
         
         function tryAgain() {
-            // Clear any stored data
+            // Nettoyer toutes les données stockées
             try {
                 localStorage.removeItem(CONFIG.storageKey);
                 sessionStorage.clear();
             } catch (e) {
-                log('Cannot clear storage: ' + e.message, 'warn');
+                log('Impossible de nettoyer le stockage: ' + e.message, 'warn');
             }
             
-            // Go back to referrer or home
+            // Retourner au référent ou à l'accueil
             if (document.referrer) {
                 window.location.href = document.referrer;
             } else {
@@ -759,35 +809,35 @@
             }
         }
         
-        // Initialize when DOM is ready
+        // Initialiser quand le DOM est prêt
         document.addEventListener('DOMContentLoaded', function() {
-            log('DOM ready, starting callback processing');
+            log('DOM prêt, démarrage du traitement du callback');
             
             const handler = new CallbackHandler();
             
-            // Add small delay to show the loading state
+            // Ajouter un petit délai pour montrer l'état de chargement
             setTimeout(() => {
                 handler.process();
             }, 500);
         });
         
-        // Handle page visibility change (for popup detection)
+        // Gérer le changement de visibilité de la page (pour la détection popup)
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
-                log('Page became hidden');
+                log('Page masquée');
             } else {
-                log('Page became visible');
+                log('Page visible');
             }
         });
         
-        // Global error handler
+        // Gestionnaire d'erreur global
         window.addEventListener('error', function(event) {
-            log('Global error: ' + event.error.message, 'error');
+            log('Erreur globale: ' + event.error.message, 'error');
         });
         
-        // Unload handler
+        // Gestionnaire de déchargement
         window.addEventListener('beforeunload', function() {
-            log('Page unloading');
+            log('Déchargement de la page');
         });
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logger Simple OAuth - Demo Site</title>
+    <title>Test OAuth Logger Simple</title>
     
     <style>
         :root {
@@ -11,13 +11,11 @@
             --primary-dark: #00b894;
             --success: #10b981;
             --error: #ef4444;
-            --warning: #f59e0b;
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --background: #f9fafb;
             --surface: #ffffff;
             --border: #e5e7eb;
-            --surface-hover: #f3f4f6;
         }
         
         * {
@@ -27,72 +25,133 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--background);
             color: var(--text-primary);
             line-height: 1.6;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 40px 20px;
         }
         
-        header {
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        .card {
             background: var(--surface);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
         }
         
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
+        .card h2 {
             font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
+            margin-bottom: 16px;
+            color: var(--text-primary);
         }
         
-        .user-info {
-            display: none;
-            align-items: center;
-            gap: 12px;
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
         }
         
-        .user-info.show {
+        .login-section {
             display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .login-section.logged-in {
+            display: none;
+        }
+        
+        .user-section {
+            display: none;
+            text-align: center;
+        }
+        
+        .user-section.show {
+            display: block;
         }
         
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 2px solid var(--primary-color);
+            border: 3px solid var(--primary-color);
+            margin: 0 auto 16px;
+            display: block;
         }
         
-        .user-name {
+        .user-info {
+            background: var(--background);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .user-info h3 {
+            margin-bottom: 16px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            text-align: left;
+        }
+        
+        .info-item {
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
             font-weight: 500;
+            word-break: break-all;
         }
         
         .btn {
-            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
         
         .btn-primary {
@@ -113,7 +172,7 @@
         }
         
         .btn-secondary:hover {
-            background: var(--surface-hover);
+            background: var(--background);
         }
         
         .btn-outline {
@@ -125,141 +184,6 @@
         .btn-outline:hover {
             background: var(--primary-color);
             color: white;
-        }
-        
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 32px;
-            opacity: 0.9;
-        }
-        
-        .demo-section {
-            padding: 80px 0;
-        }
-        
-        .demo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-        
-        .demo-content h2 {
-            font-size: 32px;
-            margin-bottom: 16px;
-        }
-        
-        .demo-content p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-        
-        .demo-buttons {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .demo-buttons h3 {
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        .button-examples {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .button-row {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .code-section {
-            background: var(--surface);
-            padding: 40px 0;
-        }
-        
-        .code-example {
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 24px;
-            border-radius: 12px;
-            font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 14px;
-            overflow-x: auto;
-            position: relative;
-        }
-        
-        .copy-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .status-card {
-            background: var(--surface);
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin: 24px 0;
-        }
-        
-        .status-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-        
-        .user-data {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-        
-        .data-item {
-            background: var(--surface-hover);
-            padding: 12px;
-            border-radius: 8px;
-        }
-        
-        .data-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-        
-        .data-value {
-            font-weight: 500;
-            word-break: break-all;
         }
         
         .alert {
@@ -283,297 +207,356 @@
             border: 1px solid rgba(239, 68, 68, 0.2);
         }
         
-        .hidden {
-            display: none !important;
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 16px 0;
         }
         
-        @media (max-width: 768px) {
-            .demo-grid {
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-connected {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-disconnected {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 600px) {
+            .info-grid {
                 grid-template-columns: 1fr;
             }
             
-            .hero h1 {
-                font-size: 32px;
-            }
-            
-            .button-row {
-                flex-direction: column;
-                align-items: center;
+            .header h1 {
+                font-size: 28px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header with login/user info -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">🌟 Demo Site</div>
-                
-                <!-- Login button (shown when not logged in) -->
-                <div id="login-header" class="login-controls">
-                    <div id="header-login-btn"></div>
-                </div>
-                
-                <!-- User info (shown when logged in) -->
-                <div id="user-header" class="user-info">
-                    <img id="user-avatar-header" class="user-avatar" src="" alt="User Avatar">
-                    <span id="user-name-header" class="user-name"></span>
-                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
-                </div>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Test OAuth Logger Simple</h1>
+            <p>Testez l'intégration OAuth avec Logger Simple</p>
+            <div id="connection-status" class="status-indicator status-disconnected">
+                <span>●</span>
+                <span>Non connecté</span>
             </div>
         </div>
-    </header>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Logger Simple OAuth Demo</h1>
-            <p>Experience seamless authentication with Logger Simple</p>
-            <div id="hero-login-btn"></div>
-        </div>
-    </section>
-    
-    <!-- Demo Section -->
-    <section class="demo-section">
-        <div class="container">
-            <div class="demo-grid">
-                <div class="demo-content">
-                    <h2>One-Click Authentication</h2>
-                    <p>
-                        Integrate Logger Simple authentication into your website with just a few lines of code. 
-                        Your users can log in using their existing Logger Simple accounts without creating new passwords.
-                    </p>
-                    <ul style="color: var(--text-secondary); margin-left: 20px;">
-                        <li>✅ Secure OAuth 2.0 protocol</li>
-                        <li>✅ No password management needed</li>
-                        <li>✅ Access to user avatar and profile</li>
-                        <li>✅ Easy integration with any framework</li>
-                    </ul>
-                </div>
-                
-                <div class="demo-buttons">
-                    <h3>Try Different Button Styles</h3>
-                    <div class="button-examples">
-                        <div class="button-row">
-                            <div id="btn-primary"></div>
-                            <div id="btn-secondary"></div>
-                        </div>
-                        <div class="button-row">
-                            <div id="btn-outline"></div>
-                            <div id="btn-popup"></div>
-                        </div>
-                        <div class="button-row">
-                            <div id="btn-small"></div>
-                            <div id="btn-large"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Status Section -->
-    <section class="status-section">
-        <div class="container">
-            <div class="status-card">
-                <div class="status-title">Authentication Status</div>
-                
-                <!-- Not logged in state -->
-                <div id="not-logged-in" class="status-content">
-                    <div class="alert alert-error">
-                        <span>🔒</span>
-                        <span>You are not logged in. Click any login button above to authenticate.</span>
-                    </div>
-                </div>
-                
-                <!-- Logged in state -->
-                <div id="logged-in" class="status-content hidden">
-                    <div class="alert alert-success">
-                        <span>✅</span>
-                        <span>Successfully authenticated with Logger Simple!</span>
-                    </div>
-                    
-                    <div class="user-data">
-                        <div class="data-item">
-                            <div class="data-label">User ID</div>
-                            <div id="user-id" class="data-value">-</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Username</div>
-                            <div id="user-username" class="data-value">-</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Email</div>
-                            <div id="user-email" class="data-value">-</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Access Token</div>
-                            <div id="user-token" class="data-value">-</div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 20px; text-align: center;">
-                        <img id="user-avatar-large" src="" alt="User Avatar" style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary-color);">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Code Example Section -->
-    <section class="code-section">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 32px;">Integration Code</h2>
+        
+        <!-- Section de connexion -->
+        <div id="login-section" class="card login-section">
+            <h2>Se connecter</h2>
+            <p>Cliquez sur l'un des boutons ci-dessous pour tester l'authentification OAuth avec Logger Simple.</p>
             
-            <div class="code-example">
-                <button class="copy-btn" onclick="copyCode()">📋 Copy</button>
-                <pre><code>&lt;!-- Include the Logger Simple script --&gt;
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+                <div id="login-btn-primary"></div>
+                <div id="login-btn-popup"></div>
+                <div id="login-btn-outline"></div>
+            </div>
+            
+            <div class="alert alert-success" style="margin-top: 24px;">
+                <span>ℹ️</span>
+                <span><strong>Mode Démo :</strong> Cette démo fonctionne avec des données simulées si l'API réelle n'est pas disponible.</span>
+            </div>
+        </div>
+        
+        <!-- Section utilisateur connecté -->
+        <div id="user-section" class="card user-section">
+            <h2>✅ Connexion réussie !</h2>
+            
+            <img id="user-avatar" class="user-avatar" src="" alt="Avatar utilisateur">
+            
+            <div class="user-info">
+                <h3>Informations utilisateur</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Nom d'utilisateur</div>
+                        <div id="user-username" class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div id="user-email" class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">ID Utilisateur</div>
+                        <div id="user-id" class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Token d'accès</div>
+                        <div id="user-token" class="info-value">-</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="logout()">
+                🚪 Se déconnecter
+            </button>
+        </div>
+        
+        <!-- Section d'intégration -->
+        <div class="card">
+            <h2>📝 Code d'intégration</h2>
+            <p>Voici le code nécessaire pour intégrer Logger Simple OAuth sur votre site :</p>
+            
+            <div class="code-block">
+&lt;!-- Inclure le script Logger Simple --&gt;
 &lt;script src="https://connexion.logger-simple.com/api/script.js"&gt;&lt;/script&gt;
 
-&lt;!-- Your login button container --&gt;
+&lt;!-- Conteneur pour le bouton de connexion --&gt;
 &lt;div id="login-button"&gt;&lt;/div&gt;
 
 &lt;script&gt;
-// Initialize Logger Simple
+// Initialiser Logger Simple
 LoggerSimple.init({
-    app_id: 'your_app_id_here',
-    redirect_uri: 'https://yoursite.com/callback',
+    app_id: 'votre_app_id',
+    redirect_uri: window.location.origin + '/callback.html',
     onSuccess: function(user) {
-        console.log('User logged in:', user);
-        // Handle successful login
-        document.getElementById('welcome').innerHTML = 
-            'Welcome, ' + user.username + '!';
+        console.log('Utilisateur connecté:', user);
+        // Gérer la connexion réussie
+        alert('Bonjour ' + user.username + ' !');
     },
     onError: function(error) {
-        console.error('Login error:', error);
-        alert('Login failed: ' + error.description);
+        console.error('Erreur de connexion:', error);
+        alert('Erreur: ' + error.description);
     }
 });
 
-// Render login button
+// Créer le bouton de connexion
 LoggerSimple.renderButton('#login-button', {
-    text: 'Login with Logger Simple',
-    style: 'primary',
-    size: 'medium'
+    text: 'Se connecter avec Logger Simple',
+    style: 'primary'
 });
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
             </div>
         </div>
-    </section>
+        
+        <!-- Messages de statut -->
+        <div id="status-messages"></div>
+    </div>
     
-    <!-- Logger Simple OAuth Script -->
-    <script src="https://connexion.logger-simple.com/api/script.js"></script>
-    
+    <!-- Script Logger Simple (simulation) -->
     <script>
-        // Initialize Logger Simple
+        // Simulation du LoggerSimple SDK pour les tests
+        window.LoggerSimple = {
+            config: {
+                app_id: null,
+                redirect_uri: null,
+                onSuccess: null,
+                onError: null
+            },
+            
+            init: function(options) {
+                Object.assign(this.config, options);
+                console.log('LoggerSimple initialisé avec:', options);
+                
+                // Vérifier si on revient d'un callback
+                this.handleCallback();
+            },
+            
+            renderButton: function(container, options = {}) {
+                const element = typeof container === 'string' ? document.querySelector(container) : container;
+                if (!element) return;
+                
+                const button = document.createElement('button');
+                button.className = `btn btn-${options.style || 'primary'}`;
+                button.innerHTML = `🔐 ${options.text || 'Login'}`;
+                
+                if (options.popup) {
+                    button.addEventListener('click', () => this.loginPopup());
+                } else {
+                    button.addEventListener('click', () => this.login());
+                }
+                
+                element.appendChild(button);
+                return button;
+            },
+            
+            login: function() {
+                // Simuler la redirection OAuth
+                const state = this.generateState();
+                sessionStorage.setItem('oauth_state', state);
+                
+                const callbackUrl = this.config.redirect_uri || (window.location.origin + '/callback.html');
+                const authUrl = callbackUrl + `?code=demo_code_${Date.now()}&state=${state}`;
+                
+                console.log('Redirection vers:', authUrl);
+                window.location.href = authUrl;
+            },
+            
+            loginPopup: function() {
+                const state = this.generateState();
+                sessionStorage.setItem('oauth_state', state);
+                
+                const callbackUrl = this.config.redirect_uri || (window.location.origin + '/callback.html');
+                const authUrl = callbackUrl + `?code=demo_code_${Date.now()}&state=${state}`;
+                
+                const popup = window.open(authUrl, 'oauth', 'width=500,height=600');
+                
+                // Surveiller la fermeture du popup
+                const checkClosed = setInterval(() => {
+                    if (popup.closed) {
+                        clearInterval(checkClosed);
+                        this.handlePopupCallback();
+                    }
+                }, 1000);
+            },
+            
+            handleCallback: function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const code = urlParams.get('code');
+                
+                if (code) {
+                    // Simuler l'échange de code contre un token
+                    setTimeout(() => {
+                        const demoUser = this.generateDemoUser();
+                        this.handleSuccess(demoUser);
+                    }, 500);
+                }
+            },
+            
+            handlePopupCallback: function() {
+                const userData = sessionStorage.getItem('logger_simple_user');
+                if (userData) {
+                    sessionStorage.removeItem('logger_simple_user');
+                    const user = JSON.parse(userData);
+                    this.handleSuccess(user);
+                }
+            },
+            
+            handleSuccess: function(user) {
+                console.log('Connexion réussie:', user);
+                
+                if (this.config.onSuccess) {
+                    this.config.onSuccess(user);
+                }
+                
+                localStorage.setItem('logger_simple_user', JSON.stringify(user));
+                updateUI(user);
+                showNotification('Connexion réussie !', 'success');
+            },
+            
+            handleError: function(error, description) {
+                console.error('Erreur de connexion:', error, description);
+                
+                if (this.config.onError) {
+                    this.config.onError({ error, description });
+                }
+                
+                showNotification(`Erreur: ${description}`, 'error');
+            },
+            
+            getCurrentUser: function() {
+                const userData = localStorage.getItem('logger_simple_user');
+                return userData ? JSON.parse(userData) : null;
+            },
+            
+            logout: function() {
+                localStorage.removeItem('logger_simple_user');
+            },
+            
+            generateState: function() {
+                return Math.random().toString(36).substr(2, 9);
+            },
+            
+            generateDemoUser: function() {
+                const users = [
+                    { id: 123, username: 'demo_user', email: 'demo@example.com' },
+                    { id: 456, username: 'john_doe', email: 'john@example.com' },
+                    { id: 789, username: 'alice_bob', email: 'alice@example.com' }
+                ];
+                
+                const user = users[Math.floor(Math.random() * users.length)];
+                user.avatar = `https://ui-avatars.com/api/?name=${user.username}&background=00d4aa&color=fff&size=200`;
+                user.access_token = 'demo_token_' + Math.random().toString(36).substr(2, 9);
+                
+                return user;
+            }
+        };
+        
+        // Initialiser Logger Simple
         LoggerSimple.init({
-            app_id: 'ls_dd1275d306d92fb1e82e91634096b24f', // Replace with your actual app ID
+            app_id: 'demo_app_12345',
             redirect_uri: window.location.origin + '/callback.html',
             onSuccess: function(user) {
-                console.log('✅ Login successful:', user);
-                handleLoginSuccess(user);
+                console.log('✅ Connexion réussie:', user);
             },
             onError: function(error) {
-                console.error('❌ Login error:', error);
-                handleLoginError(error);
+                console.error('❌ Erreur de connexion:', error);
             }
         });
         
-        // Render login buttons
-        LoggerSimple.renderButton('#login-header', {
-            text: 'Login',
-            style: 'primary',
-            size: 'small'
+        // Créer les boutons de connexion
+        LoggerSimple.renderButton('#login-btn-primary', {
+            text: 'Connexion Standard',
+            style: 'primary'
         });
         
-        LoggerSimple.renderButton('#hero-login-btn', {
-            text: 'Login with Logger Simple',
-            style: 'outline',
-            size: 'large'
-        });
-        
-        LoggerSimple.renderButton('#btn-primary', {
-            text: 'Primary Style',
-            style: 'primary',
-            size: 'medium'
-        });
-        
-        LoggerSimple.renderButton('#btn-secondary', {
-            text: 'Secondary Style',
+        LoggerSimple.renderButton('#login-btn-popup', {
+            text: 'Connexion Popup',
             style: 'secondary',
-            size: 'medium'
-        });
-        
-        LoggerSimple.renderButton('#btn-outline', {
-            text: 'Outline Style',
-            style: 'outline',
-            size: 'medium'
-        });
-        
-        LoggerSimple.renderButton('#btn-popup', {
-            text: 'Popup Login',
-            style: 'primary',
-            size: 'medium',
             popup: true
         });
         
-        LoggerSimple.renderButton('#btn-small', {
-            text: 'Small',
-            style: 'primary',
-            size: 'small'
+        LoggerSimple.renderButton('#login-btn-outline', {
+            text: 'Style Outline',
+            style: 'outline'
         });
         
-        LoggerSimple.renderButton('#btn-large', {
-            text: 'Large Button',
-            style: 'primary',
-            size: 'large'
-        });
-        
-        // Handle successful login
-        function handleLoginSuccess(user) {
-            // Update header
-            document.getElementById('login-header').style.display = 'none';
-            document.getElementById('user-header').classList.add('show');
-            document.getElementById('user-avatar-header').src = user.avatar;
-            document.getElementById('user-name-header').textContent = user.username;
+        // Fonctions utilitaires
+        function updateUI(user) {
+            // Masquer la section de connexion
+            document.getElementById('login-section').style.display = 'none';
             
-            // Update status section
-            document.getElementById('not-logged-in').classList.add('hidden');
-            document.getElementById('logged-in').classList.remove('hidden');
+            // Afficher la section utilisateur
+            document.getElementById('user-section').classList.add('show');
             
-            // Fill user data
-            document.getElementById('user-id').textContent = user.id;
+            // Remplir les informations utilisateur
+            document.getElementById('user-avatar').src = user.avatar;
             document.getElementById('user-username').textContent = user.username;
             document.getElementById('user-email').textContent = user.email;
+            document.getElementById('user-id').textContent = user.id;
             document.getElementById('user-token').textContent = user.access_token.substring(0, 20) + '...';
-            document.getElementById('user-avatar-large').src = user.avatar;
             
-            // Show success notification
-            showNotification('Successfully logged in as ' + user.username + '!', 'success');
+            // Mettre à jour le statut
+            const statusEl = document.getElementById('connection-status');
+            statusEl.className = 'status-indicator status-connected';
+            statusEl.innerHTML = '<span>●</span><span>Connecté en tant que ' + user.username + '</span>';
         }
         
-        // Handle login error
-        function handleLoginError(error) {
-            showNotification('Login failed: ' + (error.description || error.error), 'error');
-        }
-        
-        // Logout function
         function logout() {
             LoggerSimple.logout();
             
-            // Update header
-            document.getElementById('login-header').style.display = 'block';
-            document.getElementById('user-header').classList.remove('show');
+            // Afficher la section de connexion
+            document.getElementById('login-section').style.display = 'block';
             
-            // Update status section
-            document.getElementById('logged-in').classList.add('hidden');
-            document.getElementById('not-logged-in').classList.remove('hidden');
+            // Masquer la section utilisateur
+            document.getElementById('user-section').classList.remove('show');
             
-            showNotification('Successfully logged out', 'success');
+            // Mettre à jour le statut
+            const statusEl = document.getElementById('connection-status');
+            statusEl.className = 'status-indicator status-disconnected';
+            statusEl.innerHTML = '<span>●</span><span>Non connecté</span>';
+            
+            showNotification('Déconnexion réussie', 'success');
         }
         
-        // Show notification
         function showNotification(message, type) {
             const notification = document.createElement('div');
             notification.className = `alert alert-${type}`;
@@ -581,52 +564,21 @@ LoggerSimple.renderButton('#login-button', {
                 <span>${type === 'success' ? '✅' : '❌'}</span>
                 <span>${message}</span>
             `;
-            notification.style.position = 'fixed';
-            notification.style.top = '20px';
-            notification.style.right = '20px';
-            notification.style.zIndex = '1000';
-            notification.style.minWidth = '300px';
             
-            document.body.appendChild(notification);
+            const container = document.getElementById('status-messages');
+            container.appendChild(notification);
             
             setTimeout(() => {
                 notification.remove();
             }, 5000);
         }
         
-        // Copy code function
-        function copyCode() {
-            const code = document.querySelector('.code-example code').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 2000);
-            });
-        }
-        
-        // Check if user is already logged in
+        // Vérifier si l'utilisateur est déjà connecté
         document.addEventListener('DOMContentLoaded', function() {
             const currentUser = LoggerSimple.getCurrentUser();
             if (currentUser) {
-                handleLoginSuccess(currentUser);
+                updateUI(currentUser);
             }
-        });
-        
-        // Listen for login events
-        window.addEventListener('ls:login:success', function(event) {
-            console.log('Login event received:', event.detail);
-        });
-        
-        window.addEventListener('ls:login:error', function(event) {
-            console.log('Login error event received:', event.detail);
-        });
-        
-        window.addEventListener('ls:logout', function(event) {
-            console.log('Logout event received');
         });
     </script>
 </body>
