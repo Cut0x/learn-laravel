@@ -11,6 +11,8 @@
             --primary-dark: #00b894;
             --success: #10b981;
             --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --background: #f9fafb;
@@ -29,17 +31,21 @@
             background: var(--background);
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 40px 20px;
+            padding: 20px;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
         .header {
             text-align: center;
             margin-bottom: 40px;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
         }
         
         .header h1 {
@@ -51,7 +57,33 @@
         
         .header p {
             color: var(--text-secondary);
-            font-size: 18px;
+            font-size: 16px;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .status-loading {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+        
+        .status-ready {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
         }
         
         .card {
@@ -68,6 +100,21 @@
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .login-section {
@@ -75,6 +122,7 @@
             gap: 20px;
             align-items: center;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
         
         #login-container {
@@ -83,25 +131,45 @@
         }
         
         .user-info {
-            background: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 12px;
+            padding: 24px;
             display: none;
+            position: relative;
+        }
+        
+        .user-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success));
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
         }
         
         .user-avatar {
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            margin-bottom: 12px;
             border: 3px solid var(--primary-color);
+            object-fit: cover;
         }
         
         .user-details h3 {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             margin-bottom: 4px;
+            color: var(--text-primary);
         }
         
         .user-details p {
@@ -110,7 +178,7 @@
         }
         
         .user-id {
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             font-size: 12px;
             color: var(--text-secondary);
             background: rgba(0, 0, 0, 0.05);
@@ -120,10 +188,14 @@
         }
         
         .status {
-            padding: 12px 16px;
+            padding: 16px;
             border-radius: 8px;
             margin: 16px 0;
             font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .status-success {
@@ -138,6 +210,18 @@
             border: 1px solid rgba(239, 68, 68, 0.2);
         }
         
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        .status-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
         .btn {
             display: inline-flex;
             align-items: center;
@@ -146,19 +230,35 @@
             border: none;
             border-radius: 8px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
         
         .btn-secondary {
             background: var(--background);
             color: var(--text-primary);
-            border: 1px solid var(--border);
+            border-color: var(--border);
         }
         
-        .btn-secondary:hover {
+        .btn-secondary:hover:not(:disabled) {
             background: var(--border);
         }
         
@@ -167,201 +267,412 @@
             color: white;
         }
         
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             background: #dc2626;
         }
         
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+        
+        .btn-info:hover:not(:disabled) {
+            background: #2563eb;
+        }
+        
         .code-block {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 16px;
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 13px;
             overflow-x: auto;
             margin: 16px 0;
+            border: 1px solid #334155;
+            position: relative;
+        }
+        
+        .code-block .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #475569;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        
+        .code-block .copy-btn:hover {
+            background: #64748b;
         }
         
         .logs {
-            background: #1e1e1e;
-            color: #d4d4d4;
+            background: #0f172a;
+            color: #e2e8f0;
             padding: 16px;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 12px;
-            height: 200px;
+            height: 300px;
             overflow-y: auto;
             margin-top: 16px;
+            border: 1px solid #1e293b;
         }
         
         .log-entry {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            padding: 2px 0;
+            word-wrap: break-word;
         }
         
         .log-timestamp {
-            color: #888;
+            color: #64748b;
+            font-weight: bold;
         }
         
         .log-success {
-            color: #4ade80;
+            color: #22c55e;
         }
         
         .log-error {
-            color: #f87171;
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .log-warning {
+            color: #f59e0b;
         }
         
         .log-info {
-            color: #60a5fa;
+            color: #3b82f6;
         }
         
-        @media (max-width: 768px) {
-            .login-section {
-                flex-direction: column;
-            }
-            
-            #login-container {
-                width: 100%;
-            }
+        .log-debug {
+            color: #8b5cf6;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        
+        .config-form {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        
+        .form-input {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-help {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .highlight {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Logger Simple OAuth Integration Test</h1>
-            <p>Test page for OAuth authentication with Logger Simple</p>
+            <h1>Logger Simple OAuth Test</h1>
+            <p>Integration testing for Logger Simple OAuth authentication</p>
+            <div id="sdk-status" class="status-indicator status-loading">
+                <span class="loading"></span>
+                Initializing OAuth SDK...
+            </div>
         </div>
         
-        <!-- Login Section -->
-        <div class="card">
-            <h2>🔐 Authentication</h2>
-            <div class="login-section">
-                <div id="login-container">
-                    <!-- Le bouton sera généré ici par le script -->
+        <div class="grid">
+            <!-- Authentication Section -->
+            <div class="card">
+                <h2>🔐 Authentication</h2>
+                
+                <div class="login-section">
+                    <div id="login-container">
+                        <!-- Login button will be rendered here -->
+                    </div>
                 </div>
-                <div style="color: var(--text-secondary);">
-                    Click the button to test OAuth login
+                
+                <!-- User Info (hidden by default) -->
+                <div id="user-info" class="user-info">
+                    <div class="user-profile">
+                        <img id="user-avatar" class="user-avatar" src="" alt="User Avatar" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMwMGQ0YWEiLz4KPHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHg9IjE2IiB5PSIxNiI+CjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDNjMS42NiAwIDMgMS4zNCAzIDNzLTEuMzQgMy0zIDMtMy0xLjM0LTMtMyAxLjM0LTMgMy0zem0wIDE0LjJjLTIuNSAwLTQuNzEtMS4yOC02LTMuMjIuMDMtMS45OSA0LTMuMDggNi0zLjA4czUuOTcgMS4wOSA2IDMuMDhjLTEuMjkgMS45NC0zLjUgMy4yMi02IDMuMjJ6Ii8+Cjwvc3ZnPgo8L3N2Zz4='">
+                        <div class="user-details">
+                            <h3 id="user-name"></h3>
+                            <p id="user-email"></p>
+                            <div class="user-id">ID: <span id="user-id"></span></div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-info" onclick="showUserData()">
+                            <span>📊</span> View Raw Data
+                        </button>
+                        <button class="btn btn-secondary" onclick="testApiCall()">
+                            <span>🔧</span> Test API Call
+                        </button>
+                        <button class="btn btn-danger" onclick="logout()">
+                            <span>🚪</span> Logout
+                        </button>
+                    </div>
                 </div>
+                
+                <!-- Status Messages -->
+                <div id="status-messages"></div>
             </div>
             
-            <!-- User Info (hidden by default) -->
-            <div id="user-info" class="user-info">
-                <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                <div class="user-details">
-                    <h3 id="user-name"></h3>
-                    <p id="user-email"></p>
-                    <div class="user-id">ID: <span id="user-id"></span></div>
+            <!-- Configuration -->
+            <div class="card">
+                <h2>⚙️ Configuration</h2>
+                <div class="config-form">
+                    <div class="form-group">
+                        <label class="form-label">App ID</label>
+                        <input type="text" id="app-id-input" class="form-input" 
+                               value="ls_aa81ec7b81616f0e28df57a5de5fbc7c" 
+                               placeholder="Your OAuth App ID">
+                        <div class="form-help">The client_id from your OAuth application</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Redirect URI</label>
+                        <input type="url" id="redirect-uri-input" class="form-input" 
+                               value="" 
+                               placeholder="https://yoursite.com/callback.html">
+                        <div class="form-help">Must match exactly with your app configuration</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Scope</label>
+                        <input type="text" id="scope-input" class="form-input" 
+                               value="user:basic" 
+                               placeholder="user:basic">
+                        <div class="form-help">Permissions requested from the user</div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="updateConfig()">
+                            <span>💾</span> Update Config
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetConfig()">
+                            <span>🔄</span> Reset
+                        </button>
+                    </div>
                 </div>
-                <div style="margin-top: 16px;">
-                    <button class="btn btn-secondary" onclick="showUserData()">Show User Data</button>
-                    <button class="btn btn-danger" onclick="logout()">Logout</button>
+                
+                <div class="code-block" id="config-display" style="margin-top: 20px;">
+                    <button class="copy-btn" onclick="copyConfig()">Copy</button>
+                    <div id="config-content">// Configuration will be displayed here</div>
                 </div>
-            </div>
-            
-            <!-- Status Messages -->
-            <div id="status-messages"></div>
-        </div>
-        
-        <!-- Configuration -->
-        <div class="card">
-            <h2>⚙️ Configuration</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 16px;">
-                Current OAuth configuration for this test page:
-            </p>
-            <div class="code-block" id="config-display">
-                // Configuration will be displayed here
             </div>
         </div>
         
         <!-- User Data -->
         <div class="card" id="user-data-card" style="display: none;">
-            <h2>👤 User Data</h2>
+            <h2>👤 Raw User Data</h2>
             <p style="color: var(--text-secondary); margin-bottom: 16px;">
-                Raw user data returned by the OAuth API:
+                Complete user data returned by the OAuth API:
             </p>
             <div class="code-block" id="user-data-display">
-                // User data will be displayed here
+                <button class="copy-btn" onclick="copyUserData()">Copy</button>
+                <div id="user-data-content">// User data will be displayed here</div>
             </div>
         </div>
         
-        <!-- Logs -->
+        <!-- API Testing -->
+        <div class="card" id="api-test-card" style="display: none;">
+            <h2>🔧 API Test Results</h2>
+            <div id="api-test-results"></div>
+        </div>
+        
+        <!-- Debug Logs -->
         <div class="card">
-            <h2>📋 Event Logs</h2>
+            <h2>📋 Debug Logs</h2>
             <p style="color: var(--text-secondary); margin-bottom: 16px;">
-                OAuth events and debugging information:
+                Real-time OAuth events and debugging information:
             </p>
             <div id="logs" class="logs">
-                <div class="log-entry">
-                    <span class="log-timestamp">[Initialization]</span> 
-                    <span class="log-info">Waiting for Logger Simple to initialize...</span>
-                </div>
+                <!-- Logs will be populated here -->
             </div>
-            <div style="margin-top: 12px;">
-                <button class="btn btn-secondary" onclick="clearLogs()">Clear Logs</button>
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="clearLogs()">
+                    <span>🗑️</span> Clear Logs
+                </button>
+                <button class="btn btn-info" onclick="exportLogs()">
+                    <span>📤</span> Export Logs
+                </button>
+                <button class="btn btn-primary" onclick="testOAuthFlow()" id="test-flow-btn">
+                    <span>🧪</span> Test OAuth Flow
+                </button>
             </div>
         </div>
         
         <!-- Instructions -->
         <div class="card">
-            <h2>📖 How to Use</h2>
-            <ol style="color: var(--text-secondary); line-height: 1.8;">
-                <li>Make sure you have created an OAuth app in your Logger Simple dashboard</li>
-                <li>Set the <strong>Redirect URI</strong> to match this page's URL</li>
-                <li>Update the <strong>app_id</strong> in the script below with your actual app ID</li>
-                <li>Click the login button to test the OAuth flow</li>
-                <li>Check the logs for debugging information</li>
-            </ol>
+            <h2>📖 Setup Instructions</h2>
+            <div style="color: var(--text-secondary); line-height: 1.8;">
+                <h3 style="color: var(--text-primary); margin-bottom: 12px;">Quick Setup:</h3>
+                <ol style="padding-left: 20px;">
+                    <li style="margin-bottom: 8px;">Go to your <a href="https://panel.logger-simple.com/oauth" style="color: var(--primary-color);" target="_blank">Logger Simple OAuth Panel</a></li>
+                    <li style="margin-bottom: 8px;">Create a new OAuth application</li>
+                    <li style="margin-bottom: 8px;">Set the <strong>Redirect URI</strong> to: <span class="highlight" id="current-url"></span></li>
+                    <li style="margin-bottom: 8px;">Copy the <strong>App ID</strong> and paste it in the configuration above</li>
+                    <li style="margin-bottom: 8px;">Click "Update Config" and then "Test OAuth Flow"</li>
+                </ol>
+                
+                <h3 style="color: var(--text-primary); margin: 20px 0 12px;">Troubleshooting:</h3>
+                <ul style="padding-left: 20px;">
+                    <li style="margin-bottom: 6px;">🚨 <strong>Redirect URI mismatch:</strong> Make sure the URI in your app matches exactly</li>
+                    <li style="margin-bottom: 6px;">🔑 <strong>Invalid App ID:</strong> Check that your app is active and the ID is correct</li>
+                    <li style="margin-bottom: 6px;">🌐 <strong>CORS errors:</strong> Make sure you're testing on the same domain as your redirect URI</li>
+                </ul>
+            </div>
         </div>
     </div>
     
     <!-- Include Logger Simple OAuth Script -->
-    <script src="https://connexion.logger-simple.com/api?action=script"></script>
+    <script src="https://connexion.logger-simple.com/api?action=script" onload="initializeOAuth()" onerror="handleScriptError()"></script>
     
     <script>
-        // Configuration - REPLACE WITH YOUR ACTUAL VALUES
-        const OAUTH_CONFIG = {
-            app_id: 'ls_aa81ec7b81616f0e28df57a5de5fbc7c', // Replace with your app ID from the dashboard
-            redirect_uri: "https://laravel-academy.vercel.app/callback.html", // Replace with your actual redirect URI
-            scope: 'user:basic'
-        };
-        
+        // Global variables
         let currentUser = null;
+        let oauthConfig = null;
+        let logCounter = 0;
         
-        // Logging function
-        function addLog(message, type = 'info') {
+        // Set current URL for instructions
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('redirect-uri-input').value = window.location.href;
+        
+        // Enhanced logging function
+        function addLog(message, type = 'info', data = null) {
             const logs = document.getElementById('logs');
             const timestamp = new Date().toLocaleTimeString();
             const logClass = `log-${type}`;
+            logCounter++;
             
             const logEntry = document.createElement('div');
             logEntry.className = 'log-entry';
-            logEntry.innerHTML = `
-                <span class="log-timestamp">[${timestamp}]</span> 
-                <span class="${logClass}">${message}</span>
-            `;
             
+            let logContent = `<span class="log-timestamp">[${timestamp}]</span> <span class="${logClass}">${message}</span>`;
+            
+            if (data) {
+                logContent += `\n    Data: ${JSON.stringify(data, null, 2)}`;
+            }
+            
+            logEntry.innerHTML = logContent;
             logs.appendChild(logEntry);
             logs.scrollTop = logs.scrollHeight;
+            
+            // Also log to console for debugging
+            console.log(`[OAuth Debug ${logCounter}] ${message}`, data || '');
         }
         
-        // Initialize OAuth when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        // Handle script loading error
+        function handleScriptError() {
+            addLog('Failed to load Logger Simple OAuth script', 'error');
+            updateSDKStatus('error', 'Failed to load SDK');
+            showStatus('Failed to load OAuth SDK. Please check the API endpoint.', 'error');
+        }
+        
+        // Update SDK status indicator
+        function updateSDKStatus(status, message) {
+            const indicator = document.getElementById('sdk-status');
+            indicator.className = `status-indicator status-${status}`;
+            
+            let icon = '';
+            switch(status) {
+                case 'loading':
+                    icon = '<span class="loading"></span>';
+                    break;
+                case 'ready':
+                    icon = '✅';
+                    break;
+                case 'error':
+                    icon = '❌';
+                    break;
+            }
+            
+            indicator.innerHTML = `${icon} ${message}`;
+        }
+        
+        // Initialize OAuth when script loads
+        function initializeOAuth() {
+            addLog('Logger Simple script loaded successfully', 'success');
+            updateSDKStatus('loading', 'Initializing...');
+            
             try {
-                // Display configuration
-                document.getElementById('config-display').textContent = JSON.stringify(OAUTH_CONFIG, null, 2);
+                // Check if LoggerSimple is available
+                if (typeof LoggerSimple === 'undefined') {
+                    throw new Error('LoggerSimple object not found');
+                }
+                
+                addLog(`Logger Simple SDK version: ${LoggerSimple.version}`, 'info');
+                
+                // Get initial configuration
+                oauthConfig = {
+                    app_id: document.getElementById('app-id-input').value,
+                    redirect_uri: document.getElementById('redirect-uri-input').value,
+                    scope: document.getElementById('scope-input').value
+                };
                 
                 // Initialize Logger Simple
                 LoggerSimple.init({
-                    app_id: OAUTH_CONFIG.app_id,
-                    redirect_uri: OAUTH_CONFIG.redirect_uri,
-                    scope: OAUTH_CONFIG.scope,
+                    ...oauthConfig,
                     onSuccess: function(user) {
-                        addLog('OAuth login successful!', 'success');
+                        addLog('OAuth login successful!', 'success', { user: user.username });
                         handleLoginSuccess(user);
                     },
                     onError: function(error) {
-                        addLog('OAuth error: ' + error.error + ' - ' + (error.description || ''), 'error');
-                        showStatus('Authentication failed: ' + (error.description || error.error), 'error');
+                        addLog('OAuth authentication failed', 'error', error);
+                        showStatus(`Authentication failed: ${error.description || error.error}`, 'error');
                     }
                 });
                 
@@ -372,20 +683,56 @@
                     size: 'medium'
                 });
                 
-                addLog('Logger Simple initialized successfully', 'success');
+                updateSDKStatus('ready', 'SDK Ready');
+                updateConfigDisplay();
+                addLog('OAuth SDK initialized successfully', 'success');
                 
-                // Check if user is already logged in
+                // Check for existing user session
                 const existingUser = LoggerSimple.getCurrentUser();
                 if (existingUser) {
-                    addLog('Found existing user session', 'info');
+                    addLog('Found existing user session', 'info', { user: existingUser.username });
                     handleLoginSuccess(existingUser);
                 }
                 
+                // Add event listeners for OAuth events
+                setupEventListeners();
+                
             } catch (error) {
-                addLog('Initialization error: ' + error.message, 'error');
-                showStatus('Failed to initialize OAuth: ' + error.message, 'error');
+                addLog('Failed to initialize OAuth', 'error', { error: error.message });
+                updateSDKStatus('error', 'Initialization failed');
+                showStatus(`Failed to initialize OAuth: ${error.message}`, 'error');
             }
-        });
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            window.addEventListener('ls:login:success', function(event) {
+                addLog('Event: OAuth login success', 'success');
+            });
+            
+            window.addEventListener('ls:login:error', function(event) {
+                addLog('Event: OAuth login error', 'error', event.detail);
+            });
+            
+            window.addEventListener('ls:logout', function(event) {
+                addLog('Event: User logout', 'info');
+            });
+            
+            // Monitor URL changes for OAuth callback
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('code')) {
+                addLog('OAuth callback detected', 'info', {
+                    code: urlParams.get('code').substring(0, 10) + '...',
+                    state: urlParams.get('state')
+                });
+            }
+            if (urlParams.get('error')) {
+                addLog('OAuth callback error detected', 'error', {
+                    error: urlParams.get('error'),
+                    description: urlParams.get('error_description')
+                });
+            }
+        }
         
         // Handle successful login
         function handleLoginSuccess(user) {
@@ -396,86 +743,230 @@
             document.getElementById('user-info').style.display = 'block';
             
             // Populate user information
-            document.getElementById('user-avatar').src = user.avatar;
+            if (user.avatar) {
+                document.getElementById('user-avatar').src = user.avatar;
+            }
             document.getElementById('user-name').textContent = user.username;
             document.getElementById('user-email').textContent = user.email;
             document.getElementById('user-id').textContent = user.id;
             
             // Update user data display
-            document.getElementById('user-data-display').textContent = JSON.stringify(user, null, 2);
+            document.getElementById('user-data-content').textContent = JSON.stringify(user, null, 2);
             
-            showStatus('Welcome, ' + user.username + '! You are now logged in.', 'success');
-            
-            addLog('User data loaded: ' + user.username + ' (' + user.email + ')', 'info');
+            showStatus(`Welcome, ${user.username}! Authentication successful.`, 'success');
+            addLog('User interface updated with login data', 'info');
         }
         
-        // Show user data card
+        // Update configuration
+        function updateConfig() {
+            const newConfig = {
+                app_id: document.getElementById('app-id-input').value.trim(),
+                redirect_uri: document.getElementById('redirect-uri-input').value.trim(),
+                scope: document.getElementById('scope-input').value.trim()
+            };
+            
+            if (!newConfig.app_id) {
+                showStatus('App ID is required', 'error');
+                return;
+            }
+            
+            if (!newConfig.redirect_uri) {
+                showStatus('Redirect URI is required', 'error');
+                return;
+            }
+            
+            oauthConfig = newConfig;
+            updateConfigDisplay();
+            addLog('Configuration updated', 'success', oauthConfig);
+            showStatus('Configuration updated successfully', 'success');
+            
+            // Re-initialize if LoggerSimple is available
+            if (typeof LoggerSimple !== 'undefined') {
+                try {
+                    LoggerSimple.config = { ...LoggerSimple.config, ...oauthConfig };
+                    addLog('LoggerSimple config updated', 'info');
+                } catch (error) {
+                    addLog('Failed to update LoggerSimple config', 'warning', error.message);
+                }
+            }
+        }
+        
+        // Reset configuration to defaults
+        function resetConfig() {
+            document.getElementById('app-id-input').value = 'ls_aa81ec7b81616f0e28df57a5de5fbc7c';
+            document.getElementById('redirect-uri-input').value = window.location.href;
+            document.getElementById('scope-input').value = 'user:basic';
+            updateConfig();
+        }
+        
+        // Update config display
+        function updateConfigDisplay() {
+            const configContent = document.getElementById('config-content');
+            configContent.textContent = JSON.stringify(oauthConfig || {}, null, 2);
+        }
+        
+        // Test OAuth flow
+        function testOAuthFlow() {
+            if (!oauthConfig || !oauthConfig.app_id) {
+                showStatus('Please configure your App ID first', 'error');
+                return;
+            }
+            
+            addLog('Starting OAuth flow test', 'info');
+            const testBtn = document.getElementById('test-flow-btn');
+            testBtn.disabled = true;
+            testBtn.innerHTML = '<span class="loading"></span> Testing...';
+            
+            try {
+                if (typeof LoggerSimple !== 'undefined' && LoggerSimple.login) {
+                    LoggerSimple.login();
+                } else {
+                    throw new Error('LoggerSimple.login not available');
+                }
+            } catch (error) {
+                addLog('OAuth flow test failed', 'error', error.message);
+                showStatus('Failed to start OAuth flow: ' + error.message, 'error');
+            } finally {
+                setTimeout(() => {
+                    testBtn.disabled = false;
+                    testBtn.innerHTML = '<span>🧪</span> Test OAuth Flow';
+                }, 2000);
+            }
+        }
+        
+        // Test API call
+        function testApiCall() {
+            if (!currentUser || !currentUser.access_token) {
+                showStatus('No access token available. Please login first.', 'error');
+                return;
+            }
+            
+            addLog('Testing API call with current token', 'info');
+            
+            fetch('https://connexion.logger-simple.com/api?action=user', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${currentUser.access_token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                addLog('API call successful', 'success', data);
+                document.getElementById('api-test-results').innerHTML = `
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyText(this.nextElementSibling.textContent)">Copy</button>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+                document.getElementById('api-test-card').style.display = 'block';
+                showStatus('API call successful', 'success');
+            })
+            .catch(error => {
+                addLog('API call failed', 'error', error.message);
+                showStatus('API call failed: ' + error.message, 'error');
+            });
+        }
+        
+        // Show/hide user data
         function showUserData() {
             const card = document.getElementById('user-data-card');
             if (card.style.display === 'none') {
                 card.style.display = 'block';
-                addLog('User data card shown', 'info');
+                addLog('User data panel shown', 'info');
             } else {
                 card.style.display = 'none';
-                addLog('User data card hidden', 'info');
+                addLog('User data panel hidden', 'info');
             }
         }
         
         // Logout function
         function logout() {
-            LoggerSimple.logout();
+            if (typeof LoggerSimple !== 'undefined') {
+                LoggerSimple.logout();
+            }
+            
             currentUser = null;
             
             // Show login button, hide user info
             document.getElementById('login-container').style.display = 'block';
             document.getElementById('user-info').style.display = 'none';
             document.getElementById('user-data-card').style.display = 'none';
+            document.getElementById('api-test-card').style.display = 'none';
             
-            showStatus('You have been logged out successfully.', 'success');
-            addLog('User logged out', 'info');
+            showStatus('Logged out successfully', 'success');
+            addLog('User logged out, UI reset', 'info');
         }
         
         // Show status message
-        function showStatus(message, type) {
+        function showStatus(message, type, duration = 5000) {
             const container = document.getElementById('status-messages');
             const statusDiv = document.createElement('div');
             statusDiv.className = `status status-${type}`;
-            statusDiv.textContent = message;
+            
+            let icon = '';
+            switch(type) {
+                case 'success': icon = '✅'; break;
+                case 'error': icon = '❌'; break;
+                case 'warning': icon = '⚠️'; break;
+                case 'info': icon = 'ℹ️'; break;
+            }
+            
+            statusDiv.innerHTML = `${icon} ${message}`;
             
             container.innerHTML = '';
             container.appendChild(statusDiv);
             
-            // Auto-hide after 5 seconds
+            // Auto-hide after specified duration
             setTimeout(() => {
                 if (container.contains(statusDiv)) {
-                    container.removeChild(statusDiv);
+                    statusDiv.style.opacity = '0';
+                    setTimeout(() => container.removeChild(statusDiv), 300);
                 }
-            }, 5000);
+            }, duration);
+        }
+        
+        // Copy functions
+        function copyConfig() {
+            copyText(JSON.stringify(oauthConfig, null, 2));
+        }
+        
+        function copyUserData() {
+            copyText(JSON.stringify(currentUser, null, 2));
+        }
+        
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('Copied to clipboard', 'success', 2000);
+            }).catch(() => {
+                showStatus('Failed to copy to clipboard', 'error', 2000);
+            });
         }
         
         // Clear logs
         function clearLogs() {
             document.getElementById('logs').innerHTML = '';
+            logCounter = 0;
             addLog('Logs cleared', 'info');
         }
         
-        // Listen for OAuth events
-        window.addEventListener('ls:login:success', function(event) {
-            addLog('Event: ls:login:success triggered', 'success');
-        });
+        // Export logs
+        function exportLogs() {
+            const logs = document.getElementById('logs').textContent;
+            const blob = new Blob([logs], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `oauth-logs-${new Date().toISOString().slice(0,19)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            addLog('Logs exported', 'info');
+        }
         
-        window.addEventListener('ls:login:error', function(event) {
-            addLog('Event: ls:login:error triggered - ' + JSON.stringify(event.detail), 'error');
+        // Initialize on page load
+        addLog('OAuth test page loaded', 'info', {
+            url: window.location.href,
+            userAgent: navigator.userAgent.slice(0, 50) + '...'
         });
-        
-        window.addEventListener('ls:logout', function(event) {
-            addLog('Event: ls:logout triggered', 'info');
-        });
-        
-        // Add some debugging
-        addLog('OAuth test page loaded', 'info');
-        addLog('Using app_id: ' + OAUTH_CONFIG.app_id, 'info');
-        addLog('Redirect URI: ' + OAUTH_CONFIG.redirect_uri, 'info');
     </script>
 </body>
 </html>
