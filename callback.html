@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logger Simple - Authentification</title>
+    <title>Logger Simple OAuth - Test Integration</title>
     
     <style>
         :root {
@@ -11,7 +11,6 @@
             --primary-dark: #00b894;
             --success: #10b981;
             --error: #ef4444;
-            --warning: #f59e0b;
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --background: #f9fafb;
@@ -26,79 +25,105 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
             color: var(--text-primary);
+            line-height: 1.6;
+            padding: 40px 20px;
         }
         
-        .callback-container {
-            background: var(--surface);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
             text-align: center;
-            max-width: 500px;
-            width: 90%;
-            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
         }
         
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-weight: bold;
-            font-size: 24px;
-        }
-        
-        .callback-title {
-            font-size: 28px;
+        .header h1 {
+            font-size: 32px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         
-        .callback-subtitle {
+        .header p {
             color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 32px;
-            line-height: 1.5;
+            font-size: 18px;
         }
         
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .status-message {
-            padding: 16px 20px;
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            margin: 20px 0;
-            font-weight: 500;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .login-section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        #login-container {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .user-info {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
             display: none;
         }
         
-        .status-message.show {
-            display: block;
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin-bottom: 12px;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .user-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .user-details p {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .user-id {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .status {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-size: 14px;
         }
         
         .status-success {
@@ -113,732 +138,344 @@
             border: 1px solid rgba(239, 68, 68, 0.2);
         }
         
-        .status-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-        
-        .user-preview {
-            background: var(--background);
-            border-radius: 16px;
-            padding: 24px;
-            margin: 20px 0;
-            display: none;
-        }
-        
-        .user-preview.show {
-            display: block;
-        }
-        
-        .user-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-color);
-            margin: 0 auto 16px;
-            display: block;
-        }
-        
-        .user-name {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .user-email {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
             text-decoration: none;
-            margin: 8px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 212, 170, 0.2);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+            transition: all 0.2s ease;
         }
         
         .btn-secondary {
-            background: var(--surface);
+            background: var(--background);
             color: var(--text-primary);
             border: 1px solid var(--border);
         }
         
         .btn-secondary:hover {
-            background: var(--background);
-        }
-        
-        .progress-steps {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 24px 0;
-            gap: 16px;
-        }
-        
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        .step.active {
-            color: var(--primary-color);
-        }
-        
-        .step.completed {
-            color: var(--success);
-        }
-        
-        .step-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
             background: var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
         }
         
-        .step.active .step-icon {
-            background: var(--primary-color);
+        .btn-danger {
+            background: var(--error);
             color: white;
         }
         
-        .step.completed .step-icon {
-            background: var(--success);
-            color: white;
+        .btn-danger:hover {
+            background: #dc2626;
         }
         
-        .debug-info {
-            background: #1e293b;
-            color: #e2e8f0;
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
             padding: 16px;
             border-radius: 8px;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        
+        .logs {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
             font-size: 12px;
-            margin: 20px 0;
-            text-align: left;
-            max-height: 200px;
+            height: 200px;
             overflow-y: auto;
-            display: none;
-        }
-        
-        .debug-info.show {
-            display: block;
-        }
-        
-        .toggle-debug {
-            font-size: 12px;
-            color: var(--text-secondary);
-            cursor: pointer;
             margin-top: 16px;
         }
         
-        .toggle-debug:hover {
-            color: var(--primary-color);
+        .log-entry {
+            margin-bottom: 4px;
         }
         
-        .api-info {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            margin: 16px 0;
-            font-size: 14px;
+        .log-timestamp {
+            color: #888;
         }
         
-        @media (max-width: 480px) {
-            .callback-container {
-                padding: 24px;
-                margin: 20px;
+        .log-success {
+            color: #4ade80;
+        }
+        
+        .log-error {
+            color: #f87171;
+        }
+        
+        .log-info {
+            color: #60a5fa;
+        }
+        
+        @media (max-width: 768px) {
+            .login-section {
+                flex-direction: column;
             }
             
-            .progress-steps {
-                flex-direction: column;
-                gap: 8px;
+            #login-container {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="callback-container">
-        <div class="logo">LS</div>
-        
-        <h1 class="callback-title">Traitement de l'authentification</h1>
-        <p class="callback-subtitle" id="subtitle">
-            Veuillez patienter pendant que nous finalisons votre connexion...
-        </p>
-        
-        <!-- Info API -->
-        <div id="api-info" class="api-info" style="display: none;">
-            <strong>🔧 Configuration API :</strong><br>
-            <span id="api-url">-</span>
+    <div class="container">
+        <div class="header">
+            <h1>Logger Simple OAuth Integration Test</h1>
+            <p>Test page for OAuth authentication with Logger Simple</p>
         </div>
         
-        <!-- Étapes de progression -->
-        <div class="progress-steps">
-            <div class="step active" id="step-verify">
-                <div class="step-icon">1</div>
-                <span>Vérification</span>
+        <!-- Login Section -->
+        <div class="card">
+            <h2>🔐 Authentication</h2>
+            <div class="login-section">
+                <div id="login-container">
+                    <!-- Le bouton sera généré ici par le script -->
+                </div>
+                <div style="color: var(--text-secondary);">
+                    Click the button to test OAuth login
+                </div>
             </div>
-            <div class="step" id="step-token">
-                <div class="step-icon">2</div>
-                <span>Token</span>
+            
+            <!-- User Info (hidden by default) -->
+            <div id="user-info" class="user-info">
+                <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                <div class="user-details">
+                    <h3 id="user-name"></h3>
+                    <p id="user-email"></p>
+                    <div class="user-id">ID: <span id="user-id"></span></div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <button class="btn btn-secondary" onclick="showUserData()">Show User Data</button>
+                    <button class="btn btn-danger" onclick="logout()">Logout</button>
+                </div>
             </div>
-            <div class="step" id="step-user">
-                <div class="step-icon">3</div>
-                <span>Profil</span>
+            
+            <!-- Status Messages -->
+            <div id="status-messages"></div>
+        </div>
+        
+        <!-- Configuration -->
+        <div class="card">
+            <h2>⚙️ Configuration</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                Current OAuth configuration for this test page:
+            </p>
+            <div class="code-block" id="config-display">
+                // Configuration will be displayed here
             </div>
-            <div class="step" id="step-complete">
-                <div class="step-icon">✓</div>
-                <span>Terminé</span>
+        </div>
+        
+        <!-- User Data -->
+        <div class="card" id="user-data-card" style="display: none;">
+            <h2>👤 User Data</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                Raw user data returned by the OAuth API:
+            </p>
+            <div class="code-block" id="user-data-display">
+                // User data will be displayed here
             </div>
         </div>
         
-        <!-- Spinner de chargement -->
-        <div class="loading-spinner" id="loading"></div>
-        
-        <!-- Messages de statut -->
-        <div id="status-success" class="status-message status-success">
-            <strong>✅ Authentification réussie !</strong><br>
-            <span id="success-details">Vous avez été connecté avec succès.</span>
+        <!-- Logs -->
+        <div class="card">
+            <h2>📋 Event Logs</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                OAuth events and debugging information:
+            </p>
+            <div id="logs" class="logs">
+                <div class="log-entry">
+                    <span class="log-timestamp">[Initialization]</span> 
+                    <span class="log-info">Waiting for Logger Simple to initialize...</span>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                <button class="btn btn-secondary" onclick="clearLogs()">Clear Logs</button>
+            </div>
         </div>
         
-        <div id="status-error" class="status-message status-error">
-            <strong>❌ Échec de l'authentification</strong><br>
-            <span id="error-details">Une erreur s'est produite lors de l'authentification.</span>
+        <!-- Instructions -->
+        <div class="card">
+            <h2>📖 How to Use</h2>
+            <ol style="color: var(--text-secondary); line-height: 1.8;">
+                <li>Make sure you have created an OAuth app in your Logger Simple dashboard</li>
+                <li>Set the <strong>Redirect URI</strong> to match this page's URL</li>
+                <li>Update the <strong>app_id</strong> in the script below with your actual app ID</li>
+                <li>Click the login button to test the OAuth flow</li>
+                <li>Check the logs for debugging information</li>
+            </ol>
         </div>
-        
-        <div id="status-warning" class="status-message status-warning">
-            <strong>⚠️ Attention</strong><br>
-            <span id="warning-details">Veuillez vérifier les informations ci-dessous.</span>
-        </div>
-        
-        <!-- Aperçu utilisateur -->
-        <div id="user-preview" class="user-preview">
-            <img id="user-avatar" class="user-avatar" src="" alt="Avatar utilisateur">
-            <div id="user-name" class="user-name">-</div>
-            <div id="user-email" class="user-email">-</div>
-        </div>
-        
-        <!-- Boutons d'action -->
-        <div id="action-buttons" style="display: none;">
-            <button class="btn btn-primary" onclick="continueToApp()">
-                Continuer vers l'application
-            </button>
-            <button class="btn btn-secondary" onclick="tryAgain()">
-                Réessayer
-            </button>
-        </div>
-        
-        <!-- Informations de débogage -->
-        <div class="toggle-debug" onclick="toggleDebug()">
-            🔧 Afficher les infos de débogage
-        </div>
-        <div id="debug-info" class="debug-info"></div>
     </div>
     
+    <!-- Include Logger Simple OAuth Script -->
+    <script src="https://connexion.logger-simple.com/api?action=script"></script>
+    
     <script>
-        // Configuration avec détection automatique de l'API
-        const CONFIG = {
-            apiUrl: '', // Sera détecté automatiquement
-            storageKey: 'logger_simple_user',
-            stateKey: 'oauth_state'
+        // Configuration - REPLACE WITH YOUR ACTUAL VALUES
+        const OAUTH_CONFIG = {
+            app_id: 'ls_dd1275d306d92fb1e82e91634096b24f', // Replace with your app ID from the dashboard
+            redirect_uri: "https://laravel-academy.vercel.app/callback.html", // Replace with your actual redirect URI
+            scope: 'user:basic'
         };
         
-        // Détection automatique de l'URL de l'API
-        function detectApiUrl() {
-            // Essayer différentes possibilités
-            const possibilities = [
-                window.location.origin + '/api.php',
-                window.location.origin + '/api/index.php',
-                window.location.origin + '/oauth/api.php',
-                'https://connexion.logger-simple.com/api.php',
-                'http://localhost/api.php'
-            ];
+        let currentUser = null;
+        
+        // Logging function
+        function addLog(message, type = 'info') {
+            const logs = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logClass = `log-${type}`;
             
-            return possibilities[0]; // Par défaut, utiliser la première
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `
+                <span class="log-timestamp">[${timestamp}]</span> 
+                <span class="${logClass}">${message}</span>
+            `;
+            
+            logs.appendChild(logEntry);
+            logs.scrollTop = logs.scrollHeight;
         }
         
-        CONFIG.apiUrl = detectApiUrl();
-        
-        // Logging de débogage
-        const debugLogs = [];
-        
-        function log(message, type = 'info') {
-            const timestamp = new Date().toISOString();
-            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
-            
-            debugLogs.push(logEntry);
-            console.log(logEntry);
-            
-            updateDebugDisplay();
-        }
-        
-        function updateDebugDisplay() {
-            const debugElement = document.getElementById('debug-info');
-            debugElement.textContent = debugLogs.join('\n');
-            debugElement.scrollTop = debugElement.scrollHeight;
-        }
-        
-        function toggleDebug() {
-            const debugElement = document.getElementById('debug-info');
-            const toggleButton = document.querySelector('.toggle-debug');
-            
-            if (debugElement.classList.contains('show')) {
-                debugElement.classList.remove('show');
-                toggleButton.textContent = '🔧 Afficher les infos de débogage';
-            } else {
-                debugElement.classList.add('show');
-                toggleButton.textContent = '🔧 Masquer les infos de débogage';
-            }
-        }
-        
-        // Fonctions de mise à jour de l'interface
-        function updateStep(stepId, status = 'active') {
-            const step = document.getElementById(stepId);
-            if (step) {
-                step.className = `step ${status}`;
-            }
-        }
-        
-        function showMessage(type, title, details) {
-            // Masquer le chargement
-            document.getElementById('loading').style.display = 'none';
-            
-            // Masquer tous les messages de statut
-            document.querySelectorAll('.status-message').forEach(el => {
-                el.classList.remove('show');
-            });
-            
-            // Afficher le message spécifique
-            const messageEl = document.getElementById(`status-${type}`);
-            if (messageEl) {
-                const detailsEl = document.getElementById(`${type}-details`);
-                if (detailsEl) {
-                    detailsEl.textContent = details;
-                }
-                messageEl.classList.add('show');
-            }
-            
-            // Mettre à jour le sous-titre
-            document.getElementById('subtitle').textContent = title;
-        }
-        
-        function showUserPreview(user) {
-            document.getElementById('user-avatar').src = user.avatar || 'https://via.placeholder.com/80';
-            document.getElementById('user-name').textContent = user.username || 'Utilisateur inconnu';
-            document.getElementById('user-email').textContent = user.email || 'Pas d\'email fourni';
-            document.getElementById('user-preview').classList.add('show');
-        }
-        
-        function showActionButtons() {
-            document.getElementById('action-buttons').style.display = 'block';
-        }
-        
-        // Gestionnaire de callback OAuth
-        class CallbackHandler {
-            constructor() {
-                this.urlParams = this.parseUrlParams();
-                log('Gestionnaire de callback initialisé');
-                log('Paramètres URL: ' + JSON.stringify(this.urlParams));
-                log('URL API détectée: ' + CONFIG.apiUrl);
-                
-                // Afficher l'info API
-                document.getElementById('api-url').textContent = CONFIG.apiUrl;
-                document.getElementById('api-info').style.display = 'block';
-            }
-            
-            parseUrlParams() {
-                const params = {};
-                const urlSearchParams = new URLSearchParams(window.location.search);
-                
-                for (const [key, value] of urlSearchParams.entries()) {
-                    params[key] = value;
-                }
-                
-                return params;
-            }
-            
-            async process() {
-                try {
-                    log('Démarrage du traitement du callback OAuth');
-                    
-                    // Vérifier les erreurs en premier
-                    if (this.urlParams.error) {
-                        throw new Error(`Erreur OAuth: ${this.urlParams.error} - ${this.urlParams.error_description || 'Erreur inconnue'}`);
-                    }
-                    
-                    // Vérifier le code d'autorisation
-                    if (!this.urlParams.code) {
-                        throw new Error('Aucun code d\'autorisation trouvé dans l\'URL');
-                    }
-                    
-                    // Étape 1: Vérifier l'état
-                    updateStep('step-verify', 'active');
-                    await this.verifyState();
-                    updateStep('step-verify', 'completed');
-                    
-                    // Étape 2: Échanger le code contre un token
-                    updateStep('step-token', 'active');
-                    const tokenData = await this.exchangeCodeForToken();
-                    updateStep('step-token', 'completed');
-                    
-                    // Étape 3: Récupérer les infos utilisateur
-                    updateStep('step-user', 'active');
-                    const user = await this.getUserInfo(tokenData.access_token);
-                    user.access_token = tokenData.access_token;
-                    updateStep('step-user', 'completed');
-                    
-                    // Étape 4: Terminé
-                    updateStep('step-complete', 'completed');
-                    
-                    this.handleSuccess(user);
-                    
-                } catch (error) {
-                    log('Erreur lors du traitement du callback: ' + error.message, 'error');
-                    this.handleError(error);
-                }
-            }
-            
-            delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-            
-            async verifyState() {
-                log('Vérification du paramètre state');
-                
-                const savedState = sessionStorage.getItem(CONFIG.stateKey);
-                const urlState = this.urlParams.state;
-                
-                if (!savedState || !urlState) {
-                    throw new Error('Paramètre state manquant');
-                }
-                
-                if (savedState !== urlState) {
-                    throw new Error('Le paramètre state ne correspond pas');
-                }
-                
-                // Nettoyer l'état stocké
-                sessionStorage.removeItem(CONFIG.stateKey);
-                log('Vérification du state réussie');
-            }
-            
-            async exchangeCodeForToken() {
-                log('Échange du code d\'autorisation contre un token d\'accès');
-                
-                const appConfig = this.getAppConfig();
-                
-                const tokenRequest = {
-                    grant_type: 'authorization_code',
-                    client_id: appConfig.app_id,
-                    code: this.urlParams.code,
-                    redirect_uri: appConfig.redirect_uri
-                };
-                
-                log('Requête de token: ' + JSON.stringify(tokenRequest));
-                
-                try {
-                    const response = await fetch(CONFIG.apiUrl + '?action=token', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(tokenRequest)
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    if (data.error) {
-                        throw new Error(`Erreur de token: ${data.error} - ${data.error_description || 'Erreur inconnue'}`);
-                    }
-                    
-                    log('Token d\'accès reçu avec succès');
-                    return data;
-                    
-                } catch (fetchError) {
-                    log('Échec de l\'échange de token: ' + fetchError.message, 'error');
-                    throw fetchError;
-                }
-            }
-            
-            async getUserInfo(accessToken) {
-                log('Récupération des informations utilisateur');
-                
-                try {
-                    const response = await fetch(CONFIG.apiUrl + '?action=user', {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken
-                        }
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                    }
-                    
-                    const user = await response.json();
-                    
-                    if (user.error) {
-                        throw new Error(`Erreur d\'info utilisateur: ${user.error} - ${user.error_description || 'Erreur inconnue'}`);
-                    }
-                    
-                    log('Informations utilisateur reçues: ' + JSON.stringify(user));
-                    return user;
-                    
-                } catch (fetchError) {
-                    log('Échec de récupération des infos utilisateur: ' + fetchError.message, 'error');
-                    throw fetchError;
-                }
-            }
-            
-            getAppConfig() {
-                // Essayer de récupérer depuis sessionStorage
-                try {
-                    const storedConfig = sessionStorage.getItem('oauth_app_config');
-                    if (storedConfig) {
-                        return JSON.parse(storedConfig);
-                    }
-                } catch (e) {
-                    log('Impossible de parser la config d\'app stockée: ' + e.message, 'warn');
-                }
-                
-                // Configuration de fallback
-                return {
-                    app_id: this.urlParams.client_id || 'ls_demo_app_12345',
-                    redirect_uri: window.location.origin + window.location.pathname
-                };
-            }
-            
-            handleSuccess(user) {
-                log('Authentification réussie: ' + user.username);
-                
-                // Stocker les données utilisateur
-                try {
-                    localStorage.setItem(CONFIG.storageKey, JSON.stringify(user));
-                    log('Données utilisateur stockées dans localStorage');
-                } catch (e) {
-                    log('Impossible de stocker les données utilisateur: ' + e.message, 'warn');
-                }
-                
-                // Mettre à jour l'interface
-                showMessage('success', 'Authentification réussie !', `Bienvenue, ${user.username} !`);
-                showUserPreview(user);
-                
-                // Gérer différents scénarios
-                if (this.isPopupWindow()) {
-                    this.handlePopupSuccess(user);
-                } else {
-                    this.handleRedirectSuccess(user);
-                }
-            }
-            
-            handleError(error) {
-                log('Échec de l\'authentification: ' + error.message, 'error');
-                
-                // Mettre à jour l'interface
-                showMessage('error', 'Échec de l\'authentification', error.message);
-                showActionButtons();
-                
-                // Gérer différents scénarios
-                if (this.isPopupWindow()) {
-                    this.handlePopupError(error);
-                } else {
-                    this.handleRedirectError(error);
-                }
-            }
-            
-            isPopupWindow() {
-                try {
-                    return window.opener && window.opener !== window;
-                } catch (e) {
-                    return false;
-                }
-            }
-            
-            handlePopupSuccess(user) {
-                log('Gestion du succès popup');
-                
-                try {
-                    // Stocker les données dans le sessionStorage de l'ouvreur
-                    if (window.opener && window.opener.sessionStorage) {
-                        window.opener.sessionStorage.setItem('logger_simple_user', JSON.stringify(user));
-                    }
-                    
-                    // Appeler le callback de succès dans l'ouvreur
-                    if (window.opener && window.opener.LoggerSimple) {
-                        window.opener.LoggerSimple.handleSuccess(user);
-                    }
-                    
-                    // Fermer automatiquement le popup après un délai
-                    setTimeout(() => {
-                        window.close();
-                    }, 2000);
-                    
-                } catch (e) {
-                    log('Erreur lors de la gestion du succès popup: ' + e.message, 'error');
-                    showMessage('warning', 'Succès, mais communication échouée', 'Veuillez fermer cette fenêtre manuellement.');
-                }
-            }
-            
-            handlePopupError(error) {
-                log('Gestion de l\'erreur popup');
-                
-                try {
-                    // Stocker l'erreur dans le sessionStorage de l'ouvreur
-                    if (window.opener && window.opener.sessionStorage) {
-                        window.opener.sessionStorage.setItem('logger_simple_error', JSON.stringify({
-                            error: error.message,
-                            description: error.message
-                        }));
-                    }
-                    
-                    // Appeler le callback d'erreur dans l'ouvreur
-                    if (window.opener && window.opener.LoggerSimple) {
-                        window.opener.LoggerSimple.handleError('callback_error', error.message);
-                    }
-                    
-                    // Fermer automatiquement le popup après un délai
-                    setTimeout(() => {
-                        window.close();
-                    }, 4000);
-                    
-                } catch (e) {
-                    log('Erreur lors de la gestion d\'erreur popup: ' + e.message, 'error');
-                }
-            }
-            
-            handleRedirectSuccess(user) {
-                log('Gestion du succès par redirection');
-                
-                // Déclencher un événement personnalisé
-                try {
-                    const event = new CustomEvent('ls:login:success', { detail: { user } });
-                    window.dispatchEvent(event);
-                } catch (e) {
-                    log('Impossible de déclencher l\'événement de succès: ' + e.message, 'warn');
-                }
-                
-                showActionButtons();
-            }
-            
-            handleRedirectError(error) {
-                log('Gestion de l\'erreur par redirection');
-                
-                // Déclencher un événement personnalisé
-                try {
-                    const event = new CustomEvent('ls:login:error', { 
-                        detail: { error: error.message, description: error.message } 
-                    });
-                    window.dispatchEvent(event);
-                } catch (e) {
-                    log('Impossible de déclencher l\'événement d\'erreur: ' + e.message, 'warn');
-                }
-            }
-        }
-        
-        // Fonctions d'action
-        function continueToApp() {
-            // Récupérer l'URL de redirection depuis diverses sources
-            const urlParams = new URLSearchParams(window.location.search);
-            let redirectUrl = urlParams.get('redirect_to');
-            
-            if (!redirectUrl) {
-                try {
-                    redirectUrl = sessionStorage.getItem('oauth_redirect_url');
-                    if (redirectUrl) {
-                        sessionStorage.removeItem('oauth_redirect_url');
-                    }
-                } catch (e) {
-                    log('Impossible d\'accéder au sessionStorage: ' + e.message, 'warn');
-                }
-            }
-            
-            // Redirection par défaut
-            if (!redirectUrl) {
-                redirectUrl = '/';
-            }
-            
-            log('Redirection vers: ' + redirectUrl);
-            window.location.href = redirectUrl;
-        }
-        
-        function tryAgain() {
-            // Nettoyer toutes les données stockées
-            try {
-                localStorage.removeItem(CONFIG.storageKey);
-                sessionStorage.clear();
-            } catch (e) {
-                log('Impossible de nettoyer le stockage: ' + e.message, 'warn');
-            }
-            
-            // Retourner au référent ou à l'accueil
-            if (document.referrer) {
-                window.location.href = document.referrer;
-            } else {
-                window.location.href = '/';
-            }
-        }
-        
-        // Initialiser quand le DOM est prêt
+        // Initialize OAuth when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            log('DOM prêt, démarrage du traitement du callback');
-            
-            const handler = new CallbackHandler();
-            
-            // Ajouter un petit délai pour montrer l'état de chargement
-            setTimeout(() => {
-                handler.process();
-            }, 500);
-        });
-        
-        // Gérer le changement de visibilité de la page (pour la détection popup)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                log('Page masquée');
-            } else {
-                log('Page visible');
+            try {
+                // Display configuration
+                document.getElementById('config-display').textContent = JSON.stringify(OAUTH_CONFIG, null, 2);
+                
+                // Initialize Logger Simple
+                LoggerSimple.init({
+                    app_id: OAUTH_CONFIG.app_id,
+                    redirect_uri: OAUTH_CONFIG.redirect_uri,
+                    scope: OAUTH_CONFIG.scope,
+                    onSuccess: function(user) {
+                        addLog('OAuth login successful!', 'success');
+                        handleLoginSuccess(user);
+                    },
+                    onError: function(error) {
+                        addLog('OAuth error: ' + error.error + ' - ' + (error.description || ''), 'error');
+                        showStatus('Authentication failed: ' + (error.description || error.error), 'error');
+                    }
+                });
+                
+                // Render login button
+                LoggerSimple.renderButton('#login-container', {
+                    text: 'Login with Logger Simple',
+                    style: 'primary',
+                    size: 'medium'
+                });
+                
+                addLog('Logger Simple initialized successfully', 'success');
+                
+                // Check if user is already logged in
+                const existingUser = LoggerSimple.getCurrentUser();
+                if (existingUser) {
+                    addLog('Found existing user session', 'info');
+                    handleLoginSuccess(existingUser);
+                }
+                
+            } catch (error) {
+                addLog('Initialization error: ' + error.message, 'error');
+                showStatus('Failed to initialize OAuth: ' + error.message, 'error');
             }
         });
         
-        // Gestionnaire d'erreur global
-        window.addEventListener('error', function(event) {
-            log('Erreur globale: ' + event.error.message, 'error');
+        // Handle successful login
+        function handleLoginSuccess(user) {
+            currentUser = user;
+            
+            // Hide login button, show user info
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('user-info').style.display = 'block';
+            
+            // Populate user information
+            document.getElementById('user-avatar').src = user.avatar;
+            document.getElementById('user-name').textContent = user.username;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('user-id').textContent = user.id;
+            
+            // Update user data display
+            document.getElementById('user-data-display').textContent = JSON.stringify(user, null, 2);
+            
+            showStatus('Welcome, ' + user.username + '! You are now logged in.', 'success');
+            
+            addLog('User data loaded: ' + user.username + ' (' + user.email + ')', 'info');
+        }
+        
+        // Show user data card
+        function showUserData() {
+            const card = document.getElementById('user-data-card');
+            if (card.style.display === 'none') {
+                card.style.display = 'block';
+                addLog('User data card shown', 'info');
+            } else {
+                card.style.display = 'none';
+                addLog('User data card hidden', 'info');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            LoggerSimple.logout();
+            currentUser = null;
+            
+            // Show login button, hide user info
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('user-info').style.display = 'none';
+            document.getElementById('user-data-card').style.display = 'none';
+            
+            showStatus('You have been logged out successfully.', 'success');
+            addLog('User logged out', 'info');
+        }
+        
+        // Show status message
+        function showStatus(message, type) {
+            const container = document.getElementById('status-messages');
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status status-${type}`;
+            statusDiv.textContent = message;
+            
+            container.innerHTML = '';
+            container.appendChild(statusDiv);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (container.contains(statusDiv)) {
+                    container.removeChild(statusDiv);
+                }
+            }, 5000);
+        }
+        
+        // Clear logs
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+            addLog('Logs cleared', 'info');
+        }
+        
+        // Listen for OAuth events
+        window.addEventListener('ls:login:success', function(event) {
+            addLog('Event: ls:login:success triggered', 'success');
         });
         
-        // Gestionnaire de déchargement
-        window.addEventListener('beforeunload', function() {
-            log('Déchargement de la page');
+        window.addEventListener('ls:login:error', function(event) {
+            addLog('Event: ls:login:error triggered - ' + JSON.stringify(event.detail), 'error');
         });
+        
+        window.addEventListener('ls:logout', function(event) {
+            addLog('Event: ls:logout triggered', 'info');
+        });
+        
+        // Add some debugging
+        addLog('OAuth test page loaded', 'info');
+        addLog('Using app_id: ' + OAUTH_CONFIG.app_id, 'info');
+        addLog('Redirect URI: ' + OAUTH_CONFIG.redirect_uri, 'info');
     </script>
 </body>
 </html>
